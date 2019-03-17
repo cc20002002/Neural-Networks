@@ -1,2 +1,2 @@
 # Neural-Networks
-backpropagation
+progagation & backpropagation
