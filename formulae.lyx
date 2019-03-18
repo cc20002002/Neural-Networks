@@ -61,6 +61,7 @@
 \author{Chen Chen}
 \date{\today}
 \end_preamble
+\options a5paper
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -135,8 +136,9 @@
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-\begin{align*}\frac{d}{d\mathbf{z}}\mathbf{a} & =\mathbf{a}\mathbf{e^{T}}\circ(\mathbf{I}-\mathbf{e}\mathbf{a^{T}})=\begin{bmatrix}a_{1}\\
+\begin{align*}
+\frac{d}{d\mathbf{z}}\mathbf{a} & =\mathbf{a}\mathbf{e^{T}}\circ(\mathbf{I}-\mathbf{e}\mathbf{a^{T}})\\
+ & =\begin{bmatrix}a_{1}\\
 a_{2}\\
 a_{3}
 \end{bmatrix}\begin{bmatrix}1 & 1 & 1\end{bmatrix}\circ\left(\begin{bmatrix}1 & 0 & 0\\
@@ -162,13 +164,11 @@ a_{3} & a_{3} & a_{3}
 \end{bmatrix}\circ\left(\begin{bmatrix}1-a_{1} & -a_{2} & -a_{3}\\
 -a_{1} & 1-a_{2} & -a_{3}\\
 -a_{1} & -a_{2} & 1-a_{3}
-\end{bmatrix}\right)\\
- & =\begin{bmatrix}a_{1}(1-a_{1}) & a_{1}(-a_{2}) & a_{1}(-a_{3})\\
+\end{bmatrix}\right)=\begin{bmatrix}a_{1}(1-a_{1}) & a_{1}(-a_{2}) & a_{1}(-a_{3})\\
 a_{2}(-a_{1}) & a_{2}(1-a_{2}) & a_{2}(-a_{3})\\
 a_{3}(-a_{1}) & a_{3}(-a_{2}) & a_{3}(1-a_{3})
 \end{bmatrix}
 \end{align*}
-\]
 
 \end_inset
 

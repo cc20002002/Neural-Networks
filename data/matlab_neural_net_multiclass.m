@@ -16,7 +16,7 @@ y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
 xtest=x(50001:60000,:);
-ttest=y(50001:60000,:);
+ytest=y(50001:60000,:);
 x=x(1:50000,:);
 y=y(1:50000,:);
 
@@ -39,12 +39,12 @@ x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = .1;   % learning rate
-max_iteration = 80;    
-numHid = 100; % hidden(midle) layer's unit size
+lr = .00001;   % learning rate
+max_iteration = 200;    
+numHid = 110; % hidden(midle) layer's unit size
 
 % init
-mse = 1;
+loss = 1 : max_iteration;
 w1_new = zeros(numHid, numFV + 1, numTP);
 w2_new = zeros(numOut, numHid + 1, numTP);
 
@@ -61,28 +61,31 @@ for iteration = 1 : max_iteration
     % calculate hidden layer
     z2 = 1 ./ (1 + exp(-w1 * x'))';
     % cauculate output layer
-    z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+    %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+    z1 = w2 * [ones(1,numTP); z2'];
+    z1 = z1';
     %for i=1:9
     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
     %end
     a = softmax(z1')';
     
-    dLdo = (-y./a);
-    aa=permute(a,[2 3 1]);
-    yy=permute(y,[3 2 1]);
-    aa=repmat(aa,[1 numOut 1]);
-    yy=repmat(yy,[numOut 1 1]);
-    ay=aa.*yy;
-    ay2=permute(sum(ay,2),[3 1 2])+y;
+    %dLdo = (-y./a);
+    %aa=permute(a,[2 3 1]);
+    %yy=permute(y,[3 2 1]);
+    %aa=repmat(aa,[1 numOut 1]);
+    %yy=repmat(yy,[numOut 1 1]);
+    %ay=aa.*yy;
+    %ay2=permute(sum(ay,2),[3 1 2])+y;
     
     % calculate gragient output layer
-    delta2 = ay2;
+    %delta2 = ay2;
     %delta2 = (y - a) .* a .* (1 - a);
+    delta2 = (y - a);
     % calculate gragient hidden layer
     delta1 = z2 .* (1 - z2) .* (delta2 * w2(:,2:end));
     
     % sum of training pattern
-    w2_new = lr * ay2' * [ones(numTP,1), z2];
+    w2_new = lr * delta2' * [ones(numTP,1), z2];
     w1_new = lr * delta1' * x;    
     
     % update w2
@@ -93,7 +96,8 @@ for iteration = 1 : max_iteration
     % mean square error
     %mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
     [~,i]=max(a,[],2);
-    sum(i==(y*(1:10)'))/50000
+    loss(iteration) = sum(i==(y*(1:10)'))/50000;
+    loss(iteration)
     iteration
     
 end
@@ -123,7 +127,7 @@ colorbar
 
 %
 subplot(2,1,2)
-plot(1:max_iteration, mse, 'k');
+plot(1:max_iteration, loss, 'k');
 hold on;
 grid
 title('Learning curve')
@@ -134,7 +138,14 @@ ylabel('mse')
 % calculate hidden layer
 z2 = 1 ./ (1 + exp(-w1 * xtest'))';
 % cauculate output layer
-a = 1 ./ (1 + exp(-w2 * [ones(1,10000); z2']))';
+%z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+nn = size(z2,1);
+z1 = w2 * [ones(1,nn); z2'];
+z1 = z1';
+%for i=1:9
+%    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
+%end
+a = softmax(z1')';
 [~,i]=max(a,[],2);
 
-accuracy = sum(round(i)==ttest) / 10000 * 100
+accuracy = sum(i==(ytest+1)) / nn * 100
