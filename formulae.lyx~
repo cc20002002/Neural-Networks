@@ -1,0 +1,229 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{bm}
+\usepackage{inputenc}
+\usepackage[a5]{cc}
+\usepackage[T1]{fontenc}
+\usepackage{amstext}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+%\setlength{\parindent}{2em}
+\usepackage{amssymb}
+
+\usepackage{array}
+\usepackage{setspace}
+\usepackage[pdftex]{lscape}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{latexsym}
+\usepackage{mathtools}
+
+\newcommand{\diag}{\operatorname{diag}}
+\usepackage{url}
+\usepackage{graphicx}
+  \usepackage{amsfonts}
+  \usepackage{amsthm}
+  \usepackage{amsmath}
+  \usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage[usenames]{color}
+\usepackage{prettyref}
+\usepackage{float}
+\usepackage{euler}
+\usepackage[authoryear]{natbib}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage{framed}
+\usepackage[UKenglish]{babel}
+%\usepackage{marginnote}
+\usepackage{pdfpages}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{pdfcomment}
+\newcommand{\chen}[1]{\pdfcomment[author=Chen,color={1 0.5 0.5},subject={#1}]{#1}}
+\newcommand{\pkg}[1]{\texttt{#1}} 
+\newcommand{\rsa}{Raw School Assessment}
+\newcommand{\exm}{Examination Mark}
+\newcommand{\msa}{Moderated School Assessment}
+\allowdisplaybreaks[4]
+\usepackage[ddmmyyyy]{datetime}
+
+\title{New Moderation Methods of Higher School Certificate Assessments: A nonparametric model}
+
+\author{Chen Chen}
+\date{\today}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{align*}\frac{d}{d\mathbf{z}}\mathbf{a} & =\mathbf{a}\mathbf{e^{T}}\circ(\mathbf{I}-\mathbf{e}\mathbf{a^{T}})=\begin{bmatrix}a_{1}\\
+a_{2}\\
+a_{3}
+\end{bmatrix}\begin{bmatrix}1 & 1 & 1\end{bmatrix}\circ\left(\begin{bmatrix}1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}-\begin{bmatrix}1\\
+1\\
+1
+\end{bmatrix}\begin{bmatrix}a_{1} & a_{2} & a_{3}\end{bmatrix}\right)\\
+ & =\begin{bmatrix}a_{1} & a_{1} & a_{1}\\
+a_{2} & a_{2} & a_{2}\\
+a_{3} & a_{3} & a_{3}
+\end{bmatrix}\circ\left(\begin{bmatrix}1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}-\begin{bmatrix}a_{1} & a_{2} & a_{3}\\
+a_{1} & a_{2} & a_{3}\\
+a_{1} & a_{2} & a_{3}
+\end{bmatrix}\right)\\
+ & =\begin{bmatrix}a_{1} & a_{1} & a_{1}\\
+a_{2} & a_{2} & a_{2}\\
+a_{3} & a_{3} & a_{3}
+\end{bmatrix}\circ\left(\begin{bmatrix}1-a_{1} & -a_{2} & -a_{3}\\
+-a_{1} & 1-a_{2} & -a_{3}\\
+-a_{1} & -a_{2} & 1-a_{3}
+\end{bmatrix}\right)\\
+ & =\begin{bmatrix}a_{1}(1-a_{1}) & a_{1}(-a_{2}) & a_{1}(-a_{3})\\
+a_{2}(-a_{1}) & a_{2}(1-a_{2}) & a_{2}(-a_{3})\\
+a_{3}(-a_{1}) & a_{3}(-a_{2}) & a_{3}(1-a_{3})
+\end{bmatrix}
+\end{align*}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\begin{bmatrix}\frac{dL}{dz_{1}}\\
+\frac{dL}{dz_{2}}\\
+\frac{dL}{dz_{3}}
+\end{bmatrix}_{3\times1} & =\begin{bmatrix}\frac{da_{1}}{dz_{1}}\frac{da_{2}}{dz_{1}}\frac{da_{3}}{dz_{1}}\\
+\frac{da_{1}}{dz_{2}}\frac{da_{2}}{dz_{2}}\frac{da_{3}}{dz_{2}}\\
+\frac{da_{1}}{dz_{3}}\frac{da_{2}}{dz_{3}}\frac{da_{3}}{dz_{3}}
+\end{bmatrix}_{3\times3}\begin{bmatrix}\frac{dL}{da_{1}}\\
+\frac{dL}{da_{2}}\\
+\frac{dL}{da_{3}}
+\end{bmatrix}_{3\times1}\\
+ & =\begin{bmatrix}a_{1}(1-a_{1}) & a_{1}(-a_{2}) & a_{1}(-a_{3})\\
+a_{2}(-a_{1}) & a_{2}(1-a_{2}) & a_{2}(-a_{3})\\
+a_{3}(-a_{1}) & a_{3}(-a_{2}) & a_{3}(1-a_{3})
+\end{bmatrix}\begin{bmatrix}\text{−}\frac{y_{1}}{a_{1}}\\
+-\frac{y_{2}}{a_{2}}\\
+-\frac{y_{3}}{a_{3}}
+\end{bmatrix}_{3\times1}\\
+ & =\begin{bmatrix}-y_{1}(1-a_{1})+a_{1}y_{2}+a_{1}y_{3}\\
+-y_{2}(1-a_{2})+a_{2}y_{1}+a_{2}y_{3}\\
+-y_{3}(1-a_{3})+a_{3}y_{1}+a_{3}y_{2}
+\end{bmatrix}_{3\times1}\\
+ & =\begin{bmatrix}-y_{1}+a_{1}y_{1}+a_{1}y_{2}+a_{1}y_{3}\\
+-y_{2}+a_{2}y_{2}+a_{2}y_{1}+a_{2}y_{3}\\
+-y_{3}+a_{3}y_{3}+a_{3}y_{1}+a_{3}y_{2}
+\end{bmatrix}_{3\times1}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\begin{bmatrix}\frac{dL}{dw_{11}} & \frac{dL}{dw_{12}}\\
+\frac{dL}{dw_{21}} & \frac{dL}{dw_{22}}\\
+\frac{dL}{dw_{31}} & \frac{dL}{dw_{32}}
+\end{bmatrix}_{3\times1} & =\begin{bmatrix}\frac{dL}{dz_{1}}\frac{dz_{1}}{dw_{11}} & \frac{dL}{dz_{1}}\frac{dz_{1}}{dw_{12}}\\
+\frac{dL}{dz_{2}}\frac{dz_{2}}{dw_{21}} & \frac{dL}{dz_{2}}\frac{dz_{2}}{dw_{22}}\\
+\frac{dL}{dz_{3}}\frac{dz_{3}}{dw_{31}} & \frac{dL}{dz_{3}}\frac{dz_{3}}{dw_{32}}
+\end{bmatrix}\\
+ & =\begin{bmatrix}-(y_{1}+a_{1}y_{1}+a_{1}y_{2}+a_{1}y_{3})x_{1} & -(y_{1}+a_{1}y_{1}+a_{1}y_{2}+a_{1}y_{3})x_{2}\\
+-(y_{2}+a_{2}y_{2}+a_{2}y_{1}+a_{2}y_{3})x_{1} & -(y_{2}+a_{2}y_{2}+a_{2}y_{1}+a_{2}y_{3})x_{2}\\
+-(y_{3}+a_{3}y_{3}+a_{3}y_{1}+a_{3}y_{2})x_{1} & -(y_{3}+a_{3}y_{3}+a_{3}y_{1}+a_{3}y_{2})x_{2}
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
