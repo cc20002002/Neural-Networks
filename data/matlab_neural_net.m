@@ -1,5 +1,8 @@
 % chen chen 03/18/2019
 % backpropagation(3 layeres) without neural networ toolbox
+% accuracy 89%
+% perhaps need to initialise a few times to see whether the starting point
+% is within the range.
 
 clear, close all
 
@@ -12,6 +15,10 @@ x= hdf5read(x.GroupHierarchy.Datasets)';
 t=hdf5info('train_label.h5');
 t= double(hdf5read(t.GroupHierarchy.Datasets));
 t=(t>=5);
+xtest=x(50001:60000,:);
+ttest=t(50001:60000,:);
+x=x(1:50000,:);
+t=t(1:50000,:);
 
 % acquire number of training patterns and feature vectors
 [numTP, numFV] = size(x);
@@ -19,19 +26,19 @@ t=(t>=5);
 % output layer's unit size
 numOut = size(t,2);
 
-x = (x-mean(x));
-x = x./std(x);
+%x = (x-mean(x));
+%x = x./std(x);
 
 % add 1 as bias
 x = [ones(numTP,1), x];
-
+xtest = [ones(10000,1), xtest];
 x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
 lr = 0.1;   % learning rate
 max_iteration = 80;    
-numHid = 5; % hidden(midle) layer's unit size
+numHid = 100; % hidden(midle) layer's unit size
 
 % init
 mse = 1;
@@ -46,24 +53,19 @@ w2 = 2 * rand(numOut, numHid + 1) - 1;
 for iteration = 1 : max_iteration
     
     %
-    for i = 1:numTP
-        % calculate hidden layer
-        z(i,:) = 1 ./ (1 + exp(-w1 * x(i,:)'));
-        v(i,:) = z(i,:)';
-        % cauculate output layer
-        o(i,:) = 1 ./ (1 + exp(-w2 * [1; v(i,:)']));
-        
-        % calculate gragient output layer
-        delta2(i,:) = (t(i,:) - o(i,:)) .* o(i,:) .* (1 - o(i,:));
-        % calculate gragient hidden layer
-        delta1(i,:) = z(i,:) .* (1 - z(i,:)) .* (delta2(i,:) * w2(:,2:end));
-        w2_new(:,:,i) = lr * delta2(i,:)' * [1, z(i,:)];
-        w1_new(:,:,i) = lr * delta1(i,:)' * x(i,:);
-    end
+    % calculate hidden layer
+    z = 1 ./ (1 + exp(-w1 * x'))';
+    % cauculate output layer
+    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
+
+    % calculate gragient output layer
+    delta2 = (t - o) .* o .* (1 - o);
+    % calculate gragient hidden layer
+    delta1 = z .* (1 - z) .* (delta2 * w2(:,2:end));
     
     % sum of training pattern
-    w2_new = sum(w2_new,3);
-    w1_new = sum(w1_new,3);
+    w2_new = lr * delta2' * [ones(numTP,1), z];
+    w1_new = lr * delta1' * x;    
     
     % update w2
     w2 = w2 + w2_new;
@@ -109,4 +111,8 @@ xlabel('iteration');
 ylabel('mse')
 
 %% plot map and decision boundary
-accuracy = sum(round(o)==t) / numTP * 100
+% calculate hidden layer
+z = 1 ./ (1 + exp(-w1 * xtest'))';
+% cauculate output layer
+o = 1 ./ (1 + exp(-w2 * [ones(1,10000); z']))';
+accuracy = sum(round(o)==ttest) / 10000 * 100
