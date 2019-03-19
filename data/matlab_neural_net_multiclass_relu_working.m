@@ -122,8 +122,8 @@ for iteration = 1 : max_iteration
         dbeta = delta1 * w1(:,2:end);
         dgamma = sum(dbeta.*xtemp)/size_batch;
         dbeta = sum(dbeta)/size_batch;
-        gamma1 = gamma1 + 0.0001*dgamma;
-        beta1 = beta1 + 0.0001*dbeta;
+        gamma1 = gamma1 + 0.0005*dgamma;
+        beta1 = beta1 + 0.0005*dbeta;
         
         dbeta = delta2 * w2(:,2:end);
         dgamma = sum(dbeta.*z1)/size_batch;
@@ -139,7 +139,7 @@ for iteration = 1 : max_iteration
     % mean square error
     %mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
     %[~,i]=max(a,[],2);
-    %loss(iteration) = sum(i==(y(size_batch,:)*(1:10)'))/size_batch;
+    %
     %loss(iteration)
     iteration
     %% plot map and decision boundary
@@ -172,6 +172,7 @@ for iteration = 1 : max_iteration
     [~,i]=max(z3,[],2);
 
     accuracy = sum(i==(ytest+1)) / nn * 100
+    loss(iteration) = accuracy;
     
 end
 
@@ -183,23 +184,34 @@ title('input-hidden weight')
 ylabel('input layer')
 xlabel('hidden layer')
 ax = gca;
-ax.XTick = 1:numHid;
-ax.YTick = 1:numFV;
+ax.XTick = 1:3:numHid;
+ax.YTick = 1:20:numFV;
 colorbar
 
 subplot(4,1,2)
+imagesc(w2(:,2:end), [min(min(w2(:,2:end))), max(max(w2(:,2:end)))]);
+title('hidden-output weight')
+xlabel('hidden layer')
+ylabel('output layer')
+ax = gca;
+ax.XTick = 1:3:numHid;
+ax.YTick = 1:5:numHid;
+colormap(hot);
+colorbar
+
+subplot(4,1,3)
 imagesc(w3(:,2:end), [min(min(w3(:,2:end))), max(max(w3(:,2:end)))]);
 title('hidden-output weight')
 xlabel('hidden layer')
 ylabel('output layer')
 ax = gca;
-ax.XTick = 1:1:numHid;
-ax.YTick = 1:1:numOut;
+ax.XTick = 1:3:numHid;
+ax.YTick = 1:5:numOut;
 colormap(hot);
 colorbar
 
 %
-subplot(2,1,2)
+subplot(4,1,4)
 plot(1:max_iteration, loss, 'k');
 hold on;
 grid
@@ -207,3 +219,5 @@ title('Learning curve')
 xlabel('iteration');
 ylabel('accuracy')
 
+print -depsc2
+eps2pdf('figure2.eps')
