@@ -190,9 +190,9 @@ colorbar
 
 subplot(4,1,2)
 imagesc(w2(:,2:end), [min(min(w2(:,2:end))), max(max(w2(:,2:end)))]);
-title('hidden-output weight')
+title('hidden-hidden weight')
 xlabel('hidden layer')
-ylabel('output layer')
+ylabel('hidden layer')
 ax = gca;
 ax.XTick = 1:3:numHid;
 ax.YTick = 1:5:numHid;
