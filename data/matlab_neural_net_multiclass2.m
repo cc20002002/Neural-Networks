@@ -1,6 +1,6 @@
 % chen chen 03/18/2019
 % backpropagation(3 layeres) without neural networ toolbox
-% accuracy 89%
+% accuracy 83.6%
 % perhaps need to initialise a few times to see whether the starting point
 % is within the range.
 
@@ -16,7 +16,7 @@ y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
 xtest=x(50001:60000,:);
-ttest=y(50001:60000,:);
+ytest=y(50001:60000,:);
 x=x(1:50000,:);
 y=y(1:50000,:);
 
@@ -39,12 +39,12 @@ x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = .1;   % learning rate
-max_iteration = 80;    
-numHid = 100; % hidden(midle) layer's unit size
+lr = .5;   % learning rate
+max_iteration = 500;    
+numHid = 256; % hidden(midle) layer's unit size
 
 % init
-mse = 1;
+loss = 1 : max_iteration;
 w1_new = zeros(numHid, numFV + 1, numTP);
 w2_new = zeros(numOut, numHid + 1, numTP);
 
@@ -54,18 +54,26 @@ w2 = 2 * rand(numOut, numHid + 1) - 1;
 %w1 = w1/100
 %w2 = w2/100
 
+momentum1=0;
+momentum2=0;
 % 
 for iteration = 1 : max_iteration
     
+    rate_drop=.9;
     %
+    
     % calculate hidden layer
-    z2 = 1 ./ (1 + exp(-w1 * x'))';
+    z1 = 1 ./ (1 + exp(-w1 * x'))';
     % cauculate output layer
-    z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+    %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+    drop = rand(numTP,numHid)<rate_drop;
+    z1 = z1 .* drop/rate_drop;
+    z2 = w2 * [ones(1,numTP); z1'];
+    z2 = z2';
     %for i=1:9
     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
     %end
-    a = softmax(z1')';
+    a = softmax(z2')';
     
     %dLdo = (-y./a);
     %aa=permute(a,[2 3 1]);
@@ -76,24 +84,31 @@ for iteration = 1 : max_iteration
     %ay2=permute(sum(ay,2),[3 1 2])+y;
     
     % calculate gragient output layer
-    delta2 = ay2;
+    %delta2 = ay2;
     %delta2 = (y - a) .* a .* (1 - a);
+    delta2 = (y - a);    
     % calculate gragient hidden layer
-    delta1 = z2 .* (1 - z2) .* (delta2 * w2(:,2:end));
     
+    delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
+    %delta1 = delta1.*(delta1>0);
+    change2 = delta2' * [ones(numTP,1), z1]/numTP;
+    change1 = delta1' * x/numTP;
     % sum of training pattern
-    w2_new = lr * ay2' * [ones(numTP,1), z2];
-    w1_new = lr * delta1' * x;    
+    w2_new = lr * (change2 - 0.01*w2+0.3*momentum2);
+    w1_new = lr * (change1 - 0.01*w1+0.3*momentum1);
+    momentum2 = change2;
+    momentum1 = change1;
     
     % update w2
     w2 = w2 + w2_new;
-    % update w2
+    % update w1
     w1 = w1 + w1_new;
         
     % mean square error
     %mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
     [~,i]=max(a,[],2);
-    sum(i==(y*(1:10)'))/50000
+    loss(iteration) = sum(i==(y*(1:10)'))/50000;
+    loss(iteration)
     iteration
     
 end
@@ -123,7 +138,7 @@ colorbar
 
 %
 subplot(2,1,2)
-plot(1:max_iteration, mse, 'k');
+plot(1:max_iteration, loss, 'k');
 hold on;
 grid
 title('Learning curve')
@@ -132,9 +147,16 @@ ylabel('mse')
 
 %% plot map and decision boundary
 % calculate hidden layer
-z2 = 1 ./ (1 + exp(-w1 * xtest'))';
+z1 = 1 ./ (1 + exp(-w1 * xtest'))';
 % cauculate output layer
-a = 1 ./ (1 + exp(-w2 * [ones(1,10000); z2']))';
+%z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+nn = size(z1,1);
+z2 = w2 * [ones(1,nn); z1'];
+z2 = z2';
+%for i=1:9
+%    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
+%end
+a = softmax(z2')';
 [~,i]=max(a,[],2);
 
-accuracy = sum(round(i)==ttest) / 10000 * 100
+accuracy = sum(i==(ytest+1)) / nn * 100

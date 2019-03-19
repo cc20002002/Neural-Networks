@@ -10,7 +10,7 @@ yyy=net(xtest');
 [~,i]=max(yyy,[],1);
 accuracy2 = sum(i==(ytest+1)') / 10000 * 100
 t = templateLinear('Learner','SVM','Regularization','Ridge','Lambda',0:0.1:1)
-t = templateSVM('KernelFunction','gaussian')
+t = templateSVM('KernelFunction','linear')
 Mdl = fitcecoc(x,y*(1:10)','Learners',t)
 sum(Mdl.predict(x)==y*(1:10)')/50000
 sum(Mdl.predict(xtest)==(ytest+1))/10000

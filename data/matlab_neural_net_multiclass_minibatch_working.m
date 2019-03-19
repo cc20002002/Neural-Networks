@@ -15,10 +15,11 @@ x= hdf5read(x.GroupHierarchy.Datasets)';
 y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
-xtest=x(50017:60000,:);
-ytest=y(50017:60000,:);
-x=x(1:50016,:);
-y=y(1:50016,:);
+trainsize=50048;
+xtest=x((trainsize+1):60000,:);
+ytest=y((trainsize+1):60000,:);
+x=x(1:trainsize,:);
+y=y(1:trainsize,:);
 
 
 % acquire number of training patterns and feature vectors
@@ -29,17 +30,18 @@ numOut = max(y)+1;
 %one hot encoding
 y = y == 0:max(y);
 
-x = (x-mean(x));
-x = x./std(x);
+%x = (x-mean(x));
+%x = x./std(x);
+
 
 % add 1 as bias
 x = [ones(numTP,1), x];
-xtest = [ones(9984,1), xtest];
+xtest = [ones((60000-trainsize),1), xtest];
 x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = .5;   % learning rate
+lr = .05;   % learning rate
 max_iteration = 2500;    
 numHid = 256; % hidden(midle) layer's unit size
 
@@ -57,24 +59,14 @@ w2 = 2 * rand(numOut, numHid + 1) - 1;
 momentum1=0;
 momentum2=0;
 % 
-size_batch=32;
-js=50016/size_batch;
-p = reshape(randperm(50016),[size_batch js]);
-for iteration = 1 : max_iteration
-    
-    j=0;
-    while (j < js)
-        j=j+1;
+size_batch=128;
+js=trainsize/size_batch;
+p = reshape(randperm(trainsize),[size_batch js]);
+for iteration = 1 : max_iteration      
+    for j=1:js
         rate_drop=.9;
         %
-        if iteration>10
-            xtemp = x(p(:,j),:);
-            size_batch=32;
-        else
-            xtemp = x;
-            j=js;
-            size_batch=numTP;
-        end
+        xtemp = x(p(:,j),:);
         % calculate hidden layer
         z1 = 1 ./ (1 + exp(-w1 * xtemp'))';
         % cauculate output layer
@@ -99,7 +91,8 @@ for iteration = 1 : max_iteration
         % calculate gragient output layer
         %delta2 = ay2;
         %delta2 = (y - a) .* a .* (1 - a);
-        delta2 = (y(size_batch,:) - a);    
+        %delta2 is do
+        delta2 = (y(p(:,j),:) - a);    
         % calculate gragient hidden layer
 
         delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
@@ -107,8 +100,8 @@ for iteration = 1 : max_iteration
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp/size_batch;
         % sum of training pattern
-        w2_new = lr * (change2 - 0.01*w2+0.3*momentum2);
-        w1_new = lr * (change1 - 0.01*w1+0.3*momentum1);
+        w2_new = lr * (change2 - 0.02*w2+0.1*momentum2);
+        w1_new = lr * (change1 - 0.02*w1+0.1*momentum1);
         momentum2 = change2;
         momentum1 = change1;
 
@@ -123,6 +116,21 @@ for iteration = 1 : max_iteration
     %loss(iteration) = sum(i==(y(size_batch,:)*(1:10)'))/size_batch;
     %loss(iteration)
     iteration
+    %% plot map and decision boundary
+    % calculate hidden layer
+    z1 = 1 ./ (1 + exp(-w1 * xtest'))';
+    % cauculate output layer
+    %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+    nn = size(z1,1);
+    z2 = w2 * [ones(1,nn); z1'];
+    z2 = z2';
+    %for i=1:9
+    %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
+    %end
+    a = softmax(z2')';
+    [~,i]=max(a,[],2);
+
+    accuracy = sum(i==(ytest+1)) / nn * 100
     
 end
 
