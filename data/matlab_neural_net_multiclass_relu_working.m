@@ -1,6 +1,6 @@
 % chen chen 03/18/2019
-% backpropagation(3 layeres) without neural networ toolbox
-% accuracy 83.6%
+% backpropagation(4 layeres) without neural networ toolbox
+% accuracy 86%
 % perhaps need to initialise a few times to see whether the starting point
 % is within the range.
 
