@@ -47,17 +47,20 @@ numHid = 32; % hidden(midle) layer's unit size
 
 % init
 loss = 1 : max_iteration;
-w1_new = zeros(numHid, numFV + 1, numTP);
-w2_new = zeros(numOut, numHid + 1, numTP);
+w1_new = zeros(numHid, numFV + 1);
+w2_new = zeros(numHid, numHid + 1);
+w3_new = zeros(numOut, numHid + 1);
 
 % weight value range[-1-1]
 w1 = 2 * rand(numHid, numFV + 1) - 1;
-w2 = 2 * rand(numOut, numHid + 1) - 1;
+w2 = 2 * rand(numHid, numHid + 1) - 1;
+w3 = 2 * rand(numOut, numHid + 1) - 1;
 %w1 = w1/100
 %w2 = w2/100
 
 momentum1=0;
 momentum2=0;
+momentum3=0;
 % 
 size_batch=16;
 js=trainsize/size_batch;
@@ -84,22 +87,36 @@ for iteration = 1 : max_iteration
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
         drop = rand(size_batch,numHid)<rate_drop;
         z1 = z1 .* drop/rate_drop;
-        z2 = w2 * [ones(1,size_batch); z1'];
+        
+        zbar = mean(z1,2);        
+        zvar = var(z1')';
+        zbar = (zbar - zbar)./sqrt(zvar+1e-8);
+        z11 = [ones(size_batch,1) gamma2.*z1+beta2];       
+        
+        z2 = w2 * z11';
+        z2 = z2 .* (z2>0);      
         z2 = z2';
-              
-        z2 = softmax(z2')';
+        
+        z3 = w3 * [ones(1,size_batch); z2'];
+        z3 = z3';              
+        z3 = softmax(z3')';
         % calculate gradient output layer
         % dz2/d(w2*z1)
-        delta2 = (y(p(:,j),:) - z2);    
+        delta3 = (y(p(:,j),:) - z3);    
+        % calculate gragient hidden layer
+        delta2 = delta3 * w3(:,2:end).*(z2>0);
         % calculate gragient hidden layer
         % dz2/d(w1*xtemp1)
         delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
         %delta1 = delta1.*(delta1>0);
+        change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
+        w3_new = lr * (change3 - 0.001*w3+0.5*momentum3);
         w2_new = lr * (change2 - 0.001*w2+0.5*momentum2);
         w1_new = lr * (change1 - 0.001*w1+0.5*momentum1);
+        momentum3 = change3;
         momentum2 = change2;
         momentum1 = change1;
         dbeta = delta1 * w1(:,2:end);
@@ -108,6 +125,7 @@ for iteration = 1 : max_iteration
         gamma1 = gamma1 + 0.0001*dgamma;
         beta1 = beta1 + 0.0001*dbeta;
         % update w2
+        w3 = w3 + w3_new;
         w2 = w2 + w2_new;
         % update w1
         w1 = w1 + w1_new;
@@ -130,13 +148,13 @@ for iteration = 1 : max_iteration
     % cauculate output layer
     %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
     nn = size(z1,1);
-    z2 = w2 * [ones(1,nn); z1'];
-    z2 = z2';
+    z3 = w3 * [ones(1,nn); z1'];
+    z3 = z3';
     %for i=1:9
     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
     %end
-    z2 = softmax(z2')';
-    [~,i]=max(z2,[],2);
+    z3 = softmax(z3')';
+    [~,i]=max(z3,[],2);
 
     accuracy = sum(i==(ytest+1)) / nn * 100
     
@@ -155,7 +173,7 @@ ax.YTick = 1:numFV;
 colorbar
 
 subplot(4,1,2)
-imagesc(w2(:,2:end), [min(min(w2(:,2:end))), max(max(w2(:,2:end)))]);
+imagesc(w3(:,2:end), [min(min(w3(:,2:end))), max(max(w3(:,2:end)))]);
 title('hidden-output weight')
 xlabel('hidden layer')
 ylabel('output layer')
