@@ -41,8 +41,8 @@ x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = 0.1;   % learning rate
-max_iteration = 5;    
+lr = 0.11;   % learning rate
+max_iteration = 15;    
 numHid = 32; % hidden(midle) layer's unit size
 
 % init
@@ -60,6 +60,7 @@ w3 = 2 * rand(numOut, numHid + 1) - 1;
 
 momentum1=0;
 momentum2=0;
+momentum3=0;
 % 
 size_batch=16;
 js=trainsize/size_batch;
@@ -70,7 +71,7 @@ gamma2=1;
 beta2=0;
 for iteration = 1 : max_iteration      
     for j=1:js
-        rate_drop=.9;
+        rate_drop=.92;
         %
         xtemp = x(p(:,j),:);        
         %batch normalisation
@@ -87,13 +88,14 @@ for iteration = 1 : max_iteration
         drop = rand(size_batch,numHid)<rate_drop;
         z1 = z1 .* drop/rate_drop;
         
-        zbar = mean(z1,2);        
-        zvar = var(z1')';
-        zbar = (zbar - zbar)./sqrt(zvar+1e-8);
-        z11 = [ones(size_batch,1) gamma2.*z1+beta2];       
+        %zbar = mean(z1,2);        
+        %zvar = var(z1')';
+        %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
         
+        z11 = [ones(size_batch,1) gamma2.*z1+beta2];           
         z2 = w2 * z11';
         z2 = z2 .* (z2>0);      
+        z2 = z2';
         
         z3 = w3 * [ones(1,size_batch); z2'];
         z3 = z3';              
@@ -102,23 +104,35 @@ for iteration = 1 : max_iteration
         % dz2/d(w2*z1)
         delta3 = (y(p(:,j),:) - z3);    
         % calculate gragient hidden layer
+        delta2 = delta3 * w3(:,2:end).*(z2>0);
+        % calculate gragient hidden layer
         % dz2/d(w1*xtemp1)
-        delta1 = z1 .* (1 - z1) .* drop .* (delta3 * w3(:,2:end))/rate_drop;
+        delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
         %delta1 = delta1.*(delta1>0);
-        change3 = delta3' * [ones(size_batch,1), z1]/size_batch;
+        change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
+        change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
-        w3_new = lr * (change3 - 0.001*w3+0.5*momentum2);
+        w3_new = lr * (change3 - 0.001*w3+0.5*momentum3);
+        w2_new = lr * (change2 - 0.001*w2+0.5*momentum2);
         w1_new = lr * (change1 - 0.001*w1+0.5*momentum1);
-        momentum2 = change3;
+        momentum3 = change3;
+        momentum2 = change2;
         momentum1 = change1;
         dbeta = delta1 * w1(:,2:end);
         dgamma = sum(dbeta.*xtemp)/size_batch;
         dbeta = sum(dbeta)/size_batch;
         gamma1 = gamma1 + 0.0001*dgamma;
         beta1 = beta1 + 0.0001*dbeta;
+        
+        dbeta = delta2 * w2(:,2:end);
+        dgamma = sum(dbeta.*z1)/size_batch;
+        dbeta = sum(dbeta)/size_batch;
+        gamma2 = gamma2 + 0.0005*dgamma;
+        beta2 = beta2 + 0.0005*dbeta;
         % update w2
         w3 = w3 + w3_new;
+        w2 = w2 + w2_new;
         % update w1
         w1 = w1 + w1_new;
     end    
@@ -137,10 +151,19 @@ for iteration = 1 : max_iteration
     xtest1 = (xtest - xbar)./sqrt(xvar+1e-8);
     xtest2 = [ones(size(xtest,1),1) gamma1.*xtest1+beta1];
     z1 = 1 ./ (1 + exp(-w1 * xtest2'))';
+    
+    %zbar = mean(z1,2);        
+    %zvar = var(z1')';
+    %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
+    
+    z11 = [ones(size(xtest,1),1) gamma2.*z1+beta2];    
+    z2 = w2 * z11';
+    z2 = z2 .* (z2>0);      
+    z2 = z2';
     % cauculate output layer
     %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
     nn = size(z1,1);
-    z3 = w3 * [ones(1,nn); z1'];
+    z3 = w3 * [ones(1,nn); z2'];
     z3 = z3';
     %for i=1:9
     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
