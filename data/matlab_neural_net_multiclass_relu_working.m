@@ -7,7 +7,7 @@
 clear, close all
 
 
-%%
+%
 test=hdf5info('test_128.h5');
 test= hdf5read(test.GroupHierarchy.Datasets)';
 x=hdf5info('train_128.h5');
@@ -15,7 +15,15 @@ x= hdf5read(x.GroupHierarchy.Datasets)';
 y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
+
+
+% ming test
+% test = rand(10000, 128);
+% x = rand(60000, 128);
+% y = randi([0, 9], 60000, 1);
+
 trainsize=50176;
+
 xtest=x((trainsize+1):60000,:);
 ytest=y((trainsize+1):60000,:);
 x=x(1:trainsize,:);
