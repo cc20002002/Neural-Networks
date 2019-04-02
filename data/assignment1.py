@@ -63,7 +63,7 @@ layer_dims = [train_data.shape[1], hidden_layer_dim, hidden_layer_dim, output_la
 print(f'The Multi-Layer Neural Network Dimensions: {layer_dims}')
 
 
-# In[4]:
+# In[44]:
 
 
 # Initialise Different Activation Functions
@@ -89,7 +89,7 @@ def softmax(x):
 
 def one_hot_encoding(y, dims):
     y_encoded = np.zeros((dims[0], dims[1]))
-    y_encoded[np.arange(0, dims[0]), y] = 1
+    y_encoded[np.arange(dims[0]), y[:,0]] = 1
     return y_encoded
     
 
@@ -129,12 +129,11 @@ def main():
 main()
 
 
-# In[17]:
+# In[45]:
 
 
 y = train_labels
 y = one_hot_encoding(train_labels, [train_labels.shape[0], 10])
-print(y.shape)
 
 
 # In[34]:
