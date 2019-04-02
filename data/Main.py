@@ -8,7 +8,7 @@ import numpy as np
 import scipy
 import h5py
 import math
-
+import IPython
 
 # In[2]:
 
@@ -34,11 +34,13 @@ print(f'Testing data set shape: {test_data_set_shape}')
 learning_rate = 0.11
 max_iteration = 15
 droput_rate = 0.92
-batch_size = 16
+batch_size = 1024
 hidden_layer_dim = 32
 output_layer_dim = len(set(train_labels_set[:,0]))
-trainsize = 50048
+trainsize = 50176
 
+
+rate_drop=0.92
 
 # In[3]:
 
@@ -84,13 +86,14 @@ def tanh(Z):
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
+    #not sure correct todo:check
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
 
 def one_hot_encoding(train_labels, dims):
     #vectorization half the time taken
     #t = time.time()
-    y_encoded = train_labels==np.arange(train_labels.max()+1).reshape((1, dims[1]))
+    y_encoded = train_labels==np.arange(train_labels.max()+1).reshape((1, dims))
     #print( time.time()-t)
     
     #t = time.time()
@@ -140,56 +143,62 @@ main()
 
 
 #y = train_labels
-y = one_hot_encoding(train_labels, [train_labels.shape[0], 10])
+y = one_hot_encoding(train_labels,  10)
 
 
 # In[34]:
 
 
 x = train_data
-y = one_hot_encoding(train_labels, [train_labels.shape[0], 10])
 xtest = validation_data
 ytest = validation_labels
 
-np.random.seed(3)
 
-loss = np.arange(1, max_iteration)
+
+Acc = np.zeros((1, max_iteration)) 
+Loss = np.zeros((1, max_iteration)) 
+
+#todo: shape is wrong
+
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
-w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
-w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
+np.random.seed(3)
+#todo:convert it back to Monte carlo
+w1 = 2 * np.ones((hidden_layer_dim, train_data.shape[1] + 1)) - 1
+w2 = 2 * np.ones((hidden_layer_dim, hidden_layer_dim + 1)) - 1
+w3 = 2 * np.ones((output_layer_dim, hidden_layer_dim + 1)) - 1
 momentum1 = 0
 momentum2 = 0
 momentum3 = 0
+gamma1=1
+beta1=0
+gamma2=1
+beta2=0
 
-trainsize = 50048
-js = int(trainsize / batch_size)
+batches = int(np.floor(trainsize / batch_size))
 # 16 x 128 matrix
-p = np.random.randint(0, trainsize, size=trainsize).reshape((batch_size, js))
-gamma1=1;
-beta1=0;
-gamma2=1;
-beta2=0;
+#p = np.arange(trainsize).reshape((batch_size, batches))
+p = np.arange(trainsize).reshape(( batches,batch_size)).T
 
 
-for iteration in np.arange(0, max_iteration):
-    for j in np.arange(0, js):
-        rate_drop=0.92
+
+for iteration in np.arange(0, 1):
+    for j in np.arange(0, 47):
         
         xtemp = x[p[:,j],:]
 #       batch normalisation
         xbar = np.mean(xtemp, axis=1).reshape(xtemp.shape[0], 1)
-        xvar = np.var(xtemp.T, axis=0).T.reshape(xtemp.shape[0], 1)
+        #edited sample var
+        xvar = np.var(xtemp, axis=1,ddof=1).T.reshape(xtemp.shape[0], 1)
         xtemp = np.divide((xtemp - xbar), np.sqrt(xvar + 1e-8))
         xtemp1 = np.concatenate((np.ones((batch_size,1)), gamma1*xtemp+beta1), axis=1)
-
         
 #       calculate hidden layer
         z1 = 1 / (1 + np.exp(- np.matmul(w1, xtemp1.T))).T
 #       cauculate output layer
 #       z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+        np.random.seed(3)
         drop = np.random.rand(batch_size, hidden_layer_dim) < rate_drop
         z1 = z1 * drop / rate_drop
         print(z1[0,:])
@@ -207,6 +216,20 @@ for iteration in np.arange(0, max_iteration):
         z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0))
         z3 = z3.T
         z3 = softmax(z3.T).T
+        #todo fix error of softmax!!!
+        '''
+        z3(1:5,1:5)
+
+ans =
+
+    0.1000    0.1000    0.1000    0.1000    0.1000
+    0.1000    0.1000    0.1000    0.1000    0.1000
+    0.1000    0.1000    0.1000    0.1000    0.1000
+    0.1000    0.1000    0.1000    0.1000    0.1000
+    0.1000    0.1000    0.1000    0.1000    0.1000
+
+        '''
+        
 #       calculate gradient output layer
 #       dz2/d(w2*z1)
         delta3 = y[p[:,j],:] - z3
@@ -242,21 +265,22 @@ for iteration in np.arange(0, max_iteration):
         w2 = w2 + w2_new
 #       update w1
         w1 = w1 + w1_new
-        if math.isnan(w1[0,0]):
-#             print(j)
-#             print(w1_new)
-#             print(delta1)
-#             print(delta2)
-#             print(delta3)
-#             print(z2)
-#             print(z1)
-            break   
+        if math.isnan(w1[0,0]) | j==47:
+             print(j)
+             print(iteration)
+             print(w1_new)
+             print(delta1)
+             print(delta2)
+             print(delta3)
+             print(z2)
+             print(z1)
+             IPython.embed()   
     break
 #     mean square error
 #     mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
 #     [~,i]=max(a,[],2);
 #     
-#     loss(iteration)
+#     Acc(iteration)
     print(f'iteration: {iteration}')
 #     plot map and decision boundary
 #     calculate hidden layer
@@ -287,7 +311,7 @@ for iteration in np.arange(0, max_iteration):
     res = np.amax(z3, axis=1)
 
     accuracy = np.sum(res==ytest) / nn * 100
-    loss[iteration] = accuracy
+    Acc[iteration] = accuracy
 
 
 

@@ -60,9 +60,10 @@ w2_new = zeros(numHid, numHid + 1);
 w3_new = zeros(numOut, numHid + 1);
 
 % weight value range[-1-1]
-w1 = 2 * rand(numHid, numFV + 1) - 1;
-w2 = 2 * rand(numHid, numHid + 1) - 1;
-w3 = 2 * rand(numOut, numHid + 1) - 1;
+rng(3)
+w1 = 2 * ones(numHid, numFV + 1) - 1;
+w2 = 2 * ones(numHid, numHid + 1) - 1;
+w3 = 2 * ones(numOut, numHid + 1) - 1;
 %w1 = w1/100
 %w2 = w2/100
 
@@ -72,7 +73,7 @@ momentum3=0;
 % 
 size_batch=1024;
 js=trainsize/size_batch;
-p = reshape(randperm(trainsize),[size_batch js]);
+p = reshape(1:trainsize,[size_batch js]);
 gamma1=1;
 beta1=0;
 gamma2=1;
@@ -93,7 +94,8 @@ for iteration = 1 : max_iteration
         z1 = 1 ./ (1 + exp(-w1 * xtemp1'))';
         % cauculate output layer
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
-        drop = rand(size_batch,numHid)<rate_drop;
+        rng(3)
+        drop = rand(numHid,size_batch)'<rate_drop;
         z1 = z1 .* drop/rate_drop;
         
         %zbar = mean(z1,2);        
