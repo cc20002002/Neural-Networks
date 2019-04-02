@@ -15,12 +15,15 @@ x= hdf5read(x.GroupHierarchy.Datasets)';
 y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
+
+
 % ming test
 % test = rand(10000, 128);
 % x = rand(60000, 128);
 % y = randi([0, 9], 60000, 1);
 
-trainsize=50048;
+trainsize=50176;
+
 xtest=x((trainsize+1):60000,:);
 ytest=y((trainsize+1):60000,:);
 x=x(1:trainsize,:);
@@ -67,7 +70,7 @@ momentum1=0;
 momentum2=0;
 momentum3=0;
 % 
-size_batch=16;
+size_batch=1024;
 js=trainsize/size_batch;
 p = reshape(randperm(trainsize),[size_batch js]);
 gamma1=1;
