@@ -88,9 +88,15 @@ def softmax(x):
     return e_x / e_x.sum()
 
 def one_hot_encoding(train_labels, dims):
+    #vectorization half the time taken
+    #t = time.time()
+    y_encoded = train_labels==np.arange(train_labels.max()+1).reshape((1, dims[1]))
+    #print( time.time()-t)
+    
+    #t = time.time()
     #y_encoded = np.zeros((dims[0], dims[1]))
-    #y_encoded[np.arange(dims[0]), y[:,0]] = 1
-    y == 0:max(y)
+    #y_encoded[np.arange(dims[0]), train_labels[:,0]] = 1
+    #print( time.time()-t)
     return y_encoded
     
 
