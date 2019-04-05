@@ -244,12 +244,12 @@ ans =
         change2 = np.matmul(delta2.T, np.concatenate((np.ones((batch_size,1)), z1), axis=1)) / batch_size
         change1 = np.matmul(delta1.T, xtemp1) / batch_size
 #       sum of training pattern
-        w3_new = learning_rate * (change3 - 0.001*w3+0.5*momentum3)
-        w2_new = learning_rate * (change2 - 0.001*w2+0.5*momentum2)
-        w1_new = learning_rate * (change1 - 0.001*w1+0.5*momentum1)
-        momentum3 = change3
-        momentum2 = change2
-        momentum1 = change1
+        w3_new = learning_rate * (change3 - 0.001*w3)+0.9*momentum3
+        w2_new = learning_rate * (change2 - 0.001*w2)+0.9*momentum2
+        w1_new = learning_rate * (change1 - 0.001*w1)+0.9*momentum1
+        momentum3 = w3_new
+        momentum2 = w2_new
+        momentum1 = w1_new
         dbeta = np.matmul(delta1, w1[:,1:])
         dgamma = sum(dbeta * xtemp) / batch_size
         dbeta = sum(dbeta) / batch_size

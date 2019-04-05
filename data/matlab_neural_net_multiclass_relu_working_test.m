@@ -7,7 +7,7 @@
 clear, close all
 
 
-%%
+%
 test=hdf5info('test_128.h5');
 test= hdf5read(test.GroupHierarchy.Datasets)';
 x=hdf5info('train_128.h5');
@@ -15,7 +15,15 @@ x= hdf5read(x.GroupHierarchy.Datasets)';
 y=hdf5info('train_label.h5');
 y= double(hdf5read(y.GroupHierarchy.Datasets));
 
+
+
+% ming test
+% test = rand(10000, 128);
+% x = rand(60000, 128);
+% y = randi([0, 9], 60000, 1);
+
 trainsize=50176;
+
 xtest=x((trainsize+1):60000,:);
 ytest=y((trainsize+1):60000,:);
 x=x(1:trainsize,:);
@@ -41,9 +49,9 @@ x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = 0.005;   % learning rate
-max_iteration = 150;    
-numHid = 900; % hidden(midle) layer's unit size
+lr = 0.11;   % learning rate
+max_iteration = 15;    
+numHid = 32; % hidden(midle) layer's unit size
 
 % init
 loss = 1 : max_iteration;
@@ -52,6 +60,7 @@ w2_new = zeros(numHid, numHid + 1);
 w3_new = zeros(numOut, numHid + 1);
 
 % weight value range[-1-1]
+rng(3)
 w1 = 2 * rand(numHid, numFV + 1) - 1;
 w2 = 2 * rand(numHid, numHid + 1) - 1;
 w3 = 2 * rand(numOut, numHid + 1) - 1;
@@ -64,14 +73,14 @@ momentum3=0;
 % 
 size_batch=1024;
 js=trainsize/size_batch;
-p = reshape(randperm(trainsize),[size_batch js]);
+p = reshape(1:trainsize,[size_batch js]);
 gamma1=1;
 beta1=0;
 gamma2=1;
 beta2=0;
 for iteration = 1 : max_iteration      
     for j=1:js
-        rate_drop=1;
+        rate_drop=.92;
         %
         xtemp = x(p(:,j),:);        
         %batch normalisation
@@ -85,7 +94,8 @@ for iteration = 1 : max_iteration
         z1 = 1 ./ (1 + exp(-w1 * xtemp1'))';
         % cauculate output layer
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
-        drop = rand(size_batch,numHid)<rate_drop;
+        rng(3)
+        drop = rand(numHid,size_batch)'<rate_drop;
         z1 = z1 .* drop/rate_drop;
         
         %zbar = mean(z1,2);        
@@ -113,15 +123,9 @@ for iteration = 1 : max_iteration
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
-        if iteration<=-5
-            w3_new = lr * (change3 - 0.0015*w3)+0.0*momentum3;
-            w2_new = lr * (change2 - 0.0015*w2)+0.0*momentum2;
-            w1_new = lr * (change1 - 0.0015*w1)+0.0*momentum1;
-        else
-            w3_new = lr * (change3 - 0.0015*w3)+0.9*momentum3;
-            w2_new = lr * (change2 - 0.0015*w2)+0.9*momentum2;
-            w1_new = lr * (change1 - 0.0015*w1)+0.9*momentum1;
-        end
+        w3_new = lr * (change3 - 0.001*w3)+0.9*momentum3;
+        w2_new = lr * (change2 - 0.001*w2)+0.9*momentum2;
+        w1_new = lr * (change1 - 0.001*w1)+0.9*momentum1;
         momentum3 = w3_new;
         momentum2 = w2_new;
         momentum1 = w1_new;

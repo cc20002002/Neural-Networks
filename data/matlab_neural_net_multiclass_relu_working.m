@@ -8,12 +8,13 @@ clear, close all
 
 
 %
-test=hdf5info('test_128.h5');
-test= hdf5read(test.GroupHierarchy.Datasets)';
-x=hdf5info('train_128.h5');
-x= hdf5read(x.GroupHierarchy.Datasets)';
-y=hdf5info('train_label.h5');
-y= double(hdf5read(y.GroupHierarchy.Datasets));
+load inputdata
+%test_128=hdf5info('test_128.h5');
+test= hdf5read(test_128.GroupHierarchy.Datasets)';
+%train_128=hdf5info('train_128.h5');
+x= hdf5read(train_128.GroupHierarchy.Datasets)';
+%train_label=hdf5info('train_label.h5');
+y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 
 
 
@@ -123,12 +124,12 @@ for iteration = 1 : max_iteration
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
-        w3_new = lr * (change3 - 0.001*w3+0.5*momentum3);
-        w2_new = lr * (change2 - 0.001*w2+0.5*momentum2);
-        w1_new = lr * (change1 - 0.001*w1+0.5*momentum1);
-        momentum3 = change3;
-        momentum2 = change2;
-        momentum1 = change1;
+        w3_new = lr * (change3 - 0.001*w3)+0.9*momentum3;
+        w2_new = lr * (change2 - 0.001*w2)+0.9*momentum2;
+        w1_new = lr * (change1 - 0.001*w1)+0.9*momentum1;
+        momentum3 = w3_new;
+        momentum2 = w2_new;
+        momentum1 = w1_new;
         dbeta = delta1 * w1(:,2:end);
         dgamma = sum(dbeta.*xtemp)/size_batch;
         dbeta = sum(dbeta)/size_batch;
