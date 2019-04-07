@@ -6,6 +6,7 @@
 
 import numpy as np
 import scipy
+from scipy.special import softmax
 import h5py
 import math
 import IPython
@@ -84,15 +85,15 @@ def tanh(Z):
     cache = Z
     return A, cache
 
-def softmax(x):
+#def softmax(x):
     """Compute softmax values for each sets of scores in x."""
     #not sure correct todo:check
     # e_x = np.exp(x - np.max(x))
     # return e_x / e_x.sum()
-    e = np.exp(x)
+#    e = np.exp(x)
     # print(e)
     # print(np.sum(e, axis=1, keepdims=True))
-    return e / np.sum(e, axis=0, keepdims=True)
+#    return e / np.sum(e, axis=0, keepdims=True)
 
 def one_hot_encoding(train_labels, dims):
     #vectorization half the time taken
