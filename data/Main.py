@@ -160,8 +160,8 @@ ytest = validation_labels
 
 
 
-Acc = np.zeros((1, max_iteration)) 
-Loss = np.zeros((1, max_iteration)) 
+Acc = np.zeros(( max_iteration,1)) 
+Loss = np.zeros(( max_iteration,1)) 
 
 #todo: shape is wrong
 
@@ -170,9 +170,9 @@ w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
 np.random.seed(3)
 #todo:convert it back to Monte carlo
-w1 = 2 * np.ones((hidden_layer_dim, train_data.shape[1] + 1)) - 1
-w2 = 2 * np.ones((hidden_layer_dim, hidden_layer_dim + 1)) - 1
-w3 = 2 * np.ones((output_layer_dim, hidden_layer_dim + 1)) - 1
+w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
+w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
+w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
 momentum1 = 0
 momentum2 = 0
 momentum3 = 0
@@ -188,7 +188,7 @@ p = np.arange(trainsize).reshape(( batches,batch_size)).T
 
 
 
-for iteration in np.arange(0, 1):
+for iteration in np.arange(0, max_iteration):
     for j in np.arange(0, 47):
         
         xtemp = x[p[:,j],:]
@@ -206,7 +206,7 @@ for iteration in np.arange(0, 1):
         np.random.seed(3)
         drop = np.random.rand(batch_size, hidden_layer_dim) < rate_drop
         z1 = z1 * drop / rate_drop
-        print(z1[0,:])
+        
         
 #         %zbar = mean(z1,2);        
 #         %zvar = var(z1')';
@@ -220,111 +220,97 @@ for iteration in np.arange(0, 1):
         
         z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0)) / 100
         z3 = z3.T
-        print(z3)
-        z3 = softmax(z3,axis=1).T
-        print(z3)
-        break
-    break
-#         # todo fix error of softmax!!!
-#         '''
-#         z3(1:5,1:5)
-#
-# ans =
-#
-#     0.1000    0.1000    0.1000    0.1000    0.1000
-#     0.1000    0.1000    0.1000    0.1000    0.1000
-#     0.1000    0.1000    0.1000    0.1000    0.1000
-#     0.1000    0.1000    0.1000    0.1000    0.1000
-#     0.1000    0.1000    0.1000    0.1000    0.1000
-#
-#         '''
-#
-# #       calculate gradient output layer
-# #       dz2/d(w2*z1)
-#         delta3 = y[p[:,j],:] - z3
-# #       calculate gragient hidden layer
-#         delta2 = np.matmul(delta3, w3[:,1:]) * ( z2 > 0 )
-#
-# #       calculate gragient hidden layer
-# #       dz2/d(w1*xtemp1)
-#         delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / rate_drop
-# #       delta1 = delta1.*(delta1>0);
-#         change3 = np.matmul(delta3.T, np.concatenate((np.ones((batch_size,1)), z2), axis=1)) / batch_size
-#         change2 = np.matmul(delta2.T, np.concatenate((np.ones((batch_size,1)), z1), axis=1)) / batch_size
-#         change1 = np.matmul(delta1.T, xtemp1) / batch_size
-# #       sum of training pattern
-#         w3_new = learning_rate * (change3 - 0.001*w3)+0.9*momentum3
-#         w2_new = learning_rate * (change2 - 0.001*w2)+0.9*momentum2
-#         w1_new = learning_rate * (change1 - 0.001*w1)+0.9*momentum1
-#         momentum3 = w3_new
-#         momentum2 = w2_new
-#         momentum1 = w1_new
-#         dbeta = np.matmul(delta1, w1[:,1:])
-#         dgamma = sum(dbeta * xtemp) / batch_size
-#         dbeta = sum(dbeta) / batch_size
-#         gamma1 = gamma1 + 0.0005*dgamma
-#         beta1 = beta1 + 0.0005*dbeta
-#         dbeta = np.matmul(delta2, w2[:,1:])
-#         dgamma = sum(dbeta * z1) / batch_size
-#         dbeta = sum(dbeta) / batch_size
-#         gamma2 = gamma2 + 0.0005*dgamma
-#         beta2 = beta2 + 0.0005*dbeta
-# #       update w2
-#         w3 = w3 + w3_new
-#         w2 = w2 + w2_new
-# #       update w1
-#         w1 = w1 + w1_new
-#         if math.isnan(w1[0,0]) | j==47:
-#              print(j)
-#              print(iteration)
-#              print(w1_new)
-#              print(delta1)
-#              print(delta2)
-#              print(delta3)
-#              print(z2)
-#              print(z1)
-#              IPython.embed()
-# #     mean square error
-# #     mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
-# #     [~,i]=max(a,[],2);
-# #
-# #     Acc(iteration)
-#     print(f'iteration: {iteration}')
-# #     plot map and decision boundary
-# #     calculate hidden layer
-#     xbar = np.mean(xtest, axis=1).reshape(xtest.shape[0], 1)
-#     xvar = np.var(xtest.T, axis=0).T.reshape(xtest.shape[0], 1)
-#     xtest1 = np.divide((xtest - xbar), np.sqrt(xvar+1e-8))
-#     xtest2 = np.concatenate((np.ones((xtest.shape[0],1)), gamma1*xtest1+beta1), axis=1)
-#     z1 = 1 / (1 + np.exp(-np.matmul(w1, xtest2.T))).T
-#
-# #     %zbar = mean(z1,2);
-# #     %zvar = var(z1')';
-# #     %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
-#
-#     z11 = np.concatenate((np.ones((xtest.shape[0],1)), gamma2*z1+beta2), axis=1)
-#     z2 = np.matmul(w2, z11.T)
-#     z2 = z2 * (z2>0)
-#     z2 = z2.T
-# #     % cauculate output layer
-# #     %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
-#     nn = z1.shape[0]
-#     z3 = np.matmul(w3, np.concatenate((np.ones((1,nn)), z2.T), axis=0))
-#     z3 = z3.T
-# #     %for i=1:9
-# #     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
-# #     %end
-#     z3 = softmax(z3.T).T
-# #     [~,i]=max(z3,[],2);
-#     res = np.amax(z3, axis=1)
-#
-#     accuracy = np.sum(res==ytest) / nn * 100
-#     Acc[iteration] = accuracy
-#
-#
-#
-# # In[11]:
-#
-#
-# res == ytest
+        
+        z3 = softmax(z3,axis=1)
+        
 
+ #       calculate gradient output layer
+ #       dz2/d(w2*z1)
+        delta3 = y[p[:,j],:] - z3
+         #       calculate gragient hidden layer
+        delta2 = np.matmul(delta3, w3[:,1:]) * ( z2 > 0 )
+        
+         #       calculate gragient hidden layer
+         #       dz2/d(w1*xtemp1)
+        delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / rate_drop
+         #       delta1 = delta1.*(delta1>0);
+        change3 = np.matmul(delta3.T, np.concatenate((np.ones((batch_size,1)), z2), axis=1)) / batch_size
+        change2 = np.matmul(delta2.T, np.concatenate((np.ones((batch_size,1)), z1), axis=1)) / batch_size
+        change1 = np.matmul(delta1.T, xtemp1) / batch_size
+         #       sum of training pattern
+        w3_new = learning_rate * (change3 - 0.001*w3)+0.9*momentum3
+        w2_new = learning_rate * (change2 - 0.001*w2)+0.9*momentum2
+        w1_new = learning_rate * (change1 - 0.001*w1)+0.9*momentum1
+        momentum3 = w3_new
+        momentum2 = w2_new
+        momentum1 = w1_new
+        dbeta = np.matmul(delta1, w1[:,1:])
+        dgamma = sum(dbeta * xtemp) / batch_size
+        dbeta = sum(dbeta) / batch_size
+        gamma1 = gamma1 + 0.0005*dgamma
+        beta1 = beta1 + 0.0005*dbeta
+        dbeta = np.matmul(delta2, w2[:,1:])
+        dgamma = sum(dbeta * z1) / batch_size
+        dbeta = sum(dbeta) / batch_size
+        gamma2 = gamma2 + 0.0005*dgamma
+        beta2 = beta2 + 0.0005*dbeta
+        #       update w2
+        w3 = w3 + w3_new
+        w2 = w2 + w2_new
+        #       update w1
+        w1 = w1 + w1_new
+        if math.isnan(w1[0,0]):
+          print(j)
+          print(iteration)
+          print(w1_new)
+          print(delta1)
+          print(delta2)
+          print(delta3)
+          print(z2)
+          print(z1)
+          IPython.embed()
+         #     mean square error
+         #     mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
+         #     [~,i]=max(a,[],2);
+         #
+         #     Acc(iteration)
+        print(f'iteration: {iteration}')
+         #     plot map and decision boundary
+         #     calculate hidden layer
+        xbar = np.mean(xtest, axis=1).reshape(xtest.shape[0], 1)
+        xvar = np.var(xtest.T, axis=0).T.reshape(xtest.shape[0], 1)
+        xtest1 = np.divide((xtest - xbar), np.sqrt(xvar+1e-8))
+        xtest2 = np.concatenate((np.ones((xtest.shape[0],1)), gamma1*xtest1+beta1), axis=1)
+        z1 = 1 / (1 + np.exp(-np.matmul(w1, xtest2.T))).T
+        
+         #     %zbar = mean(z1,2);
+         #     %zvar = var(z1')';
+         #     %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
+        
+        z11 = np.concatenate((np.ones((xtest.shape[0],1)), gamma2*z1+beta2), axis=1)
+        z2 = np.matmul(w2, z11.T)
+        z2 = z2 * (z2>0)
+        z2 = z2.T
+         #     % cauculate output layer
+         #     %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
+        nn = z1.shape[0]
+        z3 = np.matmul(w3, np.concatenate((np.ones((1,nn)), z2.T), axis=0))
+        z3 = z3.T
+         #     %for i=1:9
+         #     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
+         #     %end
+        z3 = softmax(z3,axis=1)
+         #     [~,i]=max(z3,[],2);
+        res = np.argmax(z3, axis=1).T.reshape((-1,1))
+        
+        accuracy = np.sum(res==ytest) / nn * 100
+        print(accuracy)
+        Acc[iteration] = accuracy
+        
+        
+        
+         # In[11]:
+        
+        
+res == ytest
+        
