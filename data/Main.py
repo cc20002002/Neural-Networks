@@ -221,7 +221,7 @@ for iteration in np.arange(0, 1):
         z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0)) / 100
         z3 = z3.T
         print(z3)
-        z3 = softmax(z3.T).T
+        z3 = softmax(z3,axis=1).T
         print(z3)
         break
     break
