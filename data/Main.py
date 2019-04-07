@@ -92,7 +92,7 @@ def softmax(x):
     e = np.exp(x)
     # print(e)
     # print(np.sum(e, axis=1, keepdims=True))
-    return e / np.sum(e, axis=1, keepdims=True)
+    return e / np.sum(e, axis=0, keepdims=True)
 
 def one_hot_encoding(train_labels, dims):
     #vectorization half the time taken
@@ -217,7 +217,7 @@ for iteration in np.arange(0, 1):
         z2 = z2.T
         
         
-        z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0))
+        z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0)) / 100
         z3 = z3.T
         print(z3)
         z3 = softmax(z3.T).T
