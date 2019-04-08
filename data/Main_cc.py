@@ -33,14 +33,13 @@ print(f'Testing data set shape: {test_data_set_shape}')
 
 learning_rate = 0.11
 max_iteration = 50
-droput_rate = 1
+droput_rate = .8
 batch_size = 1024
 hidden_layer_dim = 150
 output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 50176
 
 
-rate_drop=1
 
 # In[3]:
 
@@ -201,10 +200,11 @@ for iteration in np.arange(0, max_iteration):
 #       cauculate output layer
 #       z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
         #np.random.seed(3)
-        drop = np.random.rand(batch_size, hidden_layer_dim) < rate_drop
-        z1 = z1 * drop / rate_drop
+        drop = np.random.rand(batch_size, hidden_layer_dim) < droput_rate
+        z1 = z1 * drop / droput_rate
         
         
+        ##
 #       batch normalisation        
         zbar = np.mean(z1,axis=0).reshape(1,-1)        
         zvar = np.var(z1, axis=0,ddof=1).reshape(1,-1)
@@ -217,7 +217,7 @@ for iteration in np.arange(0, max_iteration):
         z2 = z2 * (z2 > 0)
         z2 = z2.T
         
-        
+        ##
         z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0))
         z3 = z3.T
         
@@ -232,7 +232,7 @@ for iteration in np.arange(0, max_iteration):
         
          #       calculate gragient hidden layer
          #       dz2/d(w1*xtemp1)
-        delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / rate_drop
+        delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / droput_rate
          #       delta1 = delta1.*(delta1>0);
         change3 = np.matmul(delta3.T, np.concatenate((np.ones((batch_size,1)), z2), axis=1)) / batch_size
         change2 = np.matmul(delta2.T, ztemp1) / batch_size
