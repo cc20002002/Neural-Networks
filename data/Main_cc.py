@@ -31,16 +31,46 @@ print(f'Training data set shape: {train_data_set_shape}')
 print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
-learning_rate = 0.11
+learning_rate = 0.1
+max_iteration = 250
+dropout_rate = 1
+batch_size = 1024
+hidden_layer_dim = 161
+output_layer_dim = len(set(train_labels_set[:,0]))
+trainsize = 50176
+moment_coef=0.88
+weight_decaying=0.0005
+
+non_linear='sigmoid'
+#non_linear='tanh'
+
+''' 0.89 use sigmoid: 
+learning_rate = 0.1
+max_iteration = 250
+dropout_rate = 1
+batch_size = 1024
+hidden_layer_dim = 161
+output_layer_dim = len(set(train_labels_set[:,0]))
+trainsize = 50176
+moment_coef=0.88
+weight_decaying=0.0005
+no moment and weight decaying for gamma and beta
+    '''
+    
+    
+''' 0.88   tanh:
+learning_rate = 0.005
 max_iteration = 50
-droput_rate = .8
+dropout_rate = 1
 batch_size = 1024
 hidden_layer_dim = 150
 output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 50176
+moment_coef=0.88
+weight_decaying=0.11
 
-
-
+no moment and weight decaying for gamma and beta
+'''
 # In[3]:
 
 
@@ -180,7 +210,10 @@ vars2=np.zeros((batches,hidden_layer_dim));
 #p = np.arange(trainsize).reshape((batch_size, batches))
 p = np.arange(trainsize).reshape((batches,batch_size)).T
 
-
+beta1_new=0
+gamma1_new=0
+beta2_new=0
+gamma2_new=0
 
 for iteration in np.arange(0, max_iteration):
     for j in np.arange(0, batches):
@@ -196,12 +229,17 @@ for iteration in np.arange(0, max_iteration):
         
 #       calculate hidden layer
         #possible overflow todo
-        z1 = 1 / (1 + np.exp(- np.matmul(w1, xtemp1.T))).T
+        # sigmoid
+        if non_linear=='sigmoid':
+            z1 = 1 / (1 + np.exp(- np.matmul(w1, xtemp1.T))).T
+        # tanh
+        elif non_linear=='tanh':
+            z1 =  (np.tanh(np.matmul(w1, xtemp1.T))).T
 #       cauculate output layer
 #       z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
         #np.random.seed(3)
-        drop = np.random.rand(batch_size, hidden_layer_dim) < droput_rate
-        z1 = z1 * drop / droput_rate
+        
+        #z1 = z1 * drop / dropout_rate
         
         
         ##
@@ -213,12 +251,15 @@ for iteration in np.arange(0, max_iteration):
         ztemp = (z1 - zbar)/np.sqrt(zvar+1e-8);            
         ztemp1 = np.concatenate((np.ones((batch_size,1)), gamma2*ztemp+beta2), axis=1)           
         
-        z2 = np.matmul(w2, ztemp1.T)
+        dropz1 = np.random.rand(hidden_layer_dim,hidden_layer_dim+1) < dropout_rate
+        
+        z2 = np.matmul(w2*dropz1, ztemp1.T)
         z2 = z2 * (z2 > 0)
         z2 = z2.T
         
         ##
-        z3 = np.matmul(w3, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0))
+        dropz2 = np.random.rand(output_layer_dim,hidden_layer_dim+1) < dropout_rate
+        z3 = np.matmul(w3*dropz2, np.concatenate((np.ones((1, batch_size)), z2.T), axis=0))
         z3 = z3.T
         
         z3 = softmax(z3,axis=1)
@@ -228,32 +269,39 @@ for iteration in np.arange(0, max_iteration):
  #       dz2/d(w2*z1)
         delta3 = y[p[:,j],:] - z3
          #       calculate gragient hidden layer
-        delta2 = np.matmul(delta3, w3[:,1:]) * ( z2 > 0 )
+        delta2 = np.matmul(delta3, w3[:,1:]*dropz2[:,1:]) * ( z2 > 0 )
         
          #       calculate gragient hidden layer
          #       dz2/d(w1*xtemp1)
-        delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / droput_rate
+        #sigmoid
+        if non_linear=='sigmoid':
+            delta1 = z1 * (1 - z1) * (np.matmul(delta2, w2[:,1:]*dropz1[:,1:])) 
+        #tanh
+        elif non_linear=='tanh':
+            delta1 = (1 - np.tanh(z1)**2) * (np.matmul(delta2, w2[:,1:]*dropz1[:,1:])) 
          #       delta1 = delta1.*(delta1>0);
         change3 = np.matmul(delta3.T, np.concatenate((np.ones((batch_size,1)), z2), axis=1)) / batch_size
         change2 = np.matmul(delta2.T, ztemp1) / batch_size
         change1 = np.matmul(delta1.T, xtemp1) / batch_size
          #       sum of training pattern
-        w3_new = learning_rate * (change3 - 0.0005*w3)+0.88*momentum3
-        w2_new = learning_rate * (change2 - 0.0005*w2)+0.88*momentum2
-        w1_new = learning_rate * (change1 - 0.0005*w1)+0.88*momentum1
-        momentum3 = w3_new
-        momentum2 = w2_new
-        momentum1 = w1_new
+        w3_new = learning_rate * (change3 - weight_decaying*w3*dropz2)+moment_coef*w3_new
+        w2_new = learning_rate * (change2 - weight_decaying*w2*dropz1)+moment_coef*w2_new
+        w1_new = learning_rate * (change1 - weight_decaying*w1)+moment_coef*w1_new
+        
         dbeta = np.matmul(delta1, w1[:,1:])
         dgamma = sum(dbeta * xtemp) / batch_size
         dbeta = sum(dbeta) / batch_size
-        gamma1 = gamma1 + learning_rate*dgamma
-        beta1 = beta1 + learning_rate*dbeta
-        dbeta = np.matmul(delta2, w2[:,1:])
+        gamma1_new = learning_rate*(dgamma - weight_decaying*gamma1)+moment_coef*gamma1_new
+        beta1_new = learning_rate*(dbeta - weight_decaying*beta1)+moment_coef*beta1_new
+        gamma1 = gamma1 + gamma1_new
+        beta1 = beta1 + beta1_new
+        dbeta = np.matmul(delta2, w2[:,1:]*dropz1[:,1:])
         dgamma = sum(dbeta * z1) / batch_size
         dbeta = sum(dbeta) / batch_size
-        gamma2 = gamma2 + learning_rate*dgamma
-        beta2 = beta2 + learning_rate*dbeta
+        gamma2_new = learning_rate*(dgamma - weight_decaying*gamma2)+moment_coef*gamma2_new
+        beta2_new = learning_rate*(dbeta - weight_decaying*beta2)+moment_coef*beta2_new
+        gamma2 = gamma2 + gamma2_new
+        beta2 = beta2 + beta2_new
         #       update w2
         w3 = w3 + w3_new
         w2 = w2 + w2_new
@@ -282,8 +330,10 @@ for iteration in np.arange(0, max_iteration):
     xvar = np.mean(vars1, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
     xtest1 = np.divide((xtest - xbar), np.sqrt(xvar+1e-8))
     xtest2 = np.concatenate((np.ones((xtest.shape[0],1)), gamma1*xtest1+beta1), axis=1)
-    z1 = 1 / (1 + np.exp(-np.matmul(w1, xtest2.T))).T
-    
+    if non_linear=='sigmoid':
+        z1 = 1 / (1 + np.exp(-np.matmul(w1, xtest2.T))).T
+    elif non_linear=='tanh':
+        z1 =  (np.tanh(np.matmul(w1, xtest2.T))).T
      #     %zbar = mean(z1,2);
      #     %zvar = var(z1')';
      #     %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
@@ -292,13 +342,13 @@ for iteration in np.arange(0, max_iteration):
     zvar = np.mean(vars2, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
     ztemp = np.divide((z1 - zbar), np.sqrt(zvar+1e-8))
     z11 = np.concatenate((np.ones((xtest.shape[0],1)), gamma2*ztemp+beta2), axis=1)
-    z2 = np.matmul(w2, z11.T)
+    z2 = np.matmul(w2*dropout_rate, z11.T)
     z2 = z2 * (z2>0)
     z2 = z2.T
      #     % cauculate output layer
      #     %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
     nn = z1.shape[0]
-    z3 = np.matmul(w3, np.concatenate((np.ones((1,nn)), z2.T), axis=0))
+    z3 = np.matmul(w3*dropout_rate, np.concatenate((np.ones((1,nn)), z2.T), axis=0))
     z3 = z3.T
      #     %for i=1:9
      #     %    o = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z']))';
