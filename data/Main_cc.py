@@ -40,7 +40,7 @@ output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 50176
 
 
-rate_drop=0.92
+rate_drop=1
 
 # In[3]:
 
@@ -158,8 +158,8 @@ Loss = np.zeros(( max_iteration,1))
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-#np.random.seed(3)
-#todo:convert it back to Monte carlo
+np.random.seed(3)
+
 w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
 w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
 w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
@@ -205,10 +205,7 @@ for iteration in np.arange(0, max_iteration):
         z1 = z1 * drop / rate_drop
         
         
-#         %zbar = mean(z1,2);        
-#         %zvar = var(z1')';
-#         %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
-        
+#       batch normalisation        
         zbar = np.mean(z1,axis=0).reshape(1,-1)        
         zvar = np.var(z1, axis=0,ddof=1).reshape(1,-1)
         means2[j,:]=zbar
@@ -280,6 +277,7 @@ for iteration in np.arange(0, max_iteration):
     print(f'iteration: {iteration}')
          #     plot map and decision boundary
          #     calculate hidden layer
+#       batch normalisation
     xbar = np.mean(means1, axis=0).reshape(1, -1)
     xvar = np.mean(vars1, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
     xtest1 = np.divide((xtest - xbar), np.sqrt(xvar+1e-8))
