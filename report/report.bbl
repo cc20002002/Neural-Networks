@@ -1,0 +1,124 @@
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Lee and Seung(2001)]{lee2001algorithms}
+Daniel~D. Lee and H.~Sebastian Seung.
+\newblock Algorithms for non-negative matrix factorization.
+\newblock In T.~K. Leen, T.~G. Dietterich, and V.~Tresp, editors,
+  \emph{Advances in Neural Information Processing Systems 13}, pages 556--562.
+  MIT Press, 2001.
+\newblock URL
+  \url{http://papers.nips.cc/paper/1861-algorithms-for-non-negative-matrix-factorization.pdf}.
+
+\bibitem[Lee and Seung(1999)]{lee1999learning}
+Daniel~D Lee and H~Sebastian Seung.
+\newblock Learning the parts of objects by non-negative matrix factorization.
+\newblock \emph{Nature}, 401\penalty0 (6755):\penalty0 788, 1999.
+
+\bibitem[Guillamet and Vitri{\`a}(2002)]{guillamet2002non}
+David Guillamet and Jordi Vitri{\`a}.
+\newblock Non-negative matrix factorization for face recognition.
+\newblock In \emph{Topics in artificial intelligence}, pages 336--344.
+  Springer, 2002.
+
+\bibitem[Berry et~al.(2007)Berry, Browne, Langville, Pauca, and
+  Plemmons]{berry2007algorithms}
+Michael~W Berry, Murray Browne, Amy~N Langville, V~Paul Pauca, and Robert~J
+  Plemmons.
+\newblock Algorithms and applications for approximate nonnegative matrix
+  factorization.
+\newblock \emph{Computational statistics \& data analysis}, 52\penalty0
+  (1):\penalty0 155--173, 2007.
+
+\bibitem[Guan et~al.(2017)Guan, Liu, Zhang, Tao, and Davis]{guan2017truncated}
+Naiyang Guan, Tongliang Liu, Yangmuzi Zhang, Dacheng Tao, and Larry~Steven
+  Davis.
+\newblock Truncated cauchy non-negative matrix factorization for robust
+  subspace learning.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 2017.
+
+\bibitem[Yang et~al.(2011)Yang, Zhang, Yuan, and Oja]{yang2011kullback}
+Zhirong Yang, He~Zhang, Zhijian Yuan, and Erkki Oja.
+\newblock Kullback-leibler divergence for nonnegative matrix factorization.
+\newblock In \emph{International Conference on Artificial Neural Networks},
+  pages 250--257. Springer, 2011.
+
+\bibitem[Lin(2007)]{lin2007convergence}
+Chih-Jen Lin.
+\newblock On the convergence of multiplicative update algorithms for
+  nonnegative matrix factorization.
+\newblock \emph{IEEE Transactions on Neural Networks}, 18\penalty0
+  (6):\penalty0 1589--1596, 2007.
+
+\bibitem[Guan et~al.(2012)Guan, Tao, Luo, and Yuan]{guan2012nenmf}
+Naiyang Guan, Dacheng Tao, Zhigang Luo, and Bo~Yuan.
+\newblock Nenmf: An optimal gradient method for nonnegative matrix
+  factorization.
+\newblock \emph{IEEE Transactions on Signal Processing}, 60\penalty0
+  (6):\penalty0 2882--2898, 2012.
+
+\bibitem[Kim and Park(2008)]{kim2008nonnegative}
+Hyunsoo Kim and Haesun Park.
+\newblock Nonnegative matrix factorization based on alternating nonnegativity
+  constrained least squares and active set method.
+\newblock \emph{SIAM journal on matrix analysis and applications}, 30\penalty0
+  (2):\penalty0 713--730, 2008.
+
+\bibitem[Lam(2008)]{lam2008non}
+Edmund~Y Lam.
+\newblock Non-negative matrix factorization for images with laplacian noise.
+\newblock In \emph{Circuits and Systems, 2008. APCCAS 2008. IEEE Asia Pacific
+  Conference on}, pages 798--801. IEEE, 2008.
+
+\bibitem[Kong et~al.(2011)Kong, Ding, and Huang]{kong2011robust}
+Deguang Kong, Chris Ding, and Heng Huang.
+\newblock Robust nonnegative matrix factorization using l21-norm.
+\newblock In \emph{Proceedings of the 20th ACM international conference on
+  Information and knowledge management}, pages 673--682. ACM, 2011.
+
+\bibitem[Barbu(2013)]{barbu2013variational}
+Tudor Barbu.
+\newblock Variational image denoising approach with diffusion porous media
+  flow.
+\newblock In \emph{Abstract and Applied Analysis}, volume 2013. Hindawi, 2013.
+
+\bibitem[Liu and Tao(2016)]{liu2015performance}
+Tongliang Liu and Dacheng Tao.
+\newblock On the performance of manhattan nonnegative matrix factorization.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems},
+  27\penalty0 (9):\penalty0 1851--1863, September 2016.
+\newblock \doi{10.1109/TNNLS.2015.2458986}.
+
+\bibitem[Fevotte and Idier(2011)]{scaless}
+Cedric Fevotte and Jerome Idier.
+\newblock Algorithms for nonnegative matrix factorization with the
+  $\beta$-divergence.
+\newblock \emph{Neural Computation}, 23\penalty0 (9):\penalty0 2421--2456,
+  2011.
+\newblock \doi{10.1162/NECO\_a\_00168}.
+
+\bibitem[Walck(1996)]{Walck:1996cca}
+Christian Walck.
+\newblock \emph{{Hand-book on statistical distributions for experimentalists}}.
+\newblock 1996.
+\newblock URL \url{http://www.fysik.su.se/~walck/suf9601.pdf}.
+
+\bibitem[Sampat et~al.(2005)Sampat, Markey, Bovik, et~al.]{sampat2005computer}
+Mehul~P Sampat, Mia~K Markey, Alan~C Bovik, et~al.
+\newblock Computer-aided detection and diagnosis in mammography.
+\newblock \emph{Handbook of image and video processing}, 2\penalty0
+  (1):\penalty0 1195--1217, 2005.
+
+\bibitem[Belhumeur et~al.(1997)Belhumeur, Hespanha, and
+  Kriegman]{belhumeur1997eigenfaces}
+Peter~N Belhumeur, Jo{\~a}o~P Hespanha, and David~J Kriegman.
+\newblock Eigenfaces vs. fisherfaces: Recognition using class specific linear
+  projection.
+\newblock Technical report, Yale University New Haven United States, 1997.
+
+\end{thebibliography}

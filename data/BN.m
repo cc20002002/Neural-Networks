@@ -8,12 +8,13 @@ clear, close all
 
 
 %
-test=hdf5info('test_128.h5');
-test= hdf5read(test.GroupHierarchy.Datasets)';
-x=hdf5info('train_128.h5');
-x= hdf5read(x.GroupHierarchy.Datasets)';
-y=hdf5info('train_label.h5');
-y= double(hdf5read(y.GroupHierarchy.Datasets));
+load inputdata
+%test_128=hdf5info('test_128.h5');
+test= hdf5read(test_128.GroupHierarchy.Datasets)';
+%train_128=hdf5info('train_128.h5');
+x= hdf5read(train_128.GroupHierarchy.Datasets)';
+%train_label=hdf5info('train_label.h5');
+y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 
 
 
@@ -49,21 +50,22 @@ x_min = min(min(x));
 x_max = max(max(x));
 
 % learning
-lr = 0.11;   % learning rate
-max_iteration = 15;    
-numHid = 32; % hidden(midle) layer's unit size
+lr = 0.1;   % learning rate
+max_iteration = 250;
+for hidden_layer_dim= 165:3:171
+%numHid = 190; % hidden(midle) layer's unit size
 
 % init
-loss = 1 : max_iteration;
-w1_new = zeros(numHid, numFV + 1);
-w2_new = zeros(numHid, numHid + 1);
-w3_new = zeros(numOut, numHid + 1);
+loss = zeros(1 , max_iteration);
+w1_new = zeros(hidden_layer_dim, numFV + 1);
+w2_new = zeros(hidden_layer_dim, hidden_layer_dim + 1);
+w3_new = zeros(numOut, hidden_layer_dim + 1);
 
 % weight value range[-1-1]
 rng(3)
-w1 = 2 * rand(numHid, numFV + 1) - 1;
-w2 = 2 * rand(numHid, numHid + 1) - 1;
-w3 = 2 * rand(numOut, numHid + 1) - 1;
+w1 = 2 * rand(numFV + 1,hidden_layer_dim)' - 1;
+w2 = 2 * rand(hidden_layer_dim + 1,hidden_layer_dim)' - 1;
+w3 = 2 * rand(hidden_layer_dim + 1,numOut)' - 1;
 %w1 = w1/100
 %w2 = w2/100
 
@@ -72,20 +74,27 @@ momentum2=0;
 momentum3=0;
 % 
 size_batch=1024;
-js=trainsize/size_batch;
-p = reshape(1:trainsize,[size_batch js]);
-gamma1=1;
-beta1=0;
-gamma2=1;
-beta2=0;
-for iteration = 1 : max_iteration      
-    for j=1:js
+batches=trainsize/size_batch;
+p = reshape(1:trainsize,[size_batch batches]);
+gamma1=ones(1,numFV);
+beta1=zeros(1,numFV);
+gamma2=ones(1,hidden_layer_dim);
+beta2=zeros(1,hidden_layer_dim);
+means1=zeros(batches,numFV);
+vars1=zeros(batches,numFV);
+means2=zeros(batches,hidden_layer_dim);
+vars2=zeros(batches,hidden_layer_dim);
+for iteration = 1 : max_iteration
+    
+    for j=1:batches
         rate_drop=1;
         %
         xtemp = x(p(:,j),:);        
         %batch normalisation
-        xbar = mean(xtemp,2);        
-        xvar = var(xtemp')';
+        xbar = mean(xtemp,1);        
+        xvar = var(xtemp);
+        means1(j,:)=xbar;
+        vars1(j,:)=xvar;
         xtemp = (xtemp - xbar)./sqrt(xvar+1e-8);
         xtemp1 = [ones(size_batch,1) gamma1.*xtemp+beta1];
         
@@ -95,15 +104,20 @@ for iteration = 1 : max_iteration
         % cauculate output layer
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
         rng(3)
-        drop = rand(numHid,size_batch)'<rate_drop;
+        drop = rand(hidden_layer_dim,size_batch)'<rate_drop;
         z1 = z1 .* drop/rate_drop;
         
         %zbar = mean(z1,2);        
         %zvar = var(z1')';
         %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
+        zbar = mean(z1,1);        
+        zvar = var(z1);
+        means2(j,:)=zbar;
+        vars2(j,:)=zvar;
+        ztemp = (z1 - zbar)./sqrt(zvar+1e-8);                
+        ztemp1 = [ones(size_batch,1) gamma2.*ztemp+beta2]; 
         
-        z11 = [ones(size_batch,1) gamma2.*z1+beta2];           
-        z2 = w2 * z11';
+        z2 = w2 * ztemp1';
         z2 = z2 .* (z2>0);      
         z2 = z2';
         
@@ -121,25 +135,25 @@ for iteration = 1 : max_iteration
         %delta1 = delta1.*(delta1>0);
         change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
-        change1 = delta1' * xtemp1/size_batch;
+        change1 = delta1' * ([gamma1 1].*xtemp1+[beta1 0])/size_batch;
         % sum of training pattern
-        w3_new = lr * (change3 - 0.001*w3)+0.9*momentum3;
-        w2_new = lr * (change2 - 0.001*w2)+0.9*momentum2;
-        w1_new = lr * (change1 - 0.001*w1)+0.9*momentum1;
+        w3_new = lr * (change3 - 0.0005*w3)+(0.95-0.005*min(iteration,15))*momentum3;
+        w2_new = lr * (change2 - 0.0005*w2)+(0.95-0.005*min(iteration,15))*momentum2;
+        w1_new = lr * (change1 - 0.0005*w1)+(0.95-0.005*min(iteration,15))*momentum1;
         momentum3 = w3_new;
         momentum2 = w2_new;
         momentum1 = w1_new;
         dbeta = delta1 * w1(:,2:end);
         dgamma = sum(dbeta.*xtemp)/size_batch;
         dbeta = sum(dbeta)/size_batch;
-        gamma1 = gamma1 + 0.0005*dgamma;
-        beta1 = beta1 + 0.0005*dbeta;
+        gamma1 = gamma1 + lr*dgamma;
+        beta1 = beta1 + lr*dbeta;
         
         dbeta = delta2 * w2(:,2:end);
-        dgamma = sum(dbeta.*z1)/size_batch;
+        dgamma = sum(dbeta.*ztemp)/size_batch;
         dbeta = sum(dbeta)/size_batch;
-        gamma2 = gamma2 + 0.0005*dgamma;
-        beta2 = beta2 + 0.0005*dbeta;
+        gamma2 = gamma2 + lr*dgamma;
+        beta2 = beta2 + lr*dbeta;
         % update w2
         w3 = w3 + w3_new;
         w2 = w2 + w2_new;
@@ -151,22 +165,23 @@ for iteration = 1 : max_iteration
     %[~,i]=max(a,[],2);
     %
     %loss(iteration)
-    iteration
+    %iteration
     %% plot map and decision boundary
     % calculate hidden layer
+        
+
     
-    
-    xbar = mean(xtest,2);        
-    xvar = var(xtest')';
+    xbar = mean(means1,1);
+    xvar = mean(vars1,1)*size_batch/(size_batch-1);
     xtest1 = (xtest - xbar)./sqrt(xvar+1e-8);
     xtest2 = [ones(size(xtest,1),1) gamma1.*xtest1+beta1];
-    z1 = 1 ./ (1 + exp(-w1 * xtest2'))';
     
-    %zbar = mean(z1,2);        
-    %zvar = var(z1')';
-    %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
+    z1 = 1 ./ (1 + exp(-w1 * xtest2'))';    
+    zbar = mean(means2,1);        
+    zvar = mean(vars2,1)*size_batch/(size_batch-1);
+    ztemp = (z1 - zbar)./sqrt(zvar+1e-8);      
+    z11 = [ones(size(xtest,1),1) gamma2.*ztemp+beta2]; 
     
-    z11 = [ones(size(xtest,1),1) gamma2.*z1+beta2];    
     z2 = w2 * z11';
     z2 = z2 .* (z2>0);      
     z2 = z2';
@@ -181,11 +196,15 @@ for iteration = 1 : max_iteration
     z3 = softmax(z3')';
     [~,i]=max(z3,[],2);
 
-    accuracy = sum(i==(ytest+1)) / nn * 100
+    accuracy = sum(i==(ytest+1)) / nn * 100;    
+    if iteration==100 |iteration==200 |iteration==250
+        hidden_layer_dim
+        max(loss(1:iteration))
+    end
     loss(iteration) = accuracy;
     
 end
-
+end
 % visualize learning
 figure(2)
 subplot(4,1,1)
@@ -194,7 +213,7 @@ title('input-hidden weight')
 ylabel('input layer')
 xlabel('hidden layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
 ax.YTick = 1:20:numFV;
 colorbar
 
@@ -204,8 +223,8 @@ title('hidden-hidden weight')
 xlabel('hidden layer')
 ylabel('hidden layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
-ax.YTick = 1:5:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
+ax.YTick = 1:5:hidden_layer_dim;
 colormap(hot);
 colorbar
 
@@ -215,7 +234,7 @@ title('hidden-output weight')
 xlabel('hidden layer')
 ylabel('output layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
 ax.YTick = 1:5:numOut;
 colormap(hot);
 colorbar

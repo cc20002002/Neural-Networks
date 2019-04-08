@@ -8,12 +8,13 @@ clear, close all
 
 
 %
-test=hdf5info('test_128.h5');
-test= hdf5read(test.GroupHierarchy.Datasets)';
-x=hdf5info('train_128.h5');
-x= hdf5read(x.GroupHierarchy.Datasets)';
-y=hdf5info('train_label.h5');
-y= double(hdf5read(y.GroupHierarchy.Datasets));
+load inputdata
+%test_128=hdf5info('test_128.h5');
+test= hdf5read(test_128.GroupHierarchy.Datasets)';
+%train_128=hdf5info('train_128.h5');
+x= hdf5read(train_128.GroupHierarchy.Datasets)';
+%train_label=hdf5info('train_label.h5');
+y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 
 
 
@@ -74,13 +75,18 @@ momentum3=0;
 size_batch=1024;
 js=trainsize/size_batch;
 p = reshape(1:trainsize,[size_batch js]);
-gamma1=1;
+gamma1=ones(1,numFV);
 beta1=0;
-gamma2=1;
-beta2=0;
-for iteration = 1 : max_iteration      
+gamma2=ones(1,numHid);
+beta2=zeros(1,numHid);
+beta1s=zeros(js,numFV);
+gamma1s=zeros(js,numFV);
+beta2s=zeros(js,numHid);
+gamma2s=zeros(js,numHid);
+for iteration = 1 : max_iteration
+    
     for j=1:js
-        rate_drop=1;
+        rate_drop=.92;
         %
         xtemp = x(p(:,j),:);        
         %batch normalisation
@@ -121,7 +127,7 @@ for iteration = 1 : max_iteration
         %delta1 = delta1.*(delta1>0);
         change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
-        change1 = delta1' * xtemp1/size_batch;
+        change1 = delta1' * ([gamma1 1].*xtemp1+[beta1 0])/size_batch;
         % sum of training pattern
         w3_new = lr * (change3 - 0.001*w3)+0.9*momentum3;
         w2_new = lr * (change2 - 0.001*w2)+0.9*momentum2;
@@ -145,6 +151,8 @@ for iteration = 1 : max_iteration
         w2 = w2 + w2_new;
         % update w1
         w1 = w1 + w1_new;
+        beta1s(j,:)=beta1;
+        gamma1s(j,:)=gamma1;
     end    
     % mean square error
     %mse(1,iteration) = sum(sum((o-t).^2)')/(numTP*numOut)
@@ -159,6 +167,8 @@ for iteration = 1 : max_iteration
     xbar = mean(xtest,2);        
     xvar = var(xtest')';
     xtest1 = (xtest - xbar)./sqrt(xvar+1e-8);
+    gamma1 = gamma1;
+    beta1 = beta1;
     xtest2 = [ones(size(xtest,1),1) gamma1.*xtest1+beta1];
     z1 = 1 ./ (1 + exp(-w1 * xtest2'))';
     

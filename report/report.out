@@ -1,0 +1,25 @@
+\BOOKMARK [1][]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][]{section.2}{Related work}{}% 2
+\BOOKMARK [1][]{section.3}{Methods }{}% 3
+\BOOKMARK [2][]{subsection.3.1}{NMF and Gaussian noise}{section.3}% 4
+\BOOKMARK [2][]{subsection.3.2}{KLNMF and Poisson noise}{section.3}% 5
+\BOOKMARK [2][]{subsection.3.3}{Preprocess}{section.3}% 6
+\BOOKMARK [2][]{subsection.3.4}{Gaussian and Poisson are asymptotic equivalent}{section.3}% 7
+\BOOKMARK [2][]{subsection.3.5}{Salt \046 Pepper noise}{section.3}% 8
+\BOOKMARK [2][]{subsection.3.6}{Multiple initial estimates assure the algorithms stable}{section.3}% 9
+\BOOKMARK [2][]{subsection.3.7}{KLNMF requires more iterations}{section.3}% 10
+\BOOKMARK [2][]{subsection.3.8}{Evaluation metrics and their confidence intervals }{section.3}% 11
+\BOOKMARK [2][]{subsection.3.9}{Statistical method compares the robustness of algorithms}{section.3}% 12
+\BOOKMARK [1][]{section.4}{Experiments}{}% 13
+\BOOKMARK [2][]{subsection.4.1}{Dataset}{section.4}% 14
+\BOOKMARK [2][]{subsection.4.2}{Noise}{section.4}% 15
+\BOOKMARK [3][]{subsubsection.4.2.1}{Gaussian Noise}{subsection.4.2}% 16
+\BOOKMARK [3][]{subsubsection.4.2.2}{Poisson Noise}{subsection.4.2}% 17
+\BOOKMARK [3][]{subsubsection.4.2.3}{Salt \046 Pepper Noise}{subsection.4.2}% 18
+\BOOKMARK [2][]{subsection.4.3}{Experiment Setup}{section.4}% 19
+\BOOKMARK [2][]{subsection.4.4}{Experiments Results}{section.4}% 20
+\BOOKMARK [3][]{subsubsection.4.4.1}{Two algorithms output similar reconstructed images}{subsection.4.4}% 21
+\BOOKMARK [3][]{subsubsection.4.4.2}{Hypothesis test distinguishes the difference in RRE}{subsection.4.4}% 22
+\BOOKMARK [3][]{subsubsection.4.4.3}{ACC and NMI results}{subsection.4.4}% 23
+\BOOKMARK [2][]{subsection.4.5}{Personal Reflection}{section.4}% 24
+\BOOKMARK [1][]{section.5}{Conclusion}{}% 25

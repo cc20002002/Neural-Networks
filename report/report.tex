@@ -1,0 +1,189 @@
+\documentclass[a4paper,english,12pt]{article}
+%\usepackage[lwarpmk]{lwarp}
+\usepackage{titlesec}
+\usepackage{cc}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage[usenames,dvipsnames]{color}
+\graphicspath{ {./images/} }
+\usepackage[dvipsnames]{xcolor}
+\titleformat*{\section}{\color{Brown}\normalfont\bfseries\Large}
+\usepackage{prettyref}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage{mathptmx}
+\usepackage{framed}
+\usepackage{array}
+\usepackage{csvsimple,longtable,booktabs}
+\newlength{\mycolwidth}
+\settowidth{\mycolwidth}{2cm} % widest entry
+
+
+%\usepackage[unicode=true,pdfusetitle,
+% bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+% breaklinks=false,pdfborder={0 0 1},backref=section,colorlinks=false]{hyperref}
+
+\usepackage{pdfcomment}
+
+%\newcommand{\dania}[1]{}
+%\newcommand{\joyce}[1]{}
+\newcommand{\chenc}[1]{\pdfcomment[author=Chen,color={1 0.5 0.5},subject={#1}]{#1}}
+\newcommand{\dania}[1]{\pdfcomment[author=Dania,color={1 1 1},subject={#1}]{#1}}
+\newcommand{\joyce}[1]{\pdfcomment[author=Joyce,color={1 0 1},subject={#1}]{#1}}
+%\geometry{bindingoffset=2cm}
+
+
+\usepackage{lipsum}
+
+\hypersetup{colorlinks,
+	linkcolor=red!95!black,%YellowOrange!85!black,
+	citecolor=blue!85!black,
+	pagecolor=blue!95!black,%
+        urlcolor=magenta,filecolor=magenta,breaklinks,%
+        dvips,bookmarks,bookmarksopen}
+
+%\hypersetup{
+%  linkcolor  = violet!\myshade!black,
+%  citecolor  = YellowOrange!\myshade!black,
+%  urlcolor   = Aquamarine!\myshade!black,
+%  colorlinks = true
+%}
+
+\makeatletter
+%\usepackage{pgfplots}
+%\usepackage{tikz}
+%\usepgfplotslibrary{external}
+%\usetikzlibrary{external}
+%\usepgflibrary{ plotmarks }
+%\usetikzlibrary{arrows}
+%\usetikzlibrary{plotmarks}
+%\tikzexternalize[prefix = resource/]%, mode=list and make
+%\tikzset{external/mode=graphics if exists}
+%% the following forces redraw of all, if you reorder graphs
+%tikzset{external/force remake}
+\usepackage{microtype}
+%
+\usepackage{doi}
+%\bibpunct{(}{)}{;}{a}{,}{,}
+
+\renewcommand{\MakeUppercase}[1]{\color{green!50!black}\textsf{#1}}
+%\usepackage{pdfsync}
+\usepackage{amsfonts}
+\usepackage{amscd}
+\usepackage{bm}
+\usepackage{euler}
+\usepackage{url}
+%\graphicspath{resource/}
+%\graphicspath{./resource/}
+\newcommand{\pde}{{\textsc{pde}}}
+\newcommand{\res}{{\operatorname{Res}}}
+\newcommand{\D}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\DD}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\pp}{{}+}
+\newcommand{\Ord}{\mathcal{O}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\ode}{{\textsc{ode}}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\lhs}{{\textsc{lhs}}}
+\newcommand{\rhs}{{\textsc{rhs}}}
+\newcommand{\dd}[2]{\frac{\partial #1}{\partial #2}}
+
+\usepackage{listings}
+\lstset{escapeinside={(*@}{@*)}}
+\usepackage{inconsolata}
+\usepackage{textcomp}
+%% Actual colors from idlelib/config-highlight.def --> corrected to ``web-safe''
+%% strings  = #00aa00 / 0,170,0      (a darker green)
+%% builtins = #900090 / 144,0,144    (purple-ish)
+%% keywords = #FF7700 / 255,119,0    (quite close to plain `orange')
+%% Corrected to ``web-safe''
+\definecolor{purple2}{RGB}{153,0,153} % there's actually no standard purple
+\definecolor{green2}{RGB}{0,153,0} % a darker green
+
+\lstdefinestyle{python-idle-code}{%
+  language=Python,                   % the language
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  basicstyle=\normalsize\ttfamily,   % size of the fonts for the code
+  % Color settings to match IDLE style
+  keywordstyle=\color{orange},       % core keywords
+  keywordstyle={[2]\color{purple2}}, % built-ins
+  stringstyle=\color{green2},
+  commentstyle=\color{red},
+  upquote=true,                      % requires textcomp
+}
+%\lstloadlanguages{Python}
+\lstset{
+  style={python-idle-code},
+  showstringspaces=false,  % true by default for python
+  % tabsize=4,
+}
+\lstset{
+float=table,
+stringstyle=\color{orange},
+basicstyle=\color{black}\footnotesize\ttfamily,
+numbers=left,
+numberstyle=\tiny\color{brown},
+%numberstyle=\small,
+numbersep=8pt,
+%frame = leftline,
+breaklines=true,
+firstnumber=1,
+language=python,
+numberstyle=\tiny\color{brown},
+keywordstyle=\color{blue},
+commentstyle=\color{green!50!black}}
+
+% These are recommended by Rob J Hyndman (2011)
+% \footnote{\url{http://robjhyndman.com/researchtips/latex-floats/}}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.7}
+\renewcommand{\lstlistingname}{Algorithm}
+\usepackage[UKenglish]{babel}
+%\includeonly{chapter3/chapter3}
+\title{\normalfont \large  %14pt uncomment this line
+Compare Robustness of Nonnegative Matrix Factorization Algorithms}
+\author{\normalfont\small \begin{tabular}{lll}
+          Chen Chen & Xiaodan Gan & Xinyue Wang \\
+          480458339 & 440581983 & 440359463
+        \end{tabular}}
+\date{\normalfont\small \today}
+\makeatother
+\usepackage{numprint}
+\begin{document}
+%\listofpdfcomments
+\maketitle
+\input{abstract}
+
+\tableofcontents{}
+
+\input{introduction}
+\input{relatedWork}
+\input{methods}
+
+\input{experiments}
+
+\input{conclusion}
+
+
+%\input{appendix}
+
+\titleformat{\section}
+    {\normalsize\bfseries\centering}{\thesection}{5pt}{\normalsize}
+\bibliography{research}
+
+\end{document}

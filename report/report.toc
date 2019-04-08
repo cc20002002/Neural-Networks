@@ -1,0 +1,26 @@
+\babel@toc {UKenglish}{}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Related work}{3}{section.2}
+\contentsline {section}{\numberline {3}Methods }{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}NMF and Gaussian noise}{4}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}KLNMF and Poisson noise}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Preprocess}{6}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Gaussian and Poisson are asymptotic equivalent}{6}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Salt \& Pepper noise}{6}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Multiple initial estimates assure the algorithms stable}{6}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}KLNMF requires more iterations}{8}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.8}Evaluation metrics and their confidence intervals }{9}{subsection.3.8}
+\contentsline {subsection}{\numberline {3.9}Statistical method compares the robustness of algorithms}{9}{subsection.3.9}
+\contentsline {section}{\numberline {4}Experiments}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}Dataset}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Noise}{10}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Gaussian Noise}{10}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Poisson Noise}{11}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Salt \& Pepper Noise}{11}{subsubsection.4.2.3}
+\contentsline {subsection}{\numberline {4.3}Experiment Setup}{12}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Experiments Results}{12}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Two algorithms output similar reconstructed images}{12}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Hypothesis test distinguishes the difference in RRE}{12}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}ACC and NMI results}{16}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Personal Reflection}{17}{subsection.4.5}
+\contentsline {section}{\numberline {5}Conclusion}{18}{section.5}

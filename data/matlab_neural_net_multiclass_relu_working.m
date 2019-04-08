@@ -61,10 +61,10 @@ w2_new = zeros(numHid, numHid + 1);
 w3_new = zeros(numOut, numHid + 1);
 
 % weight value range[-1-1]
-rng(3)
-w1 = 2 * ones(numHid, numFV + 1) - 1;
-w2 = 2 * ones(numHid, numHid + 1) - 1;
-w3 = 2 * ones(numOut, numHid + 1) - 1;
+%rng(3)
+w1 = 2 * rand(numHid, numFV + 1) - 1;
+w2 = 2 * rand(numHid, numHid + 1) - 1;
+w3 = 2 * rand(numOut, numHid + 1) - 1;
 %w1 = w1/100
 %w2 = w2/100
 
@@ -81,7 +81,7 @@ gamma2=1;
 beta2=0;
 for iteration = 1 : max_iteration      
     for j=1:js
-        rate_drop=.92;
+        rate_drop=1;
         %
         xtemp = x(p(:,j),:);        
         %batch normalisation
@@ -95,7 +95,7 @@ for iteration = 1 : max_iteration
         z1 = 1 ./ (1 + exp(-w1 * xtemp1'))';
         % cauculate output layer
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
-        rng(3)
+        %rng(3)
         drop = rand(numHid,size_batch)'<rate_drop;
         z1 = z1 .* drop/rate_drop;
         

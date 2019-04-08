@@ -33,7 +33,7 @@ print(f'Testing data set shape: {test_data_set_shape}')
 
 learning_rate = 0.11
 max_iteration = 15
-droput_rate = 0.92
+droput_rate = 1
 batch_size = 1024
 hidden_layer_dim = 32
 output_layer_dim = len(set(train_labels_set[:,0]))
@@ -113,7 +113,7 @@ def initialise_parameters(layer_dims):
         
     return parameters
 
-def batch_normalisation():
+def batch_normalisation(x,mean,var):
     return None
 
 def forward_propagation():
@@ -144,6 +144,7 @@ y = one_hot_encoding(train_labels,  10)
 
 
 x = train_data
+numTP, numFV =x.shape
 xtest = validation_data
 ytest = validation_labels
 
@@ -157,7 +158,7 @@ Loss = np.zeros(( max_iteration,1))
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-np.random.seed(3)
+#np.random.seed(3)
 #todo:convert it back to Monte carlo
 w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
 w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
@@ -165,34 +166,41 @@ w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
 momentum1 = 0
 momentum2 = 0
 momentum3 = 0
-gamma1=1
-beta1=0
-gamma2=1
-beta2=0
+
 
 batches = int(np.floor(trainsize / batch_size))
+gamma1=np.ones((1,numFV));
+beta1=np.zeros((1,numFV));
+gamma2=np.ones((1,hidden_layer_dim));
+beta2=np.zeros((1,hidden_layer_dim));
+means1=np.zeros((batches,numFV));
+vars1=np.zeros((batches,numFV));
+means2=np.zeros((batches,hidden_layer_dim));
+vars2=np.zeros((batches,hidden_layer_dim));
 # 16 x 128 matrix
 #p = np.arange(trainsize).reshape((batch_size, batches))
-p = np.arange(trainsize).reshape(( batches,batch_size)).T
+p = np.arange(trainsize).reshape((batches,batch_size)).T
 
 
 
 for iteration in np.arange(0, max_iteration):
-    for j in np.arange(0, 47):
+    for j in np.arange(0, batches):
         
         xtemp = x[p[:,j],:]
 #       batch normalisation
-        xbar = np.mean(xtemp, axis=1).reshape(xtemp.shape[0], 1)
-        #edited sample var
-        xvar = np.var(xtemp, axis=1,ddof=1).T.reshape(xtemp.shape[0], 1)
-        xtemp = np.divide((xtemp - xbar), np.sqrt(xvar + 1e-8))
+        xbar = np.mean(xtemp, axis=0).reshape(-1,1)
+        xvar = np.var(xtemp, axis=0,ddof=1).reshape(1,-1)
+        xtemp = np.divide(xtemp - xbar, np.sqrt(xvar + 1e-8))        
+        means1[j,:]=xbar;
+        vars1[j,:]=xvar;
         xtemp1 = np.concatenate((np.ones((batch_size,1)), gamma1*xtemp+beta1), axis=1)
         
 #       calculate hidden layer
+        #possible overflow todo
         z1 = 1 / (1 + np.exp(- np.matmul(w1, xtemp1.T))).T
 #       cauculate output layer
 #       z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
-        np.random.seed(3)
+        #np.random.seed(3)
         drop = np.random.rand(batch_size, hidden_layer_dim) < rate_drop
         z1 = z1 * drop / rate_drop
         
@@ -202,7 +210,8 @@ for iteration in np.arange(0, max_iteration):
 #         %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
         
         z11 = np.concatenate((np.ones((batch_size,1)), gamma2*z1+beta2), axis=1)           
-        z2 = np.matmul(w2, z11.T)
+        
+        z2 = np.matmul(w2, ztemp1.T)
         z2 = z2 * (z2 > 0)
         z2 = z2.T
         

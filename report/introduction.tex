@@ -1,0 +1,20 @@
+\section{Introduction\label{chapter1}}
+%Briefly introduce \textsc{nmf}, applications
+Non-negative matrix factorisation (\textsc{nmf}) is a matrix decomposition technique that approximates a data matrix with non-negative entries with the multiplication of two non-negative matrices
+\begin{equation*}
+  V \approx WH.
+\end{equation*}
+In this approximation, matrix~$W$ is the basis, and matrix~$H$ is the weight matrix corresponding to the new dictionary~$W$. \textsc{nmf}
+is applicable to an extensive range of domain. For example, \citet{lee1999learning} suggest that \textsc{nmf} is useful for image processing problems including facial recognition.
+
+Matrices~$W$ and~$H$ are often referred as the basis images and weights, 
+because the observed image $V$ is approximated by a linear combination of~$W$ with positive coefficients~$H$.
+Due to the additive nature of the algorithm, the dictionary~$W$ are often parts of images that are easily interpretable.
+This property also distinguishes \textsc{nmf} from other traditional image processing methods such as principal components analysis (\textsc{pca}).
+\citet{guillamet2002non} demonstrate that \textsc{nmf} performs better in image classification problems in comparison with \textsc{pca}.
+Moreover, \textsc{nmf} is also applicable to text mining such as semantic analysis.
+Generally, \textsc{nmf} is useful to discover semantic features of an article by counting the frequency of each word, and then approximating the document from a subset of a large array of features \citep{lee1999learning}.
+
+In practice, face images could be easily corrupted during data collection by noise with large magnitude. Corruption may result from lighting environment, facial expression or facial details. An \textsc{nmf} algorithm that is robust to large noise is desired for the real-world applications. Therefore, the objective of this project is to analyse the robustness of \textsc{nmf} algorithms on corrupted datasets. We implement two \textsc{nmf} algorithms proposed by \citet{lee2001algorithms} on real face image datasets, \texttt{ORL} dataset and the \texttt{CroppedYale} dataset. We add artificial noises to the face images are contaminated. We then apply nonparametric statistical methods to analyse the robustness of these two algorithms from simulation results.
+
+%The rest of the report is organized as follows. We describe noisy design and two \textsc{NMF} algorithms including Euclidean Distance and Kullback-Leibler Divergence (\textsc{KLD}) in Section 2. Section 3 shows experiment setup and empirical results which demonstrate the robustness of the two NMF algorithms. The conclusions and future work are discussed in Section 5.
