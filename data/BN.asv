@@ -51,20 +51,21 @@ x_max = max(max(x));
 
 % learning
 lr = 0.1;   % learning rate
-max_iteration = 250;    
-numHid = 180; % hidden(midle) layer's unit size
+max_iteration = 250;
+for hidden_layer_dim= 161:2:163
+%numHid = 190; % hidden(midle) layer's unit size
 
 % init
-loss = 1 : max_iteration;
-w1_new = zeros(numHid, numFV + 1);
-w2_new = zeros(numHid, numHid + 1);
-w3_new = zeros(numOut, numHid + 1);
+loss = zeros(1 , max_iteration);
+w1_new = zeros(hidden_layer_dim, numFV + 1);
+w2_new = zeros(hidden_layer_dim, hidden_layer_dim + 1);
+w3_new = zeros(numOut, hidden_layer_dim + 1);
 
 % weight value range[-1-1]
 rng(3)
-w1 = 2 * rand(numFV + 1,numHid)' - 1;
-w2 = 2 * rand(numHid + 1,numHid)' - 1;
-w3 = 2 * rand(numHid + 1,numOut)' - 1;
+w1 = 2 * rand(numFV + 1,hidden_layer_dim)' - 1;
+w2 = 2 * rand(hidden_layer_dim + 1,hidden_layer_dim)' - 1;
+w3 = 2 * rand(hidden_layer_dim + 1,numOut)' - 1;
 %w1 = w1/100
 %w2 = w2/100
 
@@ -73,19 +74,19 @@ momentum2=0;
 momentum3=0;
 % 
 size_batch=1024;
-js=trainsize/size_batch;
-p = reshape(1:trainsize,[size_batch js]);
+batches=trainsize/size_batch;
+p = reshape(1:trainsize,[size_batch batches]);
 gamma1=ones(1,numFV);
 beta1=zeros(1,numFV);
-gamma2=ones(1,numHid);
-beta2=zeros(1,numHid);
-means1=zeros(js,numFV);
-vars1=zeros(js,numFV);
-means2=zeros(js,numHid);
-vars2=zeros(js,numHid);
+gamma2=ones(1,hidden_layer_dim);
+beta2=zeros(1,hidden_layer_dim);
+means1=zeros(batches,numFV);
+vars1=zeros(batches,numFV);
+means2=zeros(batches,hidden_layer_dim);
+vars2=zeros(batches,hidden_layer_dim);
 for iteration = 1 : max_iteration
     
-    for j=1:js
+    for j=1:batches
         rate_drop=1;
         %
         xtemp = x(p(:,j),:);        
@@ -103,7 +104,7 @@ for iteration = 1 : max_iteration
         % cauculate output layer
         %z1 = 1 ./ (1 + exp(-w2 * [ones(1,numTP); z2']))';
         rng(3)
-        drop = rand(numHid,size_batch)'<rate_drop;
+        drop = rand(hidden_layer_dim,size_batch)'<rate_drop;
         z1 = z1 .* drop/rate_drop;
         
         %zbar = mean(z1,2);        
@@ -133,7 +134,7 @@ for iteration = 1 : max_iteration
         delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
         %delta1 = delta1.*(delta1>0);
         change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
-        change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
+        change2 = delta2' * [ones(size_batch,1), [gamma1 1].*xtemp1+[beta1 0]]/size_batch;
         change1 = delta1' * ([gamma1 1].*xtemp1+[beta1 0])/size_batch;
         % sum of training pattern
         w3_new = lr * (change3 - 0.0005*w3)+(0.95-0.005*min(iteration,15))*momentum3;
@@ -164,7 +165,7 @@ for iteration = 1 : max_iteration
     %[~,i]=max(a,[],2);
     %
     %loss(iteration)
-    iteration
+    %iteration
     %% plot map and decision boundary
     % calculate hidden layer
         
@@ -195,12 +196,15 @@ for iteration = 1 : max_iteration
     z3 = softmax(z3')';
     [~,i]=max(z3,[],2);
 
-    accuracy = sum(i==(ytest+1)) / nn * 100;
-    if modaccuracy
+    accuracy = sum(i==(ytest+1)) / nn * 100;    
+    if iteration==100 |iteration==200 |iteration==250
+        hidden_layer_dim
+        max(loss(1:iteration))
+    end
     loss(iteration) = accuracy;
     
 end
-
+end
 % visualize learning
 figure(2)
 subplot(4,1,1)
@@ -209,7 +213,7 @@ title('input-hidden weight')
 ylabel('input layer')
 xlabel('hidden layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
 ax.YTick = 1:20:numFV;
 colorbar
 
@@ -219,8 +223,8 @@ title('hidden-hidden weight')
 xlabel('hidden layer')
 ylabel('hidden layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
-ax.YTick = 1:5:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
+ax.YTick = 1:5:hidden_layer_dim;
 colormap(hot);
 colorbar
 
@@ -230,7 +234,7 @@ title('hidden-output weight')
 xlabel('hidden layer')
 ylabel('output layer')
 ax = gca;
-ax.XTick = 1:3:numHid;
+ax.XTick = 1:3:hidden_layer_dim;
 ax.YTick = 1:5:numOut;
 colormap(hot);
 colorbar

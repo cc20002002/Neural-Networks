@@ -32,10 +32,10 @@ print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
 learning_rate = 0.11
-max_iteration = 15
+max_iteration = 50
 droput_rate = 1
 batch_size = 1024
-hidden_layer_dim = 32
+hidden_layer_dim = 150
 output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 50176
 
@@ -210,7 +210,7 @@ for iteration in np.arange(0, max_iteration):
 #         %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
         
         zbar = np.mean(z1,axis=0).reshape(1,-1)        
-        zvar = np.var(xtemp, axis=0,ddof=1).reshape(1,-1)
+        zvar = np.var(z1, axis=0,ddof=1).reshape(1,-1)
         means2[j,:]=zbar
         vars2[j,:]=zvar
         ztemp = (z1 - zbar)/np.sqrt(zvar+1e-8);            
@@ -238,12 +238,12 @@ for iteration in np.arange(0, max_iteration):
         delta1 = z1 * (1 - z1) * drop * (np.matmul(delta2, w2[:,1:])) / rate_drop
          #       delta1 = delta1.*(delta1>0);
         change3 = np.matmul(delta3.T, np.concatenate((np.ones((batch_size,1)), z2), axis=1)) / batch_size
-        change2 = np.matmul(delta2.T, np.concatenate((np.ones((batch_size,1)), z1), axis=1)) / batch_size
+        change2 = np.matmul(delta2.T, ztemp1) / batch_size
         change1 = np.matmul(delta1.T, xtemp1) / batch_size
          #       sum of training pattern
-        w3_new = learning_rate * (change3 - 0.001*w3)+0.9*momentum3
-        w2_new = learning_rate * (change2 - 0.001*w2)+0.9*momentum2
-        w1_new = learning_rate * (change1 - 0.001*w1)+0.9*momentum1
+        w3_new = learning_rate * (change3 - 0.0005*w3)+0.88*momentum3
+        w2_new = learning_rate * (change2 - 0.0005*w2)+0.88*momentum2
+        w1_new = learning_rate * (change1 - 0.0005*w1)+0.88*momentum1
         momentum3 = w3_new
         momentum2 = w2_new
         momentum1 = w1_new
@@ -280,8 +280,8 @@ for iteration in np.arange(0, max_iteration):
     print(f'iteration: {iteration}')
          #     plot map and decision boundary
          #     calculate hidden layer
-    xbar = np.mean(xtest, axis=1).reshape(xtest.shape[0], 1)
-    xvar = np.var(xtest.T, axis=0).T.reshape(xtest.shape[0], 1)
+    xbar = np.mean(means1, axis=0).reshape(1, -1)
+    xvar = np.mean(vars1, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
     xtest1 = np.divide((xtest - xbar), np.sqrt(xvar+1e-8))
     xtest2 = np.concatenate((np.ones((xtest.shape[0],1)), gamma1*xtest1+beta1), axis=1)
     z1 = 1 / (1 + np.exp(-np.matmul(w1, xtest2.T))).T
@@ -290,7 +290,10 @@ for iteration in np.arange(0, max_iteration):
      #     %zvar = var(z1')';
      #     %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
     
-    z11 = np.concatenate((np.ones((xtest.shape[0],1)), gamma2*z1+beta2), axis=1)
+    zbar = np.mean(means2, axis=0).reshape(1, -1)
+    zvar = np.mean(vars2, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
+    ztemp = np.divide((z1 - zbar), np.sqrt(zvar+1e-8))
+    z11 = np.concatenate((np.ones((xtest.shape[0],1)), gamma2*ztemp+beta2), axis=1)
     z2 = np.matmul(w2, z11.T)
     z2 = z2 * (z2>0)
     z2 = z2.T

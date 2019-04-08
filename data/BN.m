@@ -52,7 +52,7 @@ x_max = max(max(x));
 % learning
 lr = 0.1;   % learning rate
 max_iteration = 250;
-for hidden_layer_dim= 165:3:171
+for hidden_layer_dim= 161
 %numHid = 190; % hidden(midle) layer's unit size
 
 % init
@@ -134,12 +134,14 @@ for iteration = 1 : max_iteration
         delta1 = z1 .* (1 - z1) .* drop .* (delta2 * w2(:,2:end))/rate_drop;
         %delta1 = delta1.*(delta1>0);
         change3 = delta3' * [ones(size_batch,1), z2]/size_batch;
-        change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
-        change1 = delta1' * ([gamma1 1].*xtemp1+[beta1 0])/size_batch;
+        %change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
+        change2 = delta2' * ztemp1/size_batch;
+        change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
-        w3_new = lr * (change3 - 0.0005*w3)+(0.95-0.005*min(iteration,15))*momentum3;
-        w2_new = lr * (change2 - 0.0005*w2)+(0.95-0.005*min(iteration,15))*momentum2;
-        w1_new = lr * (change1 - 0.0005*w1)+(0.95-0.005*min(iteration,15))*momentum1;
+        mm=0.95-0.005*min(iteration,15);
+        w3_new = lr * (change3 - 0.0005*w3)+mm*momentum3;
+        w2_new = lr * (change2 - 0.0005*w2)+mm*momentum2;
+        w1_new = lr * (change1 - 0.0005*w1)+mm*momentum1;
         momentum3 = w3_new;
         momentum2 = w2_new;
         momentum1 = w1_new;
@@ -197,9 +199,11 @@ for iteration = 1 : max_iteration
     [~,i]=max(z3,[],2);
 
     accuracy = sum(i==(ytest+1)) / nn * 100;    
-    if iteration==100 |iteration==200 |iteration==250
+    if iteration==100 |iteration==200 |iteration==250|1
         hidden_layer_dim
-        max(loss(1:iteration))
+        iteration
+        accuracy
+        %max(loss(1:iteration))
     end
     loss(iteration) = accuracy;
     
