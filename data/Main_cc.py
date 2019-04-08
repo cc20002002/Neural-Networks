@@ -188,7 +188,7 @@ for iteration in np.arange(0, max_iteration):
         
         xtemp = x[p[:,j],:]
 #       batch normalisation
-        xbar = np.mean(xtemp, axis=0).reshape(-1,1)
+        xbar = np.mean(xtemp, axis=0).reshape(1,-1)
         xvar = np.var(xtemp, axis=0,ddof=1).reshape(1,-1)
         xtemp = np.divide(xtemp - xbar, np.sqrt(xvar + 1e-8))        
         means1[j,:]=xbar;
@@ -209,7 +209,12 @@ for iteration in np.arange(0, max_iteration):
 #         %zvar = var(z1')';
 #         %zbar = (zbar - zbar)./sqrt(zvar+1e-8);
         
-        z11 = np.concatenate((np.ones((batch_size,1)), gamma2*z1+beta2), axis=1)           
+        zbar = np.mean(z1,axis=0).reshape(1,-1)        
+        zvar = np.var(xtemp, axis=0,ddof=1).reshape(1,-1)
+        means2[j,:]=zbar
+        vars2[j,:]=zvar
+        ztemp = (z1 - zbar)/np.sqrt(zvar+1e-8);            
+        ztemp1 = np.concatenate((np.ones((batch_size,1)), gamma2*ztemp+beta2), axis=1)           
         
         z2 = np.matmul(w2, ztemp1.T)
         z2 = z2 * (z2 > 0)
@@ -245,13 +250,13 @@ for iteration in np.arange(0, max_iteration):
         dbeta = np.matmul(delta1, w1[:,1:])
         dgamma = sum(dbeta * xtemp) / batch_size
         dbeta = sum(dbeta) / batch_size
-        gamma1 = gamma1 + 0.0005*dgamma
-        beta1 = beta1 + 0.0005*dbeta
+        gamma1 = gamma1 + learning_rate*dgamma
+        beta1 = beta1 + learning_rate*dbeta
         dbeta = np.matmul(delta2, w2[:,1:])
         dgamma = sum(dbeta * z1) / batch_size
         dbeta = sum(dbeta) / batch_size
-        gamma2 = gamma2 + 0.0005*dgamma
-        beta2 = beta2 + 0.0005*dbeta
+        gamma2 = gamma2 + learning_rate*dgamma
+        beta2 = beta2 + learning_rate*dbeta
         #       update w2
         w3 = w3 + w3_new
         w2 = w2 + w2_new
