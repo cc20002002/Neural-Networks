@@ -5,7 +5,6 @@
 
 
 import numpy as np
-import scipy
 from scipy.special import softmax
 import h5py
 import math
@@ -113,6 +112,18 @@ def tanh(Z):
     cache = Z
     return A, cache
 
+def dsigmoid_dA():
+    dfdA=1
+    return dfdA
+
+def drelu_dA():
+    dfdA=1
+    return dfdA
+
+def dtanh_dA():
+    dfdA=1
+    return dfdA
+
 def one_hot_encoding(train_labels, dims):
     #vectorization half the time taken
     #t = time.time()
@@ -128,7 +139,51 @@ def one_hot_encoding(train_labels, dims):
 
 
 # In[143]:
+def sgd_momentum(df_dx, x0, conf_para=None):
+    # this is just an example of how to shape you sgd function
+    if conf_para is None:
+        conf_para = {}
+    
+    conf_para.setdefault('n_iter', 1000) #number of iterations
+    conf_para.setdefault('learning_rate', 0.001) #learning rate
+    conf_para.setdefault('momentum', 0.9) #momentum parameter
+    
+    x_traj = []
+    x_traj.append(x0)
+    v = np.zeros_like(x0)
+    
+    for iter in range(1, conf_para['n_iter']+1):
+        dfdx = np.array(df_dx(x_traj[-1][0], x_traj[-1][1]))
+        v = conf_para['momentum']*v - conf_para['learning_rate']*dfdx
+        x_traj.append(x_traj[-1]+v)    
+    return x_traj
 
+def adam(df_dx, x0, conf_para=None):
+    # try to use adam in the algorithm as well. please check weight decay
+    # as I have not tested. I tested the function without weight decay
+    if conf_para is None:
+        conf_para = {}
+    
+    conf_para.setdefault('n_iter', 1000) #number of iterations
+    conf_para.setdefault('learning_rate', 0.001) #learning rate
+    conf_para.setdefault('beta1', 0.85)
+    conf_para.setdefault('beta2', 0.999)
+    conf_para.setdefault('v', 0.)
+    conf_para.setdefault('m', 0.)
+    conf_para.setdefault('epsilon', 1e-8)
+    x_traj = []
+    x_traj.append(x0)
+    v=conf_para['v']
+    m=conf_para['m']
+    for iter in range(1, conf_para['n_iter']+1):
+      dfdx = np.array(df_dx(x_traj[-1][0], x_traj[-1][1]))
+      v = conf_para['beta2']*v + (1-conf_para['beta2'])*dfdx**2
+      m = conf_para['beta1']*m + (1-conf_para['beta1'])*dfdx
+      mhat = m/(1-conf_para['beta1']**iter)
+      vhat = v/(1-conf_para['beta2']**iter)      
+      x_traj.append(x_traj[-1]-conf_para['learning_rate']/np.sqrt(vhat+conf_para['epsilon'])*mhat)-weight_decaying*x_traj[-1] #
+    
+    return x_traj
 
 def initialise_parameters(layer_dims):
     np.random.seed(3)
