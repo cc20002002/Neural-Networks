@@ -5,12 +5,10 @@ import h5py
 import math
 import utils
 
-def predict_test_dataset():
-    return None
 
-
-def write_test_labels():
-    return None
+def write_test_labels(test_labels):
+    hf = h5py.File('../output/test__label.h5', 'w')
+    hf.create_dataset('label', data=test_labels)
 
 
 def main():
@@ -33,14 +31,19 @@ def main():
     print(f'Training label set shape: {train_labels_set_shape}')
     print(f'Testing data set shape: {test_data_set_shape}')
 
-    # Split the training and testing dataset
-    # TODO - Input Shuffle
-    print(f'Split training and test data')
-    train_data, test_data, train_labels, test_labels = utils.split_train_test_dataset(train_data_set, train_labels_set)
-
+    # Initialise parameters
     hidden_layer_dim = 161
     output_layer_dim = 1
     num_iterations = 400
+    train_size = 50176
+    batch_size = 1024
+    num_batches = int(train_size / batch_size)
+
+    # Split the training and testing dataset
+    # TODO - Input Shuffle
+    print(f'Split training and test data')
+    train_data, test_data, train_labels, test_labels = utils.split_train_test_dataset(train_data_set, train_labels_set , train_size=50176)
+
 
     """
     Three Layer Neural Networks
@@ -59,6 +62,8 @@ def main():
     Initialise Parameters
     """
     parameters = utils.initialise_parameters(layer_dims)
+
+    batch_selection = np.arange(train_size).reshape((batch_size, num_batches))
 
     # for i in range(0, num_iterations):
     #     print(i)
