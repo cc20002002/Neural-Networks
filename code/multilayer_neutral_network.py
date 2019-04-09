@@ -55,7 +55,12 @@ def main():
     layer_dims = [train_data.shape[0], hidden_layer_dim, hidden_layer_dim, output_layer_dim]
     print(f'The Multi-Layer Neural Network Dimensions: {layer_dims}')
 
-    for i in range(0, num_iterations):
-        print(i)
+    """
+    Initialise Parameters
+    """
+    parameters = utils.initialise_parameters(layer_dims)
+
+    # for i in range(0, num_iterations):
+    #     print(i)
 
 main()
