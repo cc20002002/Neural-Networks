@@ -1,3 +1,4 @@
 .idea/
 .ipynb_checkpoints/
 comp5329-assignment1/
+__pycache__/
