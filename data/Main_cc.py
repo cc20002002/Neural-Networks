@@ -32,7 +32,7 @@ print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
 learning_rate = 0.1
-max_iteration = 250
+max_iteration = 400
 dropout_rate = 1
 batch_size = 1024
 hidden_layer_dim = 161
