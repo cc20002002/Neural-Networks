@@ -10,7 +10,7 @@ from scipy.special import softmax
 import h5py
 import math
 import IPython
-from tensorflow.keras.datasets import fashion_mnist
+
 
 # In[2]:
 
@@ -32,54 +32,49 @@ print(f'Training data set shape: {train_data_set_shape}')
 print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
-learning_rate = 0.1
+learning_rate = 0.005
 max_iteration = 400
 dropout_rate = 1
-batch_size = 1024
-hidden_layer_dim = 161
+batch_size = 1000
+hidden_layer_dim = 200
 output_layer_dim = len(set(train_labels_set[:,0]))
-trainsize = 50176
-moment_coef=0.88
-weight_decaying=0.0005
+trainsize = 60000#50176 train it hard
+moment_coef=0.9
+weight_decaying=0.0015
 
 non_linear='sigmoid'
-# non_linear='tanh'
-
-''' 0.89 use sigmoid: 
-learning_rate = 0.1
-max_iteration = 250
-dropout_rate = 1
-batch_size = 1024
-hidden_layer_dim = 161
-output_layer_dim = len(set(train_labels_set[:,0]))
-trainsize = 50176
-moment_coef=0.88
-weight_decaying=0.0005
-no moment and weight decaying for gamma and beta
-    '''
-    
-    
-''' 0.88   tanh:
+non_linear='tanh'
+'''tanh 89.02 23 iterations
 learning_rate = 0.005
-max_iteration = 50
+max_iteration = 400
+dropout_rate = .8
+batch_size = 1000
+hidden_layer_dim = 900
+output_layer_dim = len(set(train_labels_set[:,0]))
+trainsize = 60000#50176 train it hard
+moment_coef=0.9
+weight_decaying=0.0015
+'''
+'''sigmoid 89.6 400 iterations
+learning_rate = 0.11
+max_iteration = 400
 dropout_rate = 1
-batch_size = 1024
+batch_size = 1000
 hidden_layer_dim = 150
 output_layer_dim = len(set(train_labels_set[:,0]))
-trainsize = 50176
+trainsize = 60000#50176 train it hard
 moment_coef=0.88
-weight_decaying=0.11
-
-no moment and weight decaying for gamma and beta
+weight_decaying=0.0005
 '''
+
 # In[3]:
 
 
 # Split Training Sample into Training Dataset and Validation Dataset
 train_data = train_data_set[0:trainsize,:]
 train_labels = train_labels_set[0:trainsize,:]
-validation_data = train_data_set[trainsize:,:]
-validation_labels = train_labels_set[trainsize:,:]
+validation_data = train_data_set[0:trainsize,:]
+validation_labels = train_labels_set[0:trainsize,:]
 
 print(f'Training Data Shape: {train_data.shape}')
 print(f'Training Labels Shape: {train_labels.shape}')
@@ -232,6 +227,12 @@ x = train_data
 numTP, numFV =x.shape
 xtest = validation_data
 ytest = validation_labels
+#todo delete this before submission
+from tensorflow.keras.datasets import fashion_mnist
+((trainX, trainY), (xtest, ytest)) = fashion_mnist.load_data()
+ytest=ytest.reshape(-1,1)
+print(ytest)
+xtest=test_data_set
 
 
 
@@ -247,12 +248,19 @@ np.random.seed(3)
 
 # TODO Comment out this original initialisation for now
 # Changed to N(0,1)
-# w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
-# w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
-# w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
-w1 = 0.01 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1)
-w2 = 0.01 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1)
-w3 = 0.01 * np.random.rand(output_layer_dim, hidden_layer_dim + 1)
+llmit=np.sqrt(6/(hidden_layer_dim+train_data.shape[1]))
+w1 = (2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1)*llmit
+w1[:,0]=0
+llmit=np.sqrt(6/(hidden_layer_dim+hidden_layer_dim))
+w2 = (2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1)*llmit
+w2[:,0]=0
+llmit=np.sqrt(6/(output_layer_dim+hidden_layer_dim))
+w3 = (2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1)*llmit
+w3[:,0]=0
+
+#w1 = 0.01 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1)
+#w2 = 0.01 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1)
+#w3 = 0.01 * np.random.rand(output_layer_dim, hidden_layer_dim + 1)
 momentum1 = 0
 momentum2 = 0
 momentum3 = 0
@@ -269,7 +277,7 @@ means2=np.zeros((batches,hidden_layer_dim));
 vars2=np.zeros((batches,hidden_layer_dim));
 # 16 x 128 matrix
 #p = np.arange(trainsize).reshape((batch_size, batches))
-p = np.arange(trainsize).reshape((batches,batch_size)).T
+
 
 beta1_new=0
 gamma1_new=0
@@ -279,6 +287,7 @@ gamma2_new=0
 start_time = int(time.time())
 
 for iteration in np.arange(0, max_iteration):
+    p = np.random.permutation(trainsize).reshape((batches,batch_size)).T
     for j in np.arange(0, batches):
         
         xtemp = x[p[:,j],:]
@@ -420,7 +429,7 @@ for iteration in np.arange(0, max_iteration):
      #     [~,i]=max(z3,[],2);
     res = np.argmax(z3, axis=1).T.reshape((-1,1))
     
-    accuracy = np.sum(res==ytest) / nn * 100
+    accuracy = np.sum(res==ytest) / res.shape[0] * 100
     print(accuracy)
     Acc[iteration] = accuracy
 
@@ -474,10 +483,8 @@ test_actuals = np.argmax(test_actuals, axis=1)
 
 print(test_actuals)
 
-((trainX, trainY), (testX, testY)) = fashion_mnist.load_data()
-print(testY)
 
-matched_sum = sum(test_actuals==testY)
+matched_sum = sum(test_actuals==ytest)
 print(matched_sum)
 
 hf = h5py.File('../output/test_label.h5', 'w')
