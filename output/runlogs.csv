@@ -1,0 +1,1 @@
+run_id,run_timestamp,activation_types,mini_batch,batch_normalisation,initialisation,gradient_descent_type,dropout,weight_decay,parameters,runtime,accurarcy
