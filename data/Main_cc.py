@@ -489,24 +489,24 @@ end_time = int(time.time())
 
 
 # TODO - Refactor here make sure !!!!!!!!!!!!!
-def export_runlogs(filepath, data):
-    with open(filepath, 'a+', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerows(','.join(data))
-
-
-job_status = [
-    str(int(time.time())),
-    f'{non_linear},relu,softmax',
-    '1',
-    '1',
-    'normal random',
-    'normal',
-    str(dropout_rate),
-    '1',
-    'more here',
-    str(end_time - start_time),
-    str(Acc[-1])
-]
-
-export_runlogs('../output/runlogs.csv', job_status)
+# def export_runlogs(filepath, data):
+#     with open(filepath, 'a+', newline='') as f:
+#         writer = csv.writer(f)
+#         writer.writerows(','.join(data))
+#
+#
+# job_status = [
+#     str(int(time.time())),
+#     f'{non_linear} relu softmax',
+#     '1',
+#     '1',
+#     'normal random',
+#     'normal',
+#     str(dropout_rate),
+#     '1',
+#     'more here',
+#     str(end_time - start_time),
+#     str(Acc[-1])
+# ]
+#
+# export_runlogs('../output/runlogs.csv', job_status)
