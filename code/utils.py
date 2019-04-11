@@ -96,12 +96,13 @@ def predict():
     return None
 
 
-def export_runlogs(filepath=''):
-    with open(filepath, 'a+', newline='') as csvfile:
-        return None
+def export_runlogs(filepath, data):
+    with open(filepath, 'a+', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(','.join(data))
 
 
 def write_test_labels(test_labels):
-    hf = h5py.File('../output/test__label.h5', 'w')
+    hf = h5py.File('../output/test_label.h5', 'w')
     hf.create_dataset('label', data=test_labels)
 
