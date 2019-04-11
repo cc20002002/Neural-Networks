@@ -1,3 +1,4 @@
+import csv
 import h5py
 import numpy as np
 
@@ -9,10 +10,21 @@ def sigmoid(Z):
     return A, cache
 
 
+def sigmoid_backward(dA, Z):
+    sig = sigmoid(Z)
+    return dA * sig * (1 - sig)
+
+
 def relu(Z):
     A = np.maximum(0, Z)
     cache = Z
     return A, cache
+
+
+def relu_backward(dA, Z):
+    dZ = np.array(dA, copy = True)
+    dZ[Z <= 0] = 0;
+    return dZ;
 
 # TODO - maybe leaky relu
 
@@ -36,6 +48,12 @@ def initialise_parameters(layer_dims, type='gauss', seed=3):
     parameters = {}
     num_layers = len(layer_dims)
 
+    """
+    Initialise Weights Matrix for Each Layer
+    input dim: layer_dims[l-1]
+    output dim: layer_dims[l]
+    add one row due to constant vector b
+    """
     for l in range(1, num_layers):
         # TODO - more testing !!!
         if type == 'gauss':
@@ -76,3 +94,14 @@ def update_parameters(layer_dims):
 
 def predict():
     return None
+
+
+def export_runlogs(filepath=''):
+    with open(filepath, 'a+', newline='') as csvfile:
+        return None
+
+
+def write_test_labels(test_labels):
+    hf = h5py.File('../output/test__label.h5', 'w')
+    hf.create_dataset('label', data=test_labels)
+

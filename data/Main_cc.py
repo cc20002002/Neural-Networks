@@ -9,12 +9,13 @@ from scipy.special import softmax
 import h5py
 import math
 import IPython
+from tensorflow.keras.datasets import fashion_mnist
 
 # In[2]:
 
 # Import Training Data and Testing Data
 with h5py.File('train_128.h5','r') as H: 
-    train_data_set = np.copy(H['data'])  
+    train_data_set = np.copy(H['data'])
 with h5py.File('train_label.h5','r') as H:
     train_labels_set = np.copy(H['label'])
 with h5py.File('test_128.h5', 'r') as H:
@@ -41,7 +42,7 @@ moment_coef=0.88
 weight_decaying=0.0005
 
 non_linear='sigmoid'
-#non_linear='tanh'
+# non_linear='tanh'
 
 ''' 0.89 use sigmoid: 
 learning_rate = 0.1
@@ -223,7 +224,6 @@ main()
 #y = train_labels
 y = one_hot_encoding(train_labels,  10)
 
-
 # In[34]:
 
 
@@ -244,9 +244,14 @@ w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
 np.random.seed(3)
 
-w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
-w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
-w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
+# TODO Comment out this original initialisation for now
+# Changed to N(0,1)
+# w1 = 2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1
+# w2 = 2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1
+# w3 = 2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1
+w1 = 0.01 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1)
+w2 = 0.01 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1)
+w3 = 0.01 * np.random.rand(output_layer_dim, hidden_layer_dim + 1)
 momentum1 = 0
 momentum2 = 0
 momentum3 = 0
@@ -415,11 +420,64 @@ for iteration in np.arange(0, max_iteration):
     accuracy = np.sum(res==ytest) / nn * 100
     print(accuracy)
     Acc[iteration] = accuracy
-        
-        
+
+    # TODO - need to revisit early stopping
+    # This is for debugging, turn it off
+    # if accuracy > 85:
+    #     break
         
          # In[11]:
         
         
 res == ytest
         
+
+# Predict the test labels
+# TODO - conver to function !!!!!!!!!!
+print(f'***************************************************************')
+print(f'After the optimisation:')
+print(f'w1.shape is : {w1.shape}')
+print(f'w2.shape is : {w2.shape}')
+print(f'w3.shape is : {w3.shape}')
+
+xbar = np.mean(means1, axis=0).reshape(1, -1)
+xvar = np.mean(vars1, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
+t_input = np.divide((test_data_set - xbar), np.sqrt(xvar+1e-8))
+t_input = np.concatenate((np.ones((test_data_set.shape[0],1)), gamma1*t_input+beta1), axis=1)
+# sigmoid
+if non_linear == 'sigmoid':
+    z1_output = 1 / (1 + np.exp(- np.matmul(w1, t_input.T))).T
+# tanh
+elif non_linear == 'tanh':
+    z1_output = (np.tanh(np.matmul(w1, t_input.T))).T
+print(z1_output.shape)
+
+
+zbar = np.mean(means2, axis=0).reshape(1, -1)
+zvar = np.mean(vars2, axis=0).reshape(1, -1)*batch_size/(batch_size-1)
+ztemp = np.divide((z1_output - zbar), np.sqrt(zvar+1e-8))
+z2 = np.concatenate((np.ones((test_data_set.shape[0],1)), gamma2*ztemp+beta2), axis=1)
+z2_output = np.matmul(w2 * dropout_rate, z2.T).T
+z2_output = z2_output * (z2_output>0)
+print(z2_output.shape)
+
+z3 = np.concatenate((np.ones((test_data_set.shape[0], 1)), z2_output), axis=1)
+z3_output = np.matmul(w3 * dropout_rate, z3.T).T
+print(z3_output.shape)
+
+test_actuals = softmax(z3_output, axis=1)
+print(test_actuals.shape)
+test_actuals = np.argmax(test_actuals, axis=1)
+
+print(test_actuals)
+
+((trainX, trainY), (testX, testY)) = fashion_mnist.load_data()
+print(testY)
+
+matched_sum = sum(test_actuals==testY)
+print(matched_sum)
+
+# hf = h5py.File('../output/test__label.h5', 'w')
+# hf.create_dataset('label', data=test_actuals)
+
+print(f'***************************************************************')
