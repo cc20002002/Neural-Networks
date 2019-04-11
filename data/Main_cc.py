@@ -3,7 +3,8 @@
 
 # In[18]:
 
-
+import csv
+import time
 import numpy as np
 from scipy.special import softmax
 import h5py
@@ -275,6 +276,8 @@ gamma1_new=0
 beta2_new=0
 gamma2_new=0
 
+start_time = int(time.time())
+
 for iteration in np.arange(0, max_iteration):
     for j in np.arange(0, batches):
         
@@ -477,7 +480,33 @@ print(testY)
 matched_sum = sum(test_actuals==testY)
 print(matched_sum)
 
-# hf = h5py.File('../output/test__label.h5', 'w')
-# hf.create_dataset('label', data=test_actuals)
+hf = h5py.File('../output/test_label.h5', 'w')
+hf.create_dataset('label', data=test_actuals)
 
 print(f'***************************************************************')
+
+end_time = int(time.time())
+
+
+# TODO - Refactor here make sure !!!!!!!!!!!!!
+def export_runlogs(filepath, data):
+    with open(filepath, 'a+', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(','.join(data))
+
+
+job_status = [
+    str(int(time.time())),
+    f'{non_linear},relu,softmax',
+    '1',
+    '1',
+    'normal random',
+    'normal',
+    str(dropout_rate),
+    '1',
+    'more here',
+    str(end_time - start_time),
+    str(Acc[-1])
+]
+
+export_runlogs('../output/runlogs.csv', job_status)
