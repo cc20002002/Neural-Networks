@@ -35,7 +35,7 @@ print(f'Testing data set shape: {test_data_set_shape}')
 
 
 learning_rate = 0.11
-max_iteration = 200
+max_iteration = 44
 dropout_rate = 0.95
 batch_size = 1500
 hidden_layer_dim = 160
