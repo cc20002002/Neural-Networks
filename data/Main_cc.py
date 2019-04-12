@@ -32,15 +32,17 @@ print(f'Training data set shape: {train_data_set_shape}')
 print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
-learning_rate = 0.005
-max_iteration = 400
-dropout_rate = 1.
-batch_size = 1000
-hidden_layer_dim = 900
+
+
+learning_rate = 0.11
+max_iteration = 200
+dropout_rate = 0.95
+batch_size = 1500
+hidden_layer_dim = 160
 output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 60000#50176 train it hard
 moment_coef=0.9
-weight_decaying=0.0015
+weight_decaying=0.0007
 
 non_linear='sigmoid'
 non_linear='tanh'
@@ -244,19 +246,20 @@ Loss = np.zeros(( max_iteration,1))
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-np.random.seed(3)
+np.random.seed(1)
 
 # TODO Comment out this original initialisation for now
 # Changed to N(0,1)
 llmit=np.sqrt(6/(hidden_layer_dim+train_data.shape[1]))
 w1 = (2 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1) - 1)*llmit
-w1[:,0]=0
+#w1[:,0]=0
 llmit=np.sqrt(6/(hidden_layer_dim+hidden_layer_dim))
 w2 = (2 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1) - 1)*llmit
-w2[:,0]=0
+#w2[:,0]=0
 llmit=np.sqrt(6/(output_layer_dim+hidden_layer_dim))
 w3 = (2 * np.random.rand(output_layer_dim, hidden_layer_dim + 1) - 1)*llmit
-w3[:,0]=0
+#w3[:,0]=0
+
 
 #w1 = 0.01 * np.random.rand(hidden_layer_dim, train_data.shape[1] + 1)
 #w2 = 0.01 * np.random.rand(hidden_layer_dim, hidden_layer_dim + 1)
@@ -394,7 +397,7 @@ for iteration in np.arange(0, max_iteration):
          #     [~,i]=max(a,[],2);
          #
          #     Acc(iteration)
-    print(f'iteration: {iteration}')
+    
          #     plot map and decision boundary
          #     calculate hidden layer
 #       batch normalisation
@@ -430,16 +433,18 @@ for iteration in np.arange(0, max_iteration):
     res = np.argmax(z3, axis=1).T.reshape((-1,1))
     
     accuracy = np.sum(res==ytest) / res.shape[0] * 100
-    print(accuracy)
+    
     Acc[iteration] = accuracy
-
+    if iteration %40 ==0:
+        print(f'iteration: {iteration}')
+        print(Acc.max(),accuracy,learning_rate)
     # TODO - need to revisit early stopping
     # This is for debugging, turn it off
     # if accuracy > 85:
     #     break
-        
-         # In[11]:
-        
+    
+     # In[11]:
+    
         
 res == ytest
         
