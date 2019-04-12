@@ -34,9 +34,9 @@ print(f'Testing data set shape: {test_data_set_shape}')
 
 learning_rate = 0.005
 max_iteration = 400
-dropout_rate = 1
+dropout_rate = 1.
 batch_size = 1000
-hidden_layer_dim = 200
+hidden_layer_dim = 900
 output_layer_dim = len(set(train_labels_set[:,0]))
 trainsize = 60000#50176 train it hard
 moment_coef=0.9
