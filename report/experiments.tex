@@ -1,4 +1,7 @@
-\section{Experiments}\label{chapter4}
+\section{Experiments and results}\label{chapter4}
+
+
+
 
 \subsection{Dataset}
 We illustrate our two \textsc{nmf} algorithms on two real-world face image datasets: \texttt{ORL} and \texttt{CroppedYaleB} (\citet{belhumeur1997eigenfaces}).
@@ -6,152 +9,49 @@ Both \texttt{ORL} and \texttt{CroppedYale} datasets contain multiple images of d
 Images in ORL are cropped and resized to $92 \times 112$ pixels. We further rescale it to $30 \times 37$ pixels. Similarly, we reduce the size of images in \texttt{CroppedYale} to $42 \times 48$ pixels.
 For each dataset, we flatten the image matrix into a vector and append them together to get a matrix $V$ with shape $d\times n$ where integer~$d$ is the number of pixels in one image and integer~$n$ is the number of images. In each epoch, we use 90\% of data.
 
-\subsection{Noise}
-We implement three kinds of noises including Gaussian noise, Poisson noise and Salt \& Pepper noise.
-\subsubsection{Gaussian Noise}\label{sec:gau}
-We design the Gaussian noise by a normal distribution with a mean of $0$ and a standard deviation of $80$ (Algorithm~\ref{gau}). The \texttt{ORL} dataset has a global pixel mean of $40$ and the \texttt{CroppedYale} dataset has that of $70$. Hence the designed Gaussian noise contaminates the images significantly. We choose the standard deviation to be $80$ so that our Gaussian noise is less likely to coincident with the designed Poisson noise. To satisfy the nonnegative constant, negative value in the contaminated image is set to zero.
-\begin{lstlisting}[caption= Gaussian Noise Design, label=gau]
-def normal(subVhat):
-    """Design a Gaussian noise."""
-    V_noise = np.random.normal(0, 80, subVhat.shape) #* np.sqrt(subVhat)
-    V = subVhat + V_noise
-    V[V < 0] = 0
-    return V, V_noise
-\end{lstlisting}
-
-
-\subsubsection{Poisson Noise}\label{sec:poi}
-The Poisson noise is not additive and has no hyperparameters to be set. Unlike Gaussian noise, contaminated images are drawn directly from Poisson distributions with parameters set to be pixel values. Then, the Poisson noise is calculated from the difference between the contaminated image and the original image, as discussed in Section~\ref{chapter2} and demonstrated in Algorithm~\ref{poi}.
-\begin{lstlisting}[caption= Poisson Noise Design, label=poi]
-def possion(subVhat):
-    """Design a Possion noise."""
-    V = np.random.poisson(subVhat)
-    V_noise = V-subVhat
-    return V, V_noise
-\end{lstlisting}
-
-
-\subsubsection{Salt \& Pepper Noise}\label{sec:sal}
-% JOYCE please add here
-Salt \& Pepper noise (Algorithm~\ref{salt}) is added by drawing random integers from the discrete uniform distribution of the interval $[0, 255)$ . We find the bright places in generated image and replace pixel values in the same place of the original image with the brightest value. Similarly, we also find the dark pixels in the  images and replace pixel values in the same place of original image with the  darkest pixel value. In this case, we set the pixels whose values are greater than or equal to 230 as bright pixels and pixels whose value being less than or equal to 20 as dark pixels.
-\begin{lstlisting}[caption= Salt and Pepper Noise Design, label=salt]
-def salt_and_pepper(subVhat):
-"""Design a salt and pepper noise where make some pixel value zeros."""
-  V_noise = np.random.randint(low=0, high=255, size=subVhat.shape, dtype=int)
-  V = subVhat.copy()
-  V[V_noise <= 20] = 0
-  V[V_noise >= 230] = 255
-  return V, V_noise
-\end{lstlisting}
-
 \subsection{Experiment Setup}
-
 We apply two algorithms (\textsc{nmf} and \textsc{klnmf}) with four categories of noises (no noise, Gaussian noise, Poisson noise and Salt \& Pepper noise), which results in eight combinations in each epoch. In each epoch, we randomly select 90\% of samples to train NMF algorithms and evaluate three metrics on reconstructed images. The training will terminate when the error reaches the minimum error, or the maximum iteration is reached. The minimum error and maximum iteration are hyperparameters which we learn from iterative experiments. Our code saves the learning errors versus the number of iterations so that we could draw the plot and observe the convergence of the learning process. We increase the number of epochs and calculate the average metrics and confidence intervals.
+\subsubsection{Hardware and software}
 
+\subsubsection{Early stopping decides maximum number of iterations}
 
 \subsection{Experiments Results}
-\subsubsection{Two algorithms output similar reconstructed images}
-Figure~\ref{noisesnmff} and~\ref{noisesklnmff} visualise the original image, designed noises, corrupted images and reconstructed images from left to right. From top to bottom, the four rows correspond to no noise, Gaussian noise discussed in Section~\ref{sec:gau}, Poisson noise discussed in Section~\ref{sec:poi} and Salt \& Paper noise discussed in Section~\ref{sec:sal}.
-The first row of Figure~\ref{noisesnmff} and~\ref{noisesklnmff} show both algorithms reconstructed the original image well without artificial noise and with Poisson noise.
+\subsubsection{Optimal hyperparameters}
+
+Table of results and hyperparameters with optimal and suboptimal coefficients.
+
 \begin{figure}
 	\centering
-	\includegraphics[scale=.9]{Result_Multiplication_Euclidean_No_Noise_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_Euclidean_Normal_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_Euclidean_Poisson_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_Euclidean_Salt_and_Pepper_Comparison}
-	\caption{The reconstructed image by \textsc{nmf}. The original images (Column~1) are combined with noises (Column~1) including Gaussian Noise with Variance~$80$ (Row~2), Poisson Noise (Row~3), and Salt \& Pepper Noise (Row~4). The corrupted images are shown in Column~3. The reconstructed images are shown in (Column~4). The reconstruction with no noise is shown in Row~1.}\label{noisesnmff}
+	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
+\caption{Put accuracy vs iteration here with the best possible hyperparameter, and parameters without each of normalisation, dropout, momentum}\label{noisesklnmff}
 \end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_Normal_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_Poisson_Comparison}\\
-	\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_Salt_and_Pepper_Comparison}
-\caption{The reconstructed image by \textsc{klnmf}. The original images (Column~1) are combined with noises (Column~1) including Gaussian Noise with Variance~$80$ (Row~2), Poisson Noise (Row~3), and Salt \& Pepper Noise (Row~4). The corrupted images are shown in Column~3. The reconstructed images are shown in (Column~4). The reconstruction with no noise is shown in Row~1.}\label{noisesklnmff}
-\end{figure}
-However, when the noise is large (the second and last rows in Figure~\ref{noisesnmff} and~\ref{noisesklnmff}), the quality of reconstructed images looks marginally better than the contaminated images.
-This result is consistent with \citet{guan2017truncated}, who assert that \textsc{nmf} may fail to handle extremely corrupted images when we violate the assumptions on the distributions of noise.
-Moreover, the difference between images generated by \textsc{nmf} and \textsc{klnmf} are not visually significant.
-Hence, we implement the statistical hypothesis test to compare of \textsc{rre}s of the two algorithms.
-
-\subsubsection{Hypothesis test distinguishes the difference in RRE}
-Substitute \href{https://raw.githubusercontent.com/JoyceXinyueWang/nmf_raw_data/master/raw_result_acc.csv}{\textsc{rre} results} (Figure~\ref{histo}) from $80$ Monte-Carlo simulations of the two algorithms into Kolmogorov-Smirnovs test~\eqref{teststatistic} gives test statistics~$D=1, 1 ,0.6625$ with no noise, Gaussian noise, and Poisson noise, for the \texttt{ORL} dataset. These three test statistics are all much greater than the critical value~$0.215$. Hence there are strong statistical evidences that the performance of \textsc{nmf} and \textsc{klnmf} are different in these three problems. For salt and Pepper noise, test statistic~$D=0.2125<0.215$, hence we fail to conclude that the two methods have different robustness against Salt and Pepper noise. Further, one tail Kolmogorov-Smirnov test concludes that \textsc{klnmf} performs better reconstructing the original image with no noise and is more robust Poisson noise. 
-In contrast, \textsc{nmf} is more robust against Gaussian noise, even with only $500$ iterations ($1200$ for \textsc{klnmf}).
-\begin{figure}
-{\centering
-\includegraphics[scale=0.8]{histo}
-\caption{Histogram of \textsc{rre} results from 80 Monte-Carlo simulations. Blue bars correspond to \textsc{nmf}, and the pink bars correspond to \textsc{klnmf}. The types of noise are labelled in the plot. The visualisation agrees with our statistical analysis.}
-\label{histo}}
-\end{figure}
-
-Theoretical results discussed in Section~\ref{chapter2} suggest \textsc{nmf} is more robust against Gaussian noise whereas \textsc{klnmf} is more robust against Poisson noise. Our experimental results concluded from Kolmogorov-Smirnovs hypothesis tests agree with these theoretical results. Further, as both of the algorithms are not designed for Salt and Pepper noise, they have a similar performance against it.
-
-These results can be observed by directly reading whether the confidence intervals overlap in Table~\ref{tab:ci}. Also, the statistical results agree with the visualisation in Figure~\ref{histo},~\ref{noisesnmff} and~\ref{noisesklnmff}. These results also agree with our intuition---although the differences in the robustness of the two algorithms are small, the even smaller variances in the \textsc{rre} results make them statistically different under Poisson and Gaussian noise (Figure~\ref{histo}).
-
-With the \texttt{CroppedYale} dataset, the test results (Table~\ref{tb:yale}) agree with those of the \texttt{ORL} data as well as theories in Section~\ref{chapter2}: 1. against Poisson noise, \textsc{klnmf} with update rule~\eqref{eq:klnmf} has a lower \textsc{rre}; 2. against Gaussian noise, \textsc{nmf} with update rule~\eqref{eq:nmf} has a lower \textsc{rre}; 3. \textsc{klnmf} has a lower \textsc{rre} for images with no artificial noise. However, using \texttt{CroppedYale} dataset, the \textsc{nmf} algorithm performs much better against Salt \& Pepper noise. This might be a result of the \textsc{nmf}'s much faster convergence rate for large dataset, that is, the performance of \textsc{klnmf} might be significantly better with more iterations when processing \texttt{CroppedYale}. We did not perform more iterations for \textsc{klnmf} due to running time constraint.
-%results from hypothesis tests show that \textsc{nmf} performs uniformly better than \textsc{klnmf}, suggesting more iterations are required on \textsc{klnmf} to compare these two algorithms fairly. We fail to do so because the dataset is much larger than \texttt{ORL} and our multiplicative update rules, especially for \textsc{klnmf} converge too slow.
-
-\subsubsection{ACC and NMI results}
-In terms of \textsc{acc} and \textsc{nmi}, the differences between \textsc{nmf} and \textsc{klnmf} under Gaussian noise and Salt \& Pepper noise are trivial given their overlapped confidence intervals. Under Possion noise, however, \textsc{klnmf} is superior than \textsc{nmf} for both measurements. 
-
 
 \begin{table}
-\caption{Average of evaluations metrics over $80$ Monte-Carlo simulations using the \texttt{ORL} dataset. The 95\% confidence intervals are calculated using bootstrap.}
+\caption{Results and parameters of the three best setups.}
 \hspace{-1cm}{\small
 \label{tab:ci}\begin{tabular}{l|lll}
  \hline
 \texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
  \hline
 \textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
-
-\textsc{nmf} Gaussian noise & 0.2925 (0.2922, 0.2927) & 0.447 (0.4423, 0.4521) & 0.6212 (0.6176, 0.6247)\tabularnewline
-
-\textsc{nmf} Poisson noise & 0.1611 (0.161, 0.1613) & 0.7313 (0.7262, 0.7367) & 0.8493 (0.8456, 0.8527)\tabularnewline
-
-\textsc{nmf} Salt and Pepper noise & 0.2636 (0.2634, 0.2638) & 0.5094 (0.504, 0.5151) & 0.6721 (0.6679, 0.6764)\tabularnewline
-
-\textsc{klnmf} no noise & 0.1729 (0.1728, 0.173) & 0.7406 (0.7352, 0.7458) & 0.8599 (0.8568, 0.8632)\tabularnewline
-
-\textsc{klnmf} Gaussian noise & 0.2977 (0.2976, 0.2979) & 0.4538 (0.4483, 0.4595) & 0.6209 (0.6165, 0.6255)\tabularnewline
-
-\textsc{klnmf} Poisson noise & 0.1602 (0.1601, 0.1603) & 0.7417 (0.7365, 0.7472) & 0.8573 (0.8542, 0.8602)\tabularnewline
-
-\textsc{klnmf} Salt and Pepper noise & 0.264 (0.2638, 0.2643) & 0.5089 (0.5038, 0.5139) & 0.6734 (0.6694, 0.6779)\tabularnewline
- \hline
+\hline
 \end{tabular}}
 \end{table}
-
-%In terms of the \texttt{CroppedYale} dataset, results from hypothesis tests show that \textsc{nmf} performs uniformly better than \textsc{klnmf}, suggesting more iterations are required on \textsc{klnmf} to compare these two algorithms fairly. We fail to do so because the dataset is much larger than \texttt{ORL} and our multiplicative update rules, especially for \textsc{klnmf} converge too slow. Note that accuracy of \texttt{CroppedYale} is small overall. This is because we rescale the images in \texttt{CroppedYale} by factor 4 whereas we only rescale the images in  \texttt{ORL} by factor 3. Besides, there are more cropped images in  \texttt{CroppedYale} and there are more labels in  \texttt{CroppedYale}. All of them contribute to the low accuracy.
 
 \begin{table}
-\caption{Average of evaluations metrics over 10 Monte-Carlo simulations using \texttt{CroppedYale} dataset.}
-\centering
-\hspace{-1cm}{
-\label{tb:yale}\begin{tabular}{l|lll}
+\caption{Results and parameters of different setups for 89.87 results.}
+\hspace{-1cm}{\small
+\label{tab:ci}\begin{tabular}{l|lll}
  \hline
-\texttt{CroppedYale} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
+\texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
  \hline
-\textsc{nmf} no noise & 0.2022 & 0.2377 & 0.3204\tabularnewline
-
-\textsc{nmf} Gaussian noise & 0.3114 & 0.2116 & 0.2777\tabularnewline
-
-\textsc{nmf} Poisson noise & 0.2023 & 0.2442 & 0.3241\tabularnewline
-
-\textsc{nmf} Salt and Pepper noise & 0.2748 & 0.2133 & 0.2902 \tabularnewline
-
-\textsc{klnmf} no noise & 0.2062 & 0.2434 & 0.3191 \tabularnewline
-
-\textsc{klnmf} Gaussian noise & 0.3106 & 0.2112 & 0.2845 \tabularnewline
-
-\textsc{klnmf} Poisson noise & 0.2065 & 0.2377 & 0.3104\tabularnewline
-
-\textsc{klnmf} Salt and Pepper noise & 0.3164 & 0.1634 &0.2332 \tabularnewline
- \hline
+\textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
+\hline
 \end{tabular}}
 \end{table}
-\subsection{Personal Reflection}
-The implementation of this project was challenging and rewarding. We overcome many problems that are not taught in class by research. For instance, we learnt to use multi-start algorithm with parallel computing to overcome the problem that ~\textsc{klnmf} always gets stuck into local optimal. 
-In addition, we learnt that although one algorithm performs better than another one theoratically, it might require more running time. In real implementation, we need to consider the running time versus performance trade-off. For example, the ~\textsc{klnmf}  multi-start parallel computing has overall better performance than ~\textsc{nmf}; however, it has slow convergence rate and multi-start parallel computing will cost more than than non-multi-start ~\textsc{klnmf} algorithm, especially when training \texttt{CroppedYale} dataset .
-Moreover, we critically considered what truly defines a `good' algorithm. Although theoretically privileged algorithms may be good for handling difficult tasks, they tend to be time-consuming and not easy to implement. For example, through literature review, we found some algorithms such as Truncated Cauchy \textsc{nmf} \citet{guan2017truncated} that are excellent for contaminated data but too difficult for us to implement. Hence, in real-world practice, simpler and faster algorithm may be more widely used than advanced algorithms. 
-Lastly, we observed many interesting results during the experiment. For instance, we found that the \textsc{rre}s of \textsc{klnmf} with Poisson noise is superior to that with no noise in \texttt{ORL} dataset. %One hypothesis is that added Poisson noise neutralised the noise from the original image. Another hypothesis is that 
-This may result from the noise assumptions made by these two algorithms. 
+
+
+\subsection{Experiments Results}
+\subsubsection{Batch normalisation significantly improves the accuracy}
+\subsubsection{Weight decaying prevents overfitting}
+\subsubsection{dropout does not help here}

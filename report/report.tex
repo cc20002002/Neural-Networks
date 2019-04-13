@@ -1,4 +1,4 @@
-\documentclass[a4paper,english,12pt]{article}
+\documentclass[a4paper,UKenglish,12pt]{article}
 %\usepackage[lwarpmk]{lwarp}
 \usepackage{titlesec}
 \usepackage{cc}
@@ -30,11 +30,9 @@
 
 \usepackage{pdfcomment}
 
-%\newcommand{\dania}[1]{}
-%\newcommand{\joyce}[1]{}
+
 \newcommand{\chenc}[1]{\pdfcomment[author=Chen,color={1 0.5 0.5},subject={#1}]{#1}}
-\newcommand{\dania}[1]{\pdfcomment[author=Dania,color={1 1 1},subject={#1}]{#1}}
-\newcommand{\joyce}[1]{\pdfcomment[author=Joyce,color={1 0 1},subject={#1}]{#1}}
+
 %\geometry{bindingoffset=2cm}
 
 
@@ -154,16 +152,15 @@ commentstyle=\color{green!50!black}}
 \renewcommand{\lstlistingname}{Algorithm}
 \usepackage[UKenglish]{babel}
 %\includeonly{chapter3/chapter3}
-\title{\normalfont \large  %14pt uncomment this line
-Multi-class Classification using Multi-layer Neural Network}
+\title{Multi-class Classification using Multi-layer Neural Network}
 \author{
     Chen Chen\quad
     Mingxuan Li\\
     480458339\quad
     470325230
 }
-\date{\normalfont\small \today}
-\makeatother
+\date{\today}
+%\makeatother
 \usepackage{numprint}
 
 \begin{document}
@@ -184,8 +181,8 @@ Multi-class Classification using Multi-layer Neural Network}
 
 %\input{appendix}
 
-\titleformat{\section}
-    {\normalsize\bfseries\centering}{\thesection}{5pt}{\normalsize}
+%\titleformat{\section}
+%   {\normalsize\bfseries\centering}{\thesection}{5pt}{\normalsize}
 \bibliography{research}
 
 \end{document}
