@@ -1,21 +1,34 @@
 \section{Introduction\label{chapter1}}
 %Briefly introduce \textsc{nmf}, applications
-The purpose of this study is to perform a multi-class classification using multi-layer neural network with various optimisation approaches on the given dataset.
-The task provides a training dataset and a testing dataset,
-the training dataset given for this task consists of 128 features and 60,000 samples,
-the test dataset contains 10,000 samples with same amount of features as training dataset,
-The goal is to use the training dataset and labels to build a multi-layer neutral network to classify the testing dataset with different optimisation methods.
-
-Give a short intro of the neural network background
-
-In this report, we will give an overview of multiple-layer neural network architecture with 
-
 
 %- What’s the aim of the study? 
-Classify the images
+% Draft Completed - Pending Review
+The aim of this study is to build a multi-layer neural network application to perform a multi-class classification and use various optimisation approaches to improve the prediction accuracy on the given dataset.
+The task provides a training dataset and a testing dataset,
+the training dataset given for this task consists of 128 features for 60,000 samples,
+the test dataset contains 10,000 samples with same amount of features as training dataset,
+Given the naive multi-layer neural network implementation in the early stage of our research,
+we also tried various optimisation methodologies to further improve the prediction accuracy,
+these methods include different activation functions, weight decay, stochastic gradient descent methods, mini-batch training, batch normalisation and dropout.
 
-%` - Why is the study important? 
-Importance ... why image classification important
+% - Why is the study important? 
+As we all know a Neural Network is a computational learning system that uses a network of functions in multiple layers to understand and translate a data input of one form into a desired output,
+usually in another form (\citet{DeepAI}).
+It learns from processing many labelled examples that are supplied during training and using this answer key to learn what non-linear and complex characteristics of the input are needed to construct the correct output.
+In this supervised training,
+a network processes the inputs and compares its actual outputs against the expected outputs.
+For each iteration the cost will be propagated back through the network,
+to adjust the weights in each layer.
+This process is repeated until the best accuracy is achieved;
+This supervised learning algorithm is often referred to as a back-propagation algorithm,
+which is useful for training multi-layer Neural Networks.
+Since Neural Networks have shown a performance breakthrough in the area of object detection and scene classification,
+so this study will focus on identifying the best network and optimisation methodologies for this purpose (\citet{lecun1998Gradient}).
+
+% Draft Completed - Pending Review
+In this report, we will first introduce all these optimisation methodologies and their common usages,
+followed by the experiment setup and results for the research as well as a detailed comparison of results by applying various methodologies.
+In the end we will also discuss importance of all these methodologies and how our neural network model benefits from them.
 
 %Non-negative matrix factorisation (\textsc{nmf}) is a matrix decomposition technique that approximates a data matrix with non-negative entries with the multiplication of two non-negative matrices
 %\begin{equation*}
