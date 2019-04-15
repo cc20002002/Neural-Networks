@@ -1,10 +1,11 @@
-Parameter,Setup 1,Setup 2, Setup 3
-Runtime(mins),7.1,7.8,10.1
-Accurarcy,89.9,89.7,89.8
-Initialisation,xavier,random,random
-Activation function,tanh,tanh,tanh
-Weight decay rate,0.0007,0.0007,0.0007
-Momentum rate,0.9,0.9,0.92
-Dropout rate,0.95,1.0,1.0
-Learning rate,0.11,0.05,0.05
-np.argmax,44,54,66
+Parameter,Experiment 1,Experiment 2,Experiment 3,Experiment 4
+Runtime(mins),7.1,7.8,10.1,39.5
+Accurarcy,89.9\%,89.7\%,89.8\%,90.0\%
+Initialisation,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform
+Hidden layer nodes,160,150,150,900
+Activation function,tanh,tanh,tanh,tanh
+Weight decay rate,0.0007,0.0007,0.0007,0.007
+Momentum rate,0.9,0.9,0.92,0.9
+Dropout rate,0.95,1.0,1.0,0.5
+Learning rate,0.11,0.05,0.05,0.11
+Early stopping iterations,44,54,66,158
