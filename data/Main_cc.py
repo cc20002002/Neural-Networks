@@ -530,7 +530,7 @@ output_filepath = output_folder / 'runlogs.csv'
 num_lines = sum(1 for line in open(output_filepath))
 max_acc = Acc.max()
 npargmax = np.where(Acc == Acc.max())[0][0]
-run_time = EndTimes[npargmax]
+run_time = EndTimes[npargmax][0]
 job_status = {
     'Id': num_lines,
     'Runtime': run_time,
