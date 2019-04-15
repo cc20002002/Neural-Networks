@@ -1,14 +1,64 @@
 %!TEX root = report.tex
 \section{Methods \label{chapter2}}
-\subsection{Neural network structure}
-\subsubsection{Loss function}
-\subsubsection{Xavier initialisation}
-\subsubsection{Batch normalisation}
-\subsubsection{Activation functions}
-\subsubsection{Dropout}
+We build a fully connect feedforward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements a Xavier initialisation and six hidden layers. 
+Firstly, we apply a batch normalisation~(BN) to normalise the input data~from $\vec z_1$ to~$\tilde{\vec z}_1$. This is followed by a nonlinear activation function. After the first hidden layer, our neural network applies an additional batch normalisation, followed by a dropout to the normalised outputs. 
+We then apply an densely connected layer with a ReLU activation function, an additional dropout layer. The neural network finishes with a Softmax activation layer. 
+
+For each of the three activation layers~$i=1,2,3$, this report uses $\vec t_i=(t_{i1},t_{i2},\ldots)$ to denote the the inputs of the $i$th activation layer, and uses $\vec z_i=(z_{i1},z_{i2},\ldots)$ to denote the outputs of those.
+
+\subsection{Cross validation score and early stopping prevents overfit}
+We partition our dataset into $50,000$ training samples and $10,000$ test samples. For each epoch, we first train our model using the training samples and then compute the cross-validation accuracy using the test samples. After $200$ epoch, we find the number of iteration~\texttt{n\_iter} corresponding to the maximum cross-validation accuracy as our early stopping point. Using all the $60,000$ samples, we then train our model again  \texttt{n\_iter} epoches to obtain our final neural network model.
+
+\subsection{Use Cross-entropy loss as Loss function}
+Define~$\vec y:=(y_1,y_2,\ldots,y_n)$ as our training labels for samples~$i=1,2,\ldots,n$ and $\vec p:=(p_1,p_2,\ldots,p_n)$ as the corresponding predicted probabilities. To train the neural network, we apply the cross-entropy loss 
+\begin{equation}
+  {L(\vec p|\vec y)=-\sum _{i=1}^n y_i\log p_i}.  \label{eq:loss}
+\end{equation}
+The reason to choose cross-entropy loss lies in its derivative. Taking the derivative of loss function~\eqref{eq:loss}
+\begin{equation}
+  \frac{d L(\vec p|\vec y)}{d z_{3i}}=p_i-y_i.  
+\end{equation}
+This derivative function has a key property that many other loss functions like mean square loss do not have---the larger the error~$p_i-y_i$ is, the faster all the neuron will learn.
+
+\subsection{Xavier initialisation speed up convergence}
+We initialise the weight matrix~$W_i$ for $i=1,2,3$ using Monte Carlo method from a uniform distribution bounded by $\pm \sqrt{6/\left[\dim(z_i)+\dim(t_i)\right]}$ as suggest by \citet{pmlr-v9-glorot10a}. We use $0$s as the initial condition for bias vector~$\vec b$.
+
+We also have experimented to use the normal distribution initialisation suggested by (ref Xavier), but it is outperformed in accuracy and speed. So, it is not discussed here.
+
+Xavier initialisation makes sure the initialised weights and biases are not too far away from the optimal weights and biases \citep{pmlr-v9-glorot10a}. This is essential because a poorly initialised optimisation problem usually either ends up with a solution that is far away from global optimum, or diverges.
+
+\subsection{Batch normalisation}
+
+\subsection{Dropout}
+
+\subsection{Activation functions}
+Our neural network model has three densely connected layers including a nonlinear activation function, a ReLU activation function, and a Softmax activation function.
+\subsubsection{Nonlinear activation\label{sec:nonl}}
+The first densely connected layer is chosen to be either of a hyperbolic function 
+\begin{equation}
+ \vec z_1(\tilde{\vec  t}_1)=\tanh(W_1\tilde{\vec  t}_1+\vec b_1) \label{eq:tanh}
+\end{equation}
+or a sigmoid function 
+\begin{equation}
+  \vec z_1 (\tilde{\vec  t})_1 =  {1}\left/\left[1 + \exp\left(W_1\tilde{\vec  t}_1+\vec b_1 \right)\right]\right.  \label{eq:sig}
+\end{equation}
+where matrix~$W_1$ is a $160\times128$ weighting matrix and vector~$\vec b$ is an $160$-dimensional bias vector. 
+Here, the division~$/$ is an elementwise operator.
+This layer provides non-linearity to our neural network.
+\subsubsection{ReLU activation function}
+The second densely connected layer is ReLU
+\begin{equation*}
+   \vec z_2(\tilde{\vec  t}_2)=\max(0,\tilde{\vec  t}_2).
+\end{equation*} 
+ReLU provides the neural network asymmetric properties and some degree of non-smoothness. The nonlinear activation functions~\eqref{eq:tanh}  and~\eqref{eq:sig} do not have these properties. 
+In addition, the sparse nature makes the neural network more computationally efficient \citep{NIPS20145267}.
+\subsubsection{Softmax}
+The Softmax activation functions takes a vector of real numbers as the input, and convert it into a categorical distribution as the output. The activation function is the probability mass function of this categorical distribution
+\begin{equation}
+     \vec z_{3}(\vec t_3)=\frac{\exp(W_3 \vec t_{3})}{\sum _{j}\exp{(W_3 \vec t_{3})}}
+\end{equation}
 \subsection{Stochastic gradient descent finds the optimal weights}
 \subsubsection{Mini-batch improves the speed of computation}
 \subsubsection{Weight decay techniques prevent overfitting}
 \subsubsection{Momentum improves rate of convergence}
 
-r
