@@ -35,7 +35,7 @@ print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
 
-
+random_seed = 1
 learning_rate = 0.11
 max_iteration = 44
 dropout_rate = 0.95
@@ -87,6 +87,7 @@ if len(sys.argv) == 2:
         moment_coef = config['moment_coef']
         weight_decaying = config['weight_decaying']
         non_linear = config['non_linear']
+        random_seed = config['random_seed']
 
 
 # Split Training Sample into Training Dataset and Validation Dataset
@@ -263,7 +264,7 @@ Loss = np.zeros(( max_iteration,1))
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-np.random.seed(1)
+np.random.seed(random_seed)
 
 # TODO Comment out this original initialisation for now
 # Changed to N(0,1)

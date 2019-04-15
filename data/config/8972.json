@@ -6,5 +6,6 @@
   "hidden_layer_dim": 150,
   "moment_coef": 0.9,
   "weight_decaying": 0.0007,
-  "non_linear": "tanh"
+  "non_linear": "tanh",
+  "random_seed": 3
 }
