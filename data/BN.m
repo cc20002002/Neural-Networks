@@ -8,12 +8,12 @@ clear, close all
 
 
 %
-load inputdata
-%test_128=hdf5info('test_128.h5');
+%load inputdata
+test_128=hdf5info('test_128.h5');
 test= hdf5read(test_128.GroupHierarchy.Datasets)';
-%train_128=hdf5info('train_128.h5');
+train_128=hdf5info('train_128.h5');
 x= hdf5read(train_128.GroupHierarchy.Datasets)';
-%train_label=hdf5info('train_label.h5');
+train_label=hdf5info('train_label.h5');
 y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 
 
