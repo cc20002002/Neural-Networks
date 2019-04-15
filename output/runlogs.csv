@@ -1,2 +1,1 @@
-Run timestamp, Activation types, Mini_batch, Batch normalisation, Initialisation, Gradient descent type, Dropout, Weight decay, Parameters, Runtime, Accurarcy
-
+Id,Runtime,Accurarcy,Activation function type,Batch Normalisation,Weight decay rate,Momentum rate,Dropout rate,Learning rate,np.argmax
