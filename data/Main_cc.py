@@ -12,16 +12,18 @@ from scipy.special import softmax
 import h5py
 import math
 import IPython
+from pathlib import Path
 
 
 # In[2]:
 
+data_folder = Path("./")
 # Import Training Data and Testing Data
-with h5py.File('train_128.h5','r') as H: 
+with h5py.File(data_folder / 'train_128.h5','r') as H:
     train_data_set = np.copy(H['data'])
-with h5py.File('train_label.h5','r') as H:
+with h5py.File(data_folder /'train_label.h5','r') as H:
     train_labels_set = np.copy(H['label'])
-with h5py.File('test_128.h5', 'r') as H:
+with h5py.File(data_folder /'test_128.h5', 'r') as H:
     test_data_set = np.copy(H['data'])
 
 # Reshape train_labels_set to be a "m x 1" matrix
@@ -257,7 +259,8 @@ xtest=test_data_set
 
 
 Acc = np.zeros(( max_iteration,1)) 
-Loss = np.zeros(( max_iteration,1)) 
+Loss = np.zeros(( max_iteration,1))
+EndTimes = np.zeros(( max_iteration,1))
 
 #todo: shape is wrong
 
@@ -453,6 +456,7 @@ for iteration in np.arange(0, max_iteration):
     accuracy = np.sum(res==ytest) / res.shape[0] * 100
     
     Acc[iteration] = accuracy
+    EndTimes[iteration] = int(time.time() * 1000) - start_time
     if iteration %40 ==0:
         print(f'iteration: {iteration}')
         print(Acc.max(),accuracy,learning_rate)
@@ -509,12 +513,11 @@ print(test_actuals)
 
 matched_sum = sum(test_actuals==ytest)
 
-hf = h5py.File('../output/predicted_labels.h5', 'w')
+output_folder = Path("../output")
+hf = h5py.File(output_folder / 'predicted_labels.h5', 'w')
 hf.create_dataset('label', data=test_actuals)
 
 print(f'***************************************************************')
-
-end_time = int(time.time() * 1000)
 
 
 def export_runlogs(filepath, data):
@@ -523,11 +526,11 @@ def export_runlogs(filepath, data):
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writerow(data)
 
-output_filepath = '../output/runlogs.csv'
+output_filepath = output_folder / 'runlogs.csv'
 num_lines = sum(1 for line in open(output_filepath))
-run_time = end_time - start_time
 max_acc = Acc.max()
-npargmax = np.where(Acc == Acc.max())[0]
+npargmax = np.where(Acc == Acc.max())[0][0]
+run_time = EndTimes[npargmax]
 job_status = {
     'Id': num_lines,
     'Runtime': run_time,
@@ -540,4 +543,4 @@ job_status = {
     'Learning rate': learning_rate,
     'np.argmax': npargmax
 }
-export_runlogs('../output/runlogs.csv', job_status)
+export_runlogs(output_filepath, job_status)
