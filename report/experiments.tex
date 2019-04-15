@@ -11,6 +11,8 @@ For each dataset, we flatten the image matrix into a vector and append them toge
 
 \subsection{Experiment Setup}
 We apply two algorithms (\textsc{nmf} and \textsc{klnmf}) with four categories of noises (no noise, Gaussian noise, Poisson noise and Salt \& Pepper noise), which results in eight combinations in each epoch. In each epoch, we randomly select 90\% of samples to train NMF algorithms and evaluate three metrics on reconstructed images. The training will terminate when the error reaches the minimum error, or the maximum iteration is reached. The minimum error and maximum iteration are hyperparameters which we learn from iterative experiments. Our code saves the learning errors versus the number of iterations so that we could draw the plot and observe the convergence of the learning process. We increase the number of epochs and calculate the average metrics and confidence intervals.
+
+\subsubsection{multiprocessing speed up hyperparameter tuning}
 \subsubsection{Hardware and software}
 
 \subsubsection{Early stopping decides maximum number of iterations}
@@ -25,6 +27,8 @@ Table of results and hyperparameters with optimal and suboptimal coefficients.
 	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
 \caption{Put accuracy vs iteration here with the best possible hyperparameter, and parameters without each of normalisation, dropout, momentum}\label{noisesklnmff}
 \end{figure}
+
+\csvautobooktabular{grade.csv}
 
 \begin{table}
 \caption{Results and parameters of the three best setups.}

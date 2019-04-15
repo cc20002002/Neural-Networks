@@ -1,4 +1,4 @@
-% defines style  ajr.sty  for working
+% defines style  ajr.sty  for working, 2017-06-30
 
 % options: newcent, colour, nocolour, hyperref, nohyperref, screen, a5
 \newif\ifajr@pdf
@@ -34,7 +34,7 @@
 \renewcommand{\sfdefault}{phv}
 \DeclareFontShape{OT1}{cmr}{m}{n}{ <-> pncr }{} 
 \DeclareFontShape{OT1}{cmr}{bx}{n}{ <-> pncb }{}
-\usepackage[mathbf,mathcal]{euler}
+\usepackage[mathbf,mathcal]{eulervm}
 \addtolength{\textwidth}{1em}
 \else
 % silently imlement bold sc as normal sc
@@ -50,14 +50,15 @@
 
 % colour option invokes coloured titles & sections etc
 \ifajr@colour
-\ifajr@pdf
-\usepackage[pdftex,dvipsnames,usenames]{color} % for pdfLaTeX
-\IfFileExists{pdfcolmk.sty}{\usepackage{pdfcolmk}}{%
-\typeout{**** For best results make available pdfcolmk.sty}}
-\else
-\usepackage[dvips,usenames]{color} % for ordinary LaTeX
-\fi
-\def\ajr@sectioncolour{\color{Brown}\boldmath}
+%\ifajr@pdf
+%\usepackage[pdftex,dvipsnames,usenames]{color} % for pdfLaTeX
+%\IfFileExists{pdfcolmk.sty}{\usepackage{pdfcolmk}}{%
+%\typeout{**** For best results make available pdfcolmk.sty}}
+%\else
+%\usepackage[dvips,usenames]{color} % for ordinary LaTeX
+%\fi
+\usepackage[dvipsnames]{xcolor}
+\def\ajr@sectioncolour{\color{Brown}}
 \renewcommand{\figurename}{\color{Brown}Figure}
 \renewcommand{\tablename}{\color{Brown}Table}
 \def\abstractname{\ajr@sectioncolour Abstract}
@@ -74,13 +75,12 @@
 % \renewcommand{\math}{\color{Sepia}\L@TeXmath}
 % colour all verbatim text
 \let\L@TeXverbatim@font\verbatim@font
-\def\verbatim@font{\color{Sepia}\L@TeXverbatim@font}
-\newcommand{\ajr@footercolour}{\color{OliveGreen}}%{\color{cyan}}
-\newcommand{\ajr@headercolour}{\color{OliveGreen}} %{\color{OliveGreen}} 
-\def\theoremcolour{\color{Plum}}
-% the next two bits change lists to colour
-\DefineNamedColor{named}{DarkBlue}{cmyk}{1,1,0,0.50}
-\newcommand{\ajr@itemcolour}{\ajr@sectioncolour}%{\color{DarkBlue}} 
+\def\verbatim@font{\color{Brown}\L@TeXverbatim@font}
+\newcommand{\ajr@footercolour}{\color{cyan}}
+\newcommand{\ajr@headercolour}{\color{teal}} 
+\def\theoremcolour{\color{violet}}
+% change lists to colour
+\newcommand{\ajr@itemcolour}{\ajr@sectioncolour} 
 % from latex.ltx
 \def\list#1#2{\ifnum \@listdepth >5\relax \@toodeep
      \else \global\advance\@listdepth\@ne \fi
@@ -122,8 +122,8 @@
 % except I very naughtily crunch \MakeUppercase
 \renewcommand{\MakeUppercase}[1]{\ajr@headercolour\textsf{#1}}
 % and put a footer to give date of typesetting
-\def\@oddfoot{\hfill\footnotesize\sf\ajr@footercolour Chen~Chen, \today}
-\def\@evenfoot{\footnotesize\sf\ajr@footercolour Chen~Chen, \today\hfill}
+\def\@oddfoot{\hfill\footnotesize\sf\ajr@footercolour C Chen, M Li, \today}
+\def\@evenfoot{\footnotesize\sf\ajr@footercolour C Chen, M Li, \today\hfill}
 
 % put a References entry into the table of contents
 \let\ajr@@openbib@code\@openbib@code
@@ -162,20 +162,6 @@
 \renewcommand{\floatpagefraction}{0.7}
 
 
-% % define a note for pdf
-% \ifajr@pdf
-% \newcommand{\marginnote}[2][]{
-% \reversemarginpar
-% \marginpar{\PSHyperAnchorStart\PSHyperAnchorEnd
-% \pdfmark{pdfmark=/ANN,
-% Rect=pdf@llx pdf@lly pdf@llx 900 add pdf@ury,
-% Open=false,Color=.2 .7 .2,
-% Title=#1,Contents=#2} }
-% \normalmarginpar}
-% \else 
-% \newcommand{\marginnote}[2][]{
-% \reversemarginpar\marginpar{#1: #2}\normalmarginpar}
-% \fi
 
 % use hyperref if requested
 \ifajr@hyperref
@@ -183,9 +169,12 @@
 %\usepackage[pagebackref]{hyperref}
 \usepackage[]{hyperref}
 % in dvi it only seems to use urlcolor !!!!
-\hypersetup{colorlinks,linkcolor=blue,citecolor=blue,pagecolor=blue,%
+\hypersetup{colorlinks,linkcolor=RoyalBlue,citecolor=RoyalBlue,pagecolor=RoyalBlue,%
             urlcolor=magenta,filecolor=magenta,breaklinks,%
             dvips,bookmarks,bookmarksopen}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Subsection}
+\def\subsubsectionautorefname{Subsubsection}
 % redefine some indexing to get the hyperlinks---should use 
 % hyperindex????
 % \newcommand{\emphhyperpage}[1]{\emph{\hyperpage{#1}}}
@@ -193,20 +182,22 @@
 % \renewcommand{\emidx}[1]{\emph{#1}\index{#1|emphhyperpage}}
 % \renewcommand{\bfidx}[1]{\textbf{#1}\index{#1|bfhyperpage}}
 \ifajr@pdf
-\AtBeginDocument{\hypersetup{
+\AtBeginDocument{{\def\and{, }%
+  \hypersetup{
     pdfauthor={\@author},
-    pdftitle={\@title}}}
+    pdftitle={\@title}}}}
 \fi
 \else\usepackage{url}
 \fi
+\RequirePackage{doi}% loads hyperref!!
 
 % change to a5paper size, good for electronic
 \ifajr@afive
-\AtEndDocument{
-\typeout{**** print on A4 use psnup -2 -s1}
-\typeout{**** or booklet, psbook | psnup -2 -s1 | pstops '2:0,1U(1w,1h)'}
-\typeout{****             with  statusdict begin true setduplexmode end}
-}
+%%\AtEndDocument{
+%%\typeout{**** print on A4 use psnup -2 -s1}
+%%\typeout{**** or booklet, psbook | psnup -2 -s1 | pstops '2:0,1U(1w,1h)'}
+%%\typeout{****             with  statusdict begin true setduplexmode end}
+%%}
 % \setlength{\textwidth}{332pt}\setlength\hoffset{-28pt}
 \ifnum\@ptsize=0
 \setlength{\textwidth}{345pt}\setlength\hoffset{-34pt}
@@ -254,3 +245,22 @@ statusdict begin true setduplexmode end
 
 
 \def\scilab{Scilab}
+
+%% changes spacing in eqnarray
+\def\eqnarray{%
+   \stepcounter{equation}%
+   \def\@currentlabel{\p@equation\theequation}%
+   \global\@eqnswtrue
+   \m@th
+   \global\@eqcnt\z@
+   \tabskip\@centering
+   \let\\\@eqncr
+   $$\everycr{}\halign to\displaywidth\bgroup
+       \hskip\@centering$\displaystyle\tabskip\z@skip{##}$\@eqnsel
+      &\global\@eqcnt\@ne\hskip \arraycolsep \hfil${##}$\hfil
+      &\global\@eqcnt\tw@ \hskip \arraycolsep
+         $\displaystyle{##}$\hfil\tabskip\@centering
+      &\global\@eqcnt\thr@@ \hb@xt@\z@\bgroup\hss##\egroup
+         \tabskip\z@skip
+      \cr
+}
