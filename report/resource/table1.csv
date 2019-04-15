@@ -1,6 +1,7 @@
 Parameter,Setup 1,Setup 2, Setup 3
 Runtime(mins),7.1,7.8,10.1
 Accurarcy,89.9,89.7,89.8
+Initialisation,xavier,random,random
 Activation function,tanh,tanh,tanh
 Weight decay rate,0.0007,0.0007,0.0007
 Momentum rate,0.9,0.9,0.92
