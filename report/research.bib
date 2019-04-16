@@ -14,7 +14,94 @@ year = {2014},
 publisher = {Curran Associates, Inc.},
 url = {http://papers.nips.cc/paper/5267-on-the-computational-efficiency-of-training-neural-networks.pdf}
 }
+@incollection{NIPS20187515,
+title = {How Does Batch Normalization Help Optimization?},
+author = {Santurkar, Shibani and Tsipras, Dimitris and Ilyas, Andrew and Madry, Aleksander},
+booktitle = {Advances in Neural Information Processing Systems 31},
+editor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},
+pages = {2483--2493},
+year = {2018},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.nips.cc/paper/7515-how-does-batch-normalization-help-optimization.pdf}
+}
+@article{rumelhart1986learning,
+  added-at = {2018-06-03T13:17:55.000+0200},
+  author = {Rumelhart, David E. and Hinton, Geoffrey E. and Williams, Ronald J.},
+  biburl = {https://www.bibsonomy.org/bibtex/25d95851c0f627ab11747a2e481ecbad6/achakraborty},
+  description = {Learning representations by back-propagating errors | Nature},
+  interhash = {c354bc293fa9aa7caffc66d40a014903},
+  intrahash = {5d95851c0f627ab11747a2e481ecbad6},
+  journal = {Nature},
+  keywords = {deep-learning nature neural-networks paper},
+  month = oct,
+  pages = {533--},
+  publisher = {Nature Publishing Group},
+  timestamp = {2018-06-03T13:17:55.000+0200},
+  title = {Learning representations by back-propagating errors},
+  url = {http://dx.doi.org/10.1038/323533a0},
+  volume = 323,
+  year = 1986
+}
 
+
+@article{DBLP:journals/corr/GoyalDGNWKTJH17,
+  author    = {Priya Goyal and
+               Piotr Doll{\'{a}}r and
+               Ross B. Girshick and
+               Pieter Noordhuis and
+               Lukasz Wesolowski and
+               Aapo Kyrola and
+               Andrew Tulloch and
+               Yangqing Jia and
+               Kaiming He},
+  title     = {Accurate, Large Minibatch {SGD:} Training ImageNet in 1 Hour},
+  journal   = {CoRR},
+  volume    = {abs/1706.02677},
+  year      = {2017},
+  url       = {http://arxiv.org/abs/1706.02677},
+  archivePrefix = {arXiv},
+  eprint    = {1706.02677},
+  timestamp = {Mon, 13 Aug 2018 16:49:10 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/GoyalDGNWKTJH17},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@article{doi:10.1080/00401706.1970.10488634,
+author = { Arthur E.   Hoerl  and  Robert W.   Kennard },
+title = {Ridge Regression: Biased Estimation for Nonorthogonal Problems},
+journal = {Technometrics},
+volume = {12},
+number = {1},
+pages = {55-67},
+year  = {1970},
+publisher = {Taylor & Francis},
+doi = {10.1080/00401706.1970.10488634},
+
+URL = { 
+        https://www.tandfonline.com/doi/abs/10.1080/00401706.1970.10488634
+    
+},
+eprint = { 
+        https://www.tandfonline.com/doi/pdf/10.1080/00401706.1970.10488634
+    
+}
+
+}
+@InProceedings{pmlr-v37-ioffe15,
+  title = 	 {Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift},
+  author = 	 {Sergey Ioffe and Christian Szegedy},
+  booktitle = 	 {Proceedings of the 32nd International Conference on Machine Learning},
+  pages = 	 {448--456},
+  year = 	 {2015},
+  editor = 	 {Francis Bach and David Blei},
+  volume = 	 {37},
+  series = 	 {Proceedings of Machine Learning Research},
+  address = 	 {Lille, France},
+  month = 	 {07--09 Jul},
+  publisher = 	 {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v37/ioffe15.pdf},
+  url = 	 {http://proceedings.mlr.press/v37/ioffe15.html},
+  abstract = 	 {Training Deep Neural Networks is complicated by the fact that the distribution of each layer’s inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization, and in some cases eliminates the need for Dropout. Applied to a stateof-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.82% top-5 test error, exceeding the accuracy of human raters.}
+}
 @article{lecun1998Gradient,
   title={Gradient-based learning applied to document recognition},
   author={Y. Lecun, L. Bottou, Y. Bengio, P. Haffner},
@@ -25,6 +112,23 @@ url = {http://papers.nips.cc/paper/5267-on-the-computational-efficiency-of-train
   pages={2278--2324},
   year={1998},
   publisher={IEEE}
+}
+@article{DBLP:journals/corr/abs-1207-0580,
+  author    = {Geoffrey E. Hinton and
+               Nitish Srivastava and
+               Alex Krizhevsky and
+               Ilya Sutskever and
+               Ruslan Salakhutdinov},
+  title     = {Improving neural networks by preventing co-adaptation of feature detectors},
+  journal   = {CoRR},
+  volume    = {abs/1207.0580},
+  year      = {2012},
+  url       = {http://arxiv.org/abs/1207.0580},
+  archivePrefix = {arXiv},
+  eprint    = {1207.0580},
+  timestamp = {Mon, 13 Aug 2018 16:46:10 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1207-0580},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 @InProceedings{pmlr-v9-glorot10a,
