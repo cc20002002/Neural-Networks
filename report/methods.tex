@@ -1,10 +1,10 @@
 %!TEX root = report.tex
 \section{Methods \label{chapter2}}
-We build a fully connect feedforward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements a Xavier initialisation and six hidden layers. 
+We build a fully connect feed-forward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements a Xavier initialisation and six hidden layers. 
 
 For each of the three activation layers~$i=1,2,3$, this report uses $\vec t_i=(t_{i1},t_{i2},\ldots)$ to denote the the inputs of the $i$th activation layer\footnote{We use $(\ )$ to denote column vectors, and $[\ ]$ to denote row vectors.}, and uses $\vec z_i=(z_{i1},z_{i2},\ldots)$ to denote the outputs of those. 
-We apply batch normalisation to normalise the input data~from $\vec t_1$ to~$\tilde{\vec t}_1$. This is followed by a nonlinear activation function. After the first hidden layer, our neural network applies an additional batch normalisation, followed by a dropout to the normalised outputs. 
-We then apply an densely connected layer with a ReLU activation function, an additional dropout layer. The neural network finishes with a Softmax activation layer. 
+We apply batch normalisation to normalise the input data~from $\vec t_1$ to~$\tilde{\vec t}_1$. This is followed by a nonlinear activation function. After the first hidden layer, our neural network applies an additional batch normalisation, followed by a drop out to the normalised outputs. 
+We then apply an densely connected layer with a ReLU activation function, an additional drop out layer. The neural network finishes with a Softmax activation layer. 
 
 \subsection{Cross validation score and early stopping prevents overfit}
 We partition our dataset into $50,000$ training samples and $10,000$ test samples. For each epoch, we first train our model using the training samples and then compute the cross-validation accuracy using the test samples. After $200$ epoch, we find the number of iteration~\texttt{n\_iter} corresponding to the maximum cross-validation accuracy as our early stopping point. Using all the $60,000$ samples, we then train our model again  \texttt{n\_iter} epoches to obtain our final neural network model.
@@ -43,10 +43,10 @@ We normalise the inputs~$t_{ij}$ for layers~$i=1,2$. When training using mini-ba
 When predicting test labels, we use the training means~$\frac{1}{\left|B\right|}\sum_B \mu_B^{(j)}$ and training  variances~$\frac{1}{\left|B\right|}\sum_B \frac{\left|B\right|}{\left|B\right|-1}\sigma_B^{(j)^2}$ to normalise the test inputs.
 Our neural network applies this batch normalisation layer to prevents internal covariance shift \citep{pmlr-v37-ioffe15}. Later on, \citet{NIPS20187515} find that batch normalisation makes the optimisation landscape considerably smoother.
 
-\subsection{Dropout performs model averaging}
-We apply dropout to the inputs of the 2nd and 3rd densely connected layers~$\vec t_2$ and $\vec t_3$. 
-When training our neural network, the dropout layer randomly ignores neurons in vectors~$\vec t_2$ and $\vec t_3$ with a given probability hyperparameter~$p$. 
-When predicting labels for cross validation samples and testing samples, we multiply weights~$W_i$ where layer index~$i=2,3$ by hyperparameter~$p$. This dropout layer is equivalent to model averaging, and forces our neural network to learn a more robust set of parameters that are useful in conjunction with many distinct random subsets of the neurons \citep{DBLP:journals/corr/abs-1207-0580}.
+\subsection{Drop out performs model averaging}
+We apply drop out to the inputs of the 2nd and 3rd densely connected layers~$\vec t_2$ and $\vec t_3$. 
+When training our neural network, the drop out layer randomly ignores neurons in vectors~$\vec t_2$ and $\vec t_3$ with a given probability hyperparameter~$p$. 
+When predicting labels for cross validation samples and testing samples, we multiply weights~$W_i$ where layer index~$i=2,3$ by hyperparameter~$p$. This drop out layer is equivalent to model averaging, and forces our neural network to learn a more robust set of parameters that are useful in conjunction with many distinct random subsets of the neurons \citep{DBLP:journals/corr/abs-1207-0580}.
 
 \subsection{Activation functions map input to desired output range}
 Our neural network model has three densely connected layers. These three layers respectively implements a nonlinear activation function, a ReLU activation function, and a Softmax activation function.
@@ -89,6 +89,6 @@ We use~$\eta$ to denote the learning rate, $\alpha$ to denote the momentum coeff
 \begin{equation*}
     \Delta W_i^{(s+1)}=\alpha \Delta W_i^{(s)}-\eta \nabla L(W_i^{(s)})\text{ and } W_i^{(s+1)}=W_i^{(s)}+\Delta W_i^{(s+1)}.
 \end{equation*}
-To initialise this update, we set $\Delta W_i^{(0)}:=0$. This augoregressive update proposal smooths the wiggliness caused by stochastic gradient descent \citep{rumelhart1986learning}, and hence significantly accerlerates the rate of convergence.
+To initialise this update, we set $\Delta W_i^{(0)}:=0$. This autoregressive update proposal smooths the wiggliness caused by stochastic gradient descent \citep{rumelhart1986learning}, and hence significantly accelerates the rate of convergence.
 
 \subsubsection{todo: adam}
