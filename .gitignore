@@ -2,3 +2,4 @@
 .ipynb_checkpoints/
 comp5329-assignment1/
 __pycache__/
+train_128.h5
