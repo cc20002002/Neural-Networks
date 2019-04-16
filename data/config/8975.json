@@ -1,0 +1,11 @@
+{
+  "learning_rate": 0.05,
+  "max_iteration": 200,
+  "dropout_rate": 1,
+  "batch_size": 1500,
+  "hidden_layer_dim": 150,
+  "moment_coef": 0.92,
+  "weight_decaying": 0.0007,
+  "non_linear": "tanh",
+  "random_seed": 3
+}

@@ -4,22 +4,26 @@
 # In[18]:
 
 import csv
+import sys
 import time
+import json
 import numpy as np
 from scipy.special import softmax
 import h5py
 import math
 import IPython
+from pathlib import Path
 
 
 # In[2]:
 
+data_folder = Path("./")
 # Import Training Data and Testing Data
-with h5py.File('train_128.h5','r') as H: 
+with h5py.File(data_folder / 'train_128.h5','r') as H:
     train_data_set = np.copy(H['data'])
-with h5py.File('train_label.h5','r') as H:
+with h5py.File(data_folder /'train_label.h5','r') as H:
     train_labels_set = np.copy(H['label'])
-with h5py.File('test_128.h5', 'r') as H:
+with h5py.File(data_folder /'test_128.h5', 'r') as H:
     test_data_set = np.copy(H['data'])
 
 # Reshape train_labels_set to be a "m x 1" matrix
@@ -33,7 +37,7 @@ print(f'Training label set shape: {train_labels_set_shape}')
 print(f'Testing data set shape: {test_data_set_shape}')
 
 
-
+random_seed = 1
 learning_rate = 0.11
 max_iteration = 44
 dropout_rate = 0.95
@@ -70,6 +74,22 @@ weight_decaying=0.0005
 '''
 
 # In[3]:
+
+if len(sys.argv) == 2:
+    print(f'Using the config in this run')
+    filepath_arg = sys.argv[1]
+    filepath = filepath_arg.split('=')[1]
+    with open(filepath, 'r') as f:
+        config = json.load(f)
+        max_iteration = config['max_iteration']
+        dropout_rate = config['dropout_rate']
+        learning_rate = config['learning_rate']
+        batch_size = config['batch_size']
+        hidden_layer_dim = config['hidden_layer_dim']
+        moment_coef = config['moment_coef']
+        weight_decaying = config['weight_decaying']
+        non_linear = config['non_linear']
+        random_seed = config['random_seed']
 
 
 # Split Training Sample into Training Dataset and Validation Dataset
@@ -239,14 +259,15 @@ xtest=test_data_set
 
 
 Acc = np.zeros(( max_iteration,1)) 
-Loss = np.zeros(( max_iteration,1)) 
+Loss = np.zeros(( max_iteration,1))
+EndTimes = np.zeros(( max_iteration,1))
 
 #todo: shape is wrong
 
 w1_new = np.zeros((hidden_layer_dim, train_data.shape[1] + 1))
 w2_new = np.zeros((hidden_layer_dim, hidden_layer_dim + 1))
 w3_new = np.zeros((output_layer_dim, hidden_layer_dim + 1))
-np.random.seed(1)
+np.random.seed(random_seed)
 
 # TODO Comment out this original initialisation for now
 # Changed to N(0,1)
@@ -287,7 +308,7 @@ gamma1_new=0
 beta2_new=0
 gamma2_new=0
 
-start_time = int(time.time())
+start_time = int(time.time() * 1000)
 
 for iteration in np.arange(0, max_iteration):
     p = np.random.permutation(trainsize).reshape((batches,batch_size)).T
@@ -435,6 +456,7 @@ for iteration in np.arange(0, max_iteration):
     accuracy = np.sum(res==ytest) / res.shape[0] * 100
     
     Acc[iteration] = accuracy
+    EndTimes[iteration] = int(time.time() * 1000) - start_time
     if iteration %40 ==0:
         print(f'iteration: {iteration}')
         print(Acc.max(),accuracy,learning_rate)
@@ -490,35 +512,35 @@ print(test_actuals)
 
 
 matched_sum = sum(test_actuals==ytest)
-print(matched_sum)
 
-hf = h5py.File('../output/test_label.h5', 'w')
+output_folder = Path("../output")
+hf = h5py.File(output_folder / 'predicted_labels.h5', 'w')
 hf.create_dataset('label', data=test_actuals)
 
 print(f'***************************************************************')
 
-end_time = int(time.time())
 
+def export_runlogs(filepath, data):
+    fieldnames = ['Id', 'Runtime', 'Accurarcy', 'Activation function type', 'Batch Normalisation', 'Weight decay rate', 'Momentum rate', 'Dropout rate', 'Learning rate', 'np.argmax']
+    with open(filepath, 'a+', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writerow(data)
 
-# TODO - Refactor here make sure !!!!!!!!!!!!!
-# def export_runlogs(filepath, data):
-#     with open(filepath, 'a+', newline='') as f:
-#         writer = csv.writer(f)
-#         writer.writerows(','.join(data))
-#
-#
-# job_status = [
-#     str(int(time.time())),
-#     f'{non_linear} relu softmax',
-#     '1',
-#     '1',
-#     'normal random',
-#     'normal',
-#     str(dropout_rate),
-#     '1',
-#     'more here',
-#     str(end_time - start_time),
-#     str(Acc[-1])
-# ]
-#
-# export_runlogs('../output/runlogs.csv', job_status)
+output_filepath = output_folder / 'runlogs.csv'
+num_lines = sum(1 for line in open(output_filepath))
+max_acc = Acc.max()
+npargmax = np.where(Acc == Acc.max())[0][0]
+run_time = EndTimes[npargmax][0]
+job_status = {
+    'Id': num_lines,
+    'Runtime': run_time,
+    'Accurarcy': str(max_acc),
+    'Activation function type': non_linear,
+    'Batch Normalisation': 'True',
+    'Weight decay rate': weight_decaying,
+    'Momentum rate': moment_coef,
+    'Dropout rate': dropout_rate,
+    'Learning rate': learning_rate,
+    'np.argmax': npargmax
+}
+export_runlogs(output_filepath, job_status)

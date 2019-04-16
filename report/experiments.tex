@@ -11,6 +11,8 @@ For each dataset, we flatten the image matrix into a vector and append them toge
 
 \subsection{Experiment Setup}
 We apply two algorithms (\textsc{nmf} and \textsc{klnmf}) with four categories of noises (no noise, Gaussian noise, Poisson noise and Salt \& Pepper noise), which results in eight combinations in each epoch. In each epoch, we randomly select 90\% of samples to train NMF algorithms and evaluate three metrics on reconstructed images. The training will terminate when the error reaches the minimum error, or the maximum iteration is reached. The minimum error and maximum iteration are hyperparameters which we learn from iterative experiments. Our code saves the learning errors versus the number of iterations so that we could draw the plot and observe the convergence of the learning process. We increase the number of epochs and calculate the average metrics and confidence intervals.
+
+\subsubsection{multiprocessing speed up hyperparameter tuning}
 \subsubsection{Hardware and software}
 
 \subsubsection{Early stopping decides maximum number of iterations}
@@ -26,16 +28,19 @@ Table of results and hyperparameters with optimal and suboptimal coefficients.
 \caption{Put accuracy vs iteration here with the best possible hyperparameter, and parameters without each of normalisation, dropout, momentum}\label{noisesklnmff}
 \end{figure}
 
+
 \begin{table}
-\caption{Results and parameters of the three best setups.}
+\caption{Results and parameters of the best four setups.}
 \hspace{-1cm}{\small
-\label{tab:ci}\begin{tabular}{l|lll}
- \hline
-\texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
- \hline
-\textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
-\hline
-\end{tabular}}
+% \label{tab:ci}\begin{tabular}{l|lll}
+%  \hline
+% \texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
+%  \hline
+% \textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
+% \hline
+% \end{tabular}}
+\centering
+\csvautobooktabular{resource/table1.csv}}
 \end{table}
 
 \begin{table}
@@ -52,6 +57,7 @@ Table of results and hyperparameters with optimal and suboptimal coefficients.
 
 
 \subsection{Experiments Results}
+\subsubsection{Vectorisation dramatically improves the speed of training}
 \subsubsection{Batch normalisation significantly improves the accuracy}
 \subsubsection{Weight decaying prevents overfitting}
 \subsubsection{dropout does not help here}

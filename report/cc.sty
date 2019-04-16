@@ -1,14 +1,15 @@
+% defines style  ajr.sty  for working
 
 % options: newcent, colour, nocolour, hyperref, nohyperref, screen, a5
 \newif\ifajr@pdf
 \ifx\pdfoutput\undefined\ajr@pdffalse\else\ajr@pdftrue\fi
 \newif\ifajr@newcent \ajr@newcentfalse
-\newif\ifajr@colour
+\newif\ifajr@colour 
 \ifajr@pdf\ajr@colourtrue\else\ajr@colourfalse\fi
-\newif\ifajr@hyperref
+\newif\ifajr@hyperref 
 \ifajr@pdf\ajr@hyperreftrue\else\ajr@hyperreffalse\fi
 \newif\ifajr@screen \ajr@screenfalse
-\newif\ifajr@afive
+\newif\ifajr@afive 
 \ifdim\paperwidth=148mm \ajr@afivetrue\else\ajr@afivefalse\fi
 % process options
 \DeclareOption{newcent}{\ajr@newcenttrue}
@@ -29,9 +30,9 @@
 
 % newcent option uses the postscript fonts (except for maths)
 \ifajr@newcent
-\usepackage{newcent}
+\usepackage{newcent} 
 \renewcommand{\sfdefault}{phv}
-\DeclareFontShape{OT1}{cmr}{m}{n}{ <-> pncr }{}
+\DeclareFontShape{OT1}{cmr}{m}{n}{ <-> pncr }{} 
 \DeclareFontShape{OT1}{cmr}{bx}{n}{ <-> pncb }{}
 \usepackage[mathbf,mathcal]{euler}
 \addtolength{\textwidth}{1em}
@@ -60,9 +61,9 @@
 \renewcommand{\figurename}{\color{Brown}Figure}
 \renewcommand{\tablename}{\color{Brown}Table}
 \def\abstractname{\ajr@sectioncolour Abstract}
-\let\L@TeX@startsection\@startsection
+\let\L@TeX@startsection\@startsection 
 \renewcommand{\@startsection}[6]{\L@TeX@startsection{#1}{#2}{#3}{#4}{#5}%
-{\ajr@sectioncolour\raggedright #6}}
+{\ajr@sectioncolour\raggedright #6}} 
 \let\L@TeXmaketitle\@maketitle
 \def\@maketitle{{\color{Brown}\sf\L@TeXmaketitle}}
 % \let\L@TeXequation\equation
@@ -75,11 +76,11 @@
 \let\L@TeXverbatim@font\verbatim@font
 \def\verbatim@font{\color{Sepia}\L@TeXverbatim@font}
 \newcommand{\ajr@footercolour}{\color{OliveGreen}}%{\color{cyan}}
-\newcommand{\ajr@headercolour}{\color{OliveGreen}} %{\color{OliveGreen}}
+\newcommand{\ajr@headercolour}{\color{OliveGreen}} %{\color{OliveGreen}} 
 \def\theoremcolour{\color{Plum}}
 % the next two bits change lists to colour
 \DefineNamedColor{named}{DarkBlue}{cmyk}{1,1,0,0.50}
-\newcommand{\ajr@itemcolour}{\ajr@sectioncolour}%{\color{DarkBlue}}
+\newcommand{\ajr@itemcolour}{\ajr@sectioncolour}%{\color{DarkBlue}} 
 % from latex.ltx
 \def\list#1#2{\ifnum \@listdepth >5\relax \@toodeep
      \else \global\advance\@listdepth\@ne \fi
@@ -121,8 +122,8 @@
 % except I very naughtily crunch \MakeUppercase
 \renewcommand{\MakeUppercase}[1]{\ajr@headercolour\textsf{#1}}
 % and put a footer to give date of typesetting
-\def\@oddfoot{\hfill\footnotesize\sf\ajr@footercolour C Chen, M Li, \today}
-\def\@evenfoot{\footnotesize\sf\ajr@footercolour Group****, \today\hfill}
+\def\@oddfoot{\hfill\footnotesize\sf\ajr@footercolour Chen~Chen, \today}
+\def\@evenfoot{\footnotesize\sf\ajr@footercolour Chen~Chen, \today\hfill}
 
 % put a References entry into the table of contents
 \let\ajr@@openbib@code\@openbib@code
@@ -138,7 +139,7 @@
     }
 	
 % change \paper width and height here??
-\ifajr@screen % make the page shorter & margin wider
+\ifajr@screen % make the page shorter & margin wider 
     \setlength{\textheight}{130mm}
     \setlength{\marginparwidth}{30mm}
     % reduce gap at top & increase page sizes correspondingly
@@ -171,7 +172,7 @@
 % Open=false,Color=.2 .7 .2,
 % Title=#1,Contents=#2} }
 % \normalmarginpar}
-% \else
+% \else 
 % \newcommand{\marginnote}[2][]{
 % \reversemarginpar\marginpar{#1: #2}\normalmarginpar}
 % \fi
@@ -185,7 +186,7 @@
 \hypersetup{colorlinks,linkcolor=blue,citecolor=blue,pagecolor=blue,%
             urlcolor=magenta,filecolor=magenta,breaklinks,%
             dvips,bookmarks,bookmarksopen}
-% redefine some indexing to get the hyperlinks---should use
+% redefine some indexing to get the hyperlinks---should use 
 % hyperindex????
 % \newcommand{\emphhyperpage}[1]{\emph{\hyperpage{#1}}}
 % \newcommand{\bfhyperpage}[1]{\textbf{\hyperpage{#1}}}
@@ -193,7 +194,7 @@
 % \renewcommand{\bfidx}[1]{\textbf{#1}\index{#1|bfhyperpage}}
 \ifajr@pdf
 \AtBeginDocument{\hypersetup{
-    pdfauthor={Chen Chen, Mingxuan Li},
+    pdfauthor={\@author},
     pdftitle={\@title}}}
 \fi
 \else\usepackage{url}
@@ -233,7 +234,7 @@ statusdict begin true setduplexmode end
 
 
 % if using ProTeX package for computer code
-\ifx\AlProTex\@undefined\else
+\ifx\AlProTex\@undefined\else 
 \typeout{**** Changing appearance of ProTeX ****}
 \let\CodeFont\verbatim@font
 \def\ModifyFrontTitle#1{
