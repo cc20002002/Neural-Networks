@@ -75,10 +75,12 @@ weight_decaying=0.0005
 
 # In[3]:
 
+input_filepath = None
 if len(sys.argv) == 2:
     print(f'Using the config in this run')
     filepath_arg = sys.argv[1]
     filepath = filepath_arg.split('=')[1]
+    input_filepath = filepath
     with open(filepath, 'r') as f:
         config = json.load(f)
         max_iteration = config['max_iteration']
@@ -521,7 +523,7 @@ print(f'***************************************************************')
 
 
 def export_runlogs(filepath, data):
-    fieldnames = ['Id', 'Runtime', 'Accurarcy', 'Activation function type', 'Batch Normalisation', 'Weight decay rate', 'Momentum rate', 'Dropout rate', 'Learning rate', 'np.argmax']
+    fieldnames = ['Id', 'Name', 'Runtime', 'Accurarcy', 'Activation function type', 'Batch Normalisation', 'Weight decay rate', 'Momentum rate', 'Dropout rate', 'Learning rate', 'np.argmax']
     with open(filepath, 'a+', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writerow(data)
@@ -533,6 +535,7 @@ npargmax = np.where(Acc == Acc.max())[0][0]
 run_time = round(EndTimes[npargmax][0]/60000, 1)
 job_status = {
     'Id': num_lines,
+    'Name': input_filepath,
     'Runtime': run_time,
     'Accurarcy': str(max_acc),
     'Activation function type': non_linear,
