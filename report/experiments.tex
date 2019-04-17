@@ -40,23 +40,23 @@ it guides us on how many iterations can be run before the model begins to over-f
 In our experiment,
 we observed that the benchmark model has an early-stopping at \texttt{n\_iter}=$44$.
 
-\subsection{Experiments Results}
-\subsubsection{Optimal hyperparameters}
-
-Table of results and hyperparameters with optimal and suboptimal coefficients.
-
 \begin{figure}
 	\centering{
 	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
 	\includegraphics
-    {resource/acc.eps}}
+    {resource/acc2.eps}}
     \caption{Results and parameters of different setups for 89.87}
     \label{fig:acc-iter}
 \end{figure}
 
+\subsection{Experiments Results}
+\subsubsection{Optimal hyperparameters}
+
+Table~\ref{table:best-four-steps} shows results and hyperparameters with optimal and sub-optimal coefficients.
 
 \begin{table}
 \caption{Results and parameters of the best four setups.}
+\label{table:best-four-steps}
 {\footnotesize
 % \label{tab:ci}\begin{tabular}{l|lll}
 %  \hline
@@ -122,5 +122,5 @@ Early stopping iterations & 44      & 9          & 198          & 16       & 177
 \subsection{Experiments Results}
 \subsubsection{Vectorisation dramatically improves the speed of training}
 \subsubsection{Batch normalisation significantly improves the accuracy}
-\subsubsection{Weight decaying prevents overfitting}
+\subsubsection{Weight decaying prevents over-fitting}
 \subsubsection{dropout does not help here}
