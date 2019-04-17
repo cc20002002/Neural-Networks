@@ -1,7 +1,7 @@
-Experiment/Parameters,Test 1,Test 2,Test 3,Test 4,Test 5
+Experiment,Test 1,Test 2,Test 3,Test 4,Test 5
 Runtime(mins),2.3,2.7,3.6,17.2,10.8
 Accurarcy,89.9\%,89.7\%,89.8\%,90.0\%,89.3\%
-Initialisation,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform
+Initialisation,Xavier,"Uniform $(-1,1)$","Uniform $(-1,1)$",Xavier,Xavier
 Batch size,1500,1500,1500,1500,1500
 Hidden layer nodes,160,150,150,900,160
 Activation function,$\tanh$,$\tanh$,$\tanh$,$\tanh$,sigmoid

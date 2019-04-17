@@ -1,7 +1,7 @@
-Experiment,Test 1,Without Mini-Batch,Without weight decay,Without momentum,Drop out rate 0.5
-Runtime(mins),2.3,0.5,8.6,0.8,7.6
+Experiment,Test 1,Mini-Batch, Weight decay,Momentum,Drop out 50\%
+Runtime(minutes),2.3,0.5,8.6,0.8,7.6
 Accurarcy,89.9\%,85.5\%,89.4\%,88.6\%,87.5\%
-Initialisation Domain,"$\left(-\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}},\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}}\right)$","$\left(-\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}},\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}}\right)$","$\left(-\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}},\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}}\right)$","$\left(-\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}},\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}}\right)$","$\left(-\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}},\sqrt{\frac{6}{\left[\dim(z_i)+\dim(t_i)\right]}}\right)$"
+Initialisation,Xavier,Xavier,Xavier,Xavier,Xavier
 Batch size,1500,1500,1500,1500,60000
 Hidden layer nodes,160,160,160,160,160
 Activation function,$\tanh$,$\tanh$,$\tanh$,$\tanh$,$\tanh$
