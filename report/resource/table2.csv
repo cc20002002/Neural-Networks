@@ -1,5 +1,5 @@
 Experiment/Parameters,Test 1,Test 6,Test 7,Test 8,Test 9
-Runtime(mins),2.3,0.5,8.6,0.8,2.2
+Runtime(mins),2.3,0.5,8.6,0.8,7.6
 Accurarcy,89.9\%,85.5\%,89.4\%,88.6\%,87.5\%
 Initialisation,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform
 Batch size,1500,1500,1500,1500,60000
@@ -9,4 +9,4 @@ Weight decay rate,0.0007,0.0007,0.0007,0.0,0.007
 Momentum rate,0.9,0.9,0.0,0.9,0.9
 Dropout rate,0.95,0.5,0.95,0.95,0.95
 Learning rate,0.11,0.11,0.11,0.11,0.11
-Early stopping iterations,44,9,198,16,44
+Early stopping iterations,44,9,198,16,177
