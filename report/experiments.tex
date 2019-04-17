@@ -1,8 +1,5 @@
 \section{Experiments and results}\label{chapter4}
 
-
-
-
 \subsection{Dataset}
 We illustrate our neural network model on given datasets: training dataset, training labels and testing dataset.
 Both training and testing datasets contain multiple samples with fixed-length of features.
@@ -13,16 +10,35 @@ Initially we split our dataset into $50,000$ training samples and $10,000$ test 
 Then we use all the $60,000$ samples to build our final neural network model.
 
 \subsection{Experiment Setup}
-We apply two algorithms (\textsc{nmf} and \textsc{klnmf}) with four categories of noises (no noise, Gaussian noise, Poisson noise and Salt \& Pepper noise), which results in eight combinations in each epoch. In each epoch, we randomly select 90\% of samples to train NMF algorithms and evaluate three metrics on reconstructed images. The training will terminate when the error reaches the minimum error, or the maximum iteration is reached. The minimum error and maximum iteration are hyperparameters which we learn from iterative experiments. Our code saves the learning errors versus the number of iterations so that we could draw the plot and observe the convergence of the learning process. We increase the number of epochs and calculate the average metrics and confidence intervals.
+We apply three layers neural network model with three different activation functions such as tanh, sigmoid and ReLu for the hidden layers as well as a Softmax activation function for the output layer.
+We apply batch normalisation to the input for each layer to reduce the training time and make our model more resilient to parameter scale.
+As for the regularisation techniques,
+we use early stopping, drop out and weight decay to prevent over-fitting.
+We use combinations of all the above setups to tune the hyperparameters for our neural network model,
+in the end we successfully find the benchmark model to use for prediction with best accuracy and reasonable runtime.
 
-\subsubsection{multiprocessing speed up hyperparameter tuning}
+\subsubsection{multiprocessing speed up hyperparameters tuning}
 We write a shell script to run all our tests in parallel in the virtual machines on the cloud,
-this helps us fully utilise our computing resources to generate the test results
+this helps us fully utilise our computing resources to run multiple experiments with combinations of hyperparameters to tune our model.
 
 \subsubsection{Hardware and software}
-We use the following hardware to train our neural network model and generate the test results.
+Figure~\ref{fig:hardware} shows the specification of the hardware we use for our experiments.
+For the software, we are using python 3.6 to run the neural network model with a list of library dependencies specified in the requirements.txt file in our sample codes.
+
+\begin{figure}
+    \center{
+        \includegraphics{resource/hardware.png}
+    }
+    \caption{Hardware to run the tests.}
+    \label{fig:hardware}
+\end{figure}
+
 
 \subsubsection{Early stopping decides maximum number of iterations}
+Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
+it guides us on how many iterations can be run before the model begins to over-fit.
+In our experiment,
+we observed that the benchmark model has an early-stopping at \texttt{n\_iter}=$44$.
 
 \subsection{Experiments Results}
 \subsubsection{Optimal hyperparameters}
@@ -30,9 +46,12 @@ We use the following hardware to train our neural network model and generate the
 Table of results and hyperparameters with optimal and suboptimal coefficients.
 
 \begin{figure}
-	\centering
+	\centering{
 	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
-\caption{Put accuracy vs iteration here with the best possible hyperparameter, and parameters without each of normalisation, dropout, momentum}\label{noisesklnmff}
+	\includegraphics
+    {resource/acc.eps}}
+    \caption{Results and parameters of different setups for 89.87}
+    \label{fig:acc-iter}
 \end{figure}
 
 
@@ -87,16 +106,16 @@ Early stopping iterations & 44      & 9          & 198          & 16       & 177
 }
 \end{table}
 
-\begin{figure}
-    \center{\includegraphics
-    {resource/acc.eps}}
-    \caption{\label{fig:my-label}Results and parameters of different setups for 89.87 results.}
-\end{figure}
+% \begin{figure}
+%     \center{\includegraphics
+%     {resource/acc.eps}}
+%     \caption{\label{fig:my-label2}Results and parameters of different setups for 89.87 results.}
+% \end{figure}
 
 \begin{figure}
     \center{\includegraphics
     {resource/figure2.eps}}
-    \caption{\label{fig:my-label}Weight Matrix on multiple layers.}
+    \caption{\label{fig:my-label3}Weight Matrix on multiple layers.}
 \end{figure}
 
 
