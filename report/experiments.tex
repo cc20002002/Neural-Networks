@@ -4,16 +4,23 @@
 
 
 \subsection{Dataset}
-We illustrate our two \textsc{nmf} algorithms on two real-world face image datasets: \texttt{ORL} and \texttt{CroppedYaleB} (\citet{belhumeur1997eigenfaces}).
-Both \texttt{ORL} and \texttt{CroppedYale} datasets contain multiple images of distinct subjects with various facial expression, lighting condition, and facial details.
-Images in ORL are cropped and resized to $92 \times 112$ pixels. We further rescale it to $30 \times 37$ pixels. Similarly, we reduce the size of images in \texttt{CroppedYale} to $42 \times 48$ pixels.
-For each dataset, we flatten the image matrix into a vector and append them together to get a matrix $V$ with shape $d\times n$ where integer~$d$ is the number of pixels in one image and integer~$n$ is the number of images. In each epoch, we use 90\% of data.
+We illustrate our neural network model on given datasets: training dataset, training labels and testing dataset.
+Both training and testing datasets contain multiple samples with fixed-length of features.
+We also observed that the original training dataset might be applied with PCA and reduced the dimension to $60000 \times 128$ matrix.
+The training label is a $60000 \times 1$ matrix.
+Similarly, the testing dataset is $10000 \times 128$ matrix.
+Initially we split our dataset into $50,000$ training samples and $10,000$ test samples to find the number of iteration~\texttt{n\_iter} corresponding to the maximum cross-validation accuracy as our early stopping point.
+Then we use all the $60,000$ samples to build our final neural network model.
 
 \subsection{Experiment Setup}
 We apply two algorithms (\textsc{nmf} and \textsc{klnmf}) with four categories of noises (no noise, Gaussian noise, Poisson noise and Salt \& Pepper noise), which results in eight combinations in each epoch. In each epoch, we randomly select 90\% of samples to train NMF algorithms and evaluate three metrics on reconstructed images. The training will terminate when the error reaches the minimum error, or the maximum iteration is reached. The minimum error and maximum iteration are hyperparameters which we learn from iterative experiments. Our code saves the learning errors versus the number of iterations so that we could draw the plot and observe the convergence of the learning process. We increase the number of epochs and calculate the average metrics and confidence intervals.
 
 \subsubsection{multiprocessing speed up hyperparameter tuning}
+We write a shell script to run all our tests in parallel in the virtual machines on the cloud,
+this helps us fully utilise our computing resources to generate the test results
+
 \subsubsection{Hardware and software}
+We use the following hardware to train our neural network model and generate the test results.
 
 \subsubsection{Early stopping decides maximum number of iterations}
 
@@ -84,6 +91,12 @@ Early stopping iterations & 44      & 9          & 198          & 16       & 177
     \center{\includegraphics
     {resource/acc.eps}}
     \caption{\label{fig:my-label}Results and parameters of different setups for 89.87 results.}
+\end{figure}
+
+\begin{figure}
+    \center{\includegraphics
+    {resource/figure2.eps}}
+    \caption{\label{fig:my-label}Weight Matrix on multiple layers.}
 \end{figure}
 
 
