@@ -76,11 +76,13 @@ weight_decaying=0.0005
 # In[3]:
 
 input_filepath = None
+acc_output_filepath = None
 if len(sys.argv) == 2:
     print(f'Using the config in this run')
     filepath_arg = sys.argv[1]
     filepath = filepath_arg.split('=')[1]
     input_filepath = filepath
+    acc_output_filepath = filepath.split('/')[-1]
     with open(filepath, 'r') as f:
         config = json.load(f)
         max_iteration = config['max_iteration']
@@ -548,5 +550,5 @@ job_status = {
 }
 export_runlogs(output_filepath, job_status)
 
-acc_output_filepath = output_folder / input_filepath / '.csv'
+acc_output_filepath = output_folder / (acc_output_filepath + '.csv')
 np.savetxt(acc_output_filepath, Acc, delimiter=",")
