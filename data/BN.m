@@ -51,7 +51,7 @@ x_max = max(max(x));
 
 % learning
 lr = 0.1;   % learning rate
-max_iteration = 250;
+max_iteration = 50;
 for hidden_layer_dim= 161
 %numHid = 190; % hidden(midle) layer's unit size
 
@@ -211,46 +211,46 @@ end
 end
 % visualize learning
 figure(2)
-subplot(4,1,1)
+subplot(3,1,1)
 imagesc(w1(:,2:end)', [min(min(w1(:,2:end))), max(max(w1(:,2:end)))]);
-title('input-hidden weight')
-ylabel('input layer')
-xlabel('hidden layer')
+title('Input-hidden weight')
+ylabel('Input layer')
+xlabel('Hidden layer')
 ax = gca;
-ax.XTick = 1:3:hidden_layer_dim;
-ax.YTick = 1:20:numFV;
+ax.XTick = 1:15:hidden_layer_dim;
+ax.YTick = 1:30:numFV;
 colorbar
 
-subplot(4,1,2)
+subplot(3,1,2)
 imagesc(w2(:,2:end), [min(min(w2(:,2:end))), max(max(w2(:,2:end)))]);
-title('hidden-hidden weight')
-xlabel('hidden layer')
-ylabel('hidden layer')
+title('Hidden-hidden weight')
+xlabel('Hidden layer')
+ylabel('Hidden layer')
 ax = gca;
-ax.XTick = 1:3:hidden_layer_dim;
-ax.YTick = 1:5:hidden_layer_dim;
+ax.XTick = 1:15:hidden_layer_dim;
+ax.YTick = 1:35:hidden_layer_dim;
 colormap(hot);
 colorbar
 
-subplot(4,1,3)
+subplot(3,1,3)
 imagesc(w3(:,2:end), [min(min(w3(:,2:end))), max(max(w3(:,2:end)))]);
-title('hidden-output weight')
-xlabel('hidden layer')
-ylabel('output layer')
+title('Hidden-output weight')
+xlabel('Hidden layer')
+ylabel('Output layer')
 ax = gca;
-ax.XTick = 1:3:hidden_layer_dim;
+ax.XTick = 1:15:hidden_layer_dim;
 ax.YTick = 1:5:numOut;
 colormap(hot);
 colorbar
 
 %
-subplot(4,1,4)
-plot(1:max_iteration, loss, 'k');
-hold on;
-grid
-title('Learning curve')
-xlabel('iteration');
-ylabel('accuracy')
+%subplot(4,1,4)
+%plot(1:max_iteration, loss, 'k');
+%hold on;
+%grid
+%title('Learning curve')
+%xlabel('iteration');
+%ylabel('accuracy')
 
 print -depsc2
-eps2pdf('figure2.eps')
+eps2pdf('weight.eps')

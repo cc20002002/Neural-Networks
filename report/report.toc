@@ -1,26 +1,37 @@
 \babel@toc {UKenglish}{}
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}
-\contentsline {section}{\numberline {2}Related work}{3}{section.2}
-\contentsline {section}{\numberline {3}Methods }{4}{section.3}
-\contentsline {subsection}{\numberline {3.1}NMF and Gaussian noise}{4}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}KLNMF and Poisson noise}{4}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Preprocess}{6}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Gaussian and Poisson are asymptotic equivalent}{6}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Salt \& Pepper noise}{6}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Multiple initial estimates assure the algorithms stable}{6}{subsection.3.6}
-\contentsline {subsection}{\numberline {3.7}KLNMF requires more iterations}{8}{subsection.3.7}
-\contentsline {subsection}{\numberline {3.8}Evaluation metrics and their confidence intervals }{9}{subsection.3.8}
-\contentsline {subsection}{\numberline {3.9}Statistical method compares the robustness of algorithms}{9}{subsection.3.9}
-\contentsline {section}{\numberline {4}Experiments}{10}{section.4}
-\contentsline {subsection}{\numberline {4.1}Dataset}{10}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Noise}{10}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Gaussian Noise}{10}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Poisson Noise}{11}{subsubsection.4.2.2}
-\contentsline {subsubsection}{\numberline {4.2.3}Salt \& Pepper Noise}{11}{subsubsection.4.2.3}
-\contentsline {subsection}{\numberline {4.3}Experiment Setup}{12}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Experiments Results}{12}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Two algorithms output similar reconstructed images}{12}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Hypothesis test distinguishes the difference in RRE}{12}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}ACC and NMI results}{16}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Personal Reflection}{17}{subsection.4.5}
-\contentsline {section}{\numberline {5}Conclusion}{18}{section.5}
+\contentsline {section}{\numberline {2}Methods }{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Cross validation score and early stopping prevents overfit}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Cross-entropy with weight decay improves the model robustness}{4}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Xavier initialisation speeds up convergence}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Batch normalisation prevents internal covariance shift}{6}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Drop out performs model averaging}{6}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Activation functions map input to desired output range}{6}{subsection.2.6}
+\contentsline {subsubsection}{\numberline {2.6.1}Nonlinear activation}{7}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.2}ReLU activation function}{7}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.3}Softmax activation function}{7}{subsubsection.2.6.3}
+\contentsline {subsection}{\numberline {2.7}Stochastic gradient descent finds the optimal weights}{8}{subsection.2.7}
+\contentsline {subsubsection}{\numberline {2.7.1}Mini-batch improves the speed of computation }{8}{subsubsection.2.7.1}
+\contentsline {subsubsection}{\numberline {2.7.2}Momentum accelerates rate of convergence}{8}{subsubsection.2.7.2}
+\contentsline {subsubsection}{\numberline {2.7.3}todo: adam}{8}{subsubsection.2.7.3}
+\contentsline {section}{\numberline {3}Experiments and results}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Dataset}{9}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Experiment Setup}{9}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}multiprocessing speed up hyperparameter tuning}{9}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Hardware and software}{9}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Early stopping decides maximum number of iterations}{9}{subsubsection.3.2.3}
+\contentsline {subsection}{\numberline {3.3}Experiments Results}{9}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Optimal hyperparameters}{9}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {3.4}Experiments Results}{11}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Vectorisation dramatically improves the speed of training}{11}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Batch normalisation significantly improves the accuracy}{11}{subsubsection.3.4.2}
+\contentsline {subsubsection}{\numberline {3.4.3}Weight decaying prevents overfitting}{11}{subsubsection.3.4.3}
+\contentsline {subsubsection}{\numberline {3.4.4}dropout does not help here}{11}{subsubsection.3.4.4}
+\contentsline {section}{\numberline {4}Discussion}{11}{section.4}
+\contentsline {subsection}{\numberline {4.1}Why relu helpful}{11}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Why batch normalisation helpful}{11}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Weight decaying}{12}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Why drop out is not helpful}{12}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Why early stopping}{12}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Why momentum}{12}{subsection.4.6}
+\contentsline {section}{\numberline {5}Conclusion}{12}{section.5}

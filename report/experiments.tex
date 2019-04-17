@@ -31,7 +31,7 @@ Table of results and hyperparameters with optimal and suboptimal coefficients.
 
 \begin{table}
 \caption{Results and parameters of the best four setups.}
-\hspace{-3cm}{\small
+{\footnotesize
 % \label{tab:ci}\begin{tabular}{l|lll}
 %  \hline
 % \texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
@@ -40,21 +40,45 @@ Table of results and hyperparameters with optimal and suboptimal coefficients.
 % \hline
 % \end{tabular}}
 \centering
-\csvautobooktabular{resource/table1.csv}}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Experiment                & Test 1  & Test 2           & Test 3           & Test 4  & Test 5  \\ \midrule
+Runtime(mins)             & 2.3     & 2.7              & 3.6              & 17.2    & 10.8    \\
+Accurarcy                 & 89.9\%  & 89.7\%           & 89.8\%           & 90.0\%  & 89.3\%  \\
+Initialisation            & Xavier  & Uniform\\$(-1,1)$ & Uniform\\$(-1,1)$ & Xavier  & Xavier  \\
+Batch size                & 1500    & 1500             & 1500             & 1500    & 1500    \\
+Hidden layer nodes        & 160     & 150              & 150              & 900     & 160     \\
+Activation function       & $\tanh$ & $\tanh$          & $\tanh$          & $\tanh$ & sigmoid \\
+Weight decay rate         & 0.0007  & 0.0007           & 0.0007           & 0.007   & 0.007   \\
+Momentum rate             & 0.9     & 0.9              & 0.92             & 0.9     & 0.9     \\
+Dropout rate              & 0.95    & 1.0              & 1.0              & 0.5     & 0.95    \\
+Learning rate             & 0.11    & 0.05             & 0.05             & 0.11    & 0.11    \\
+Early stopping iterations & 44      & 54               & 66               & 158     & 282     \\ \bottomrule
+\end{tabular}
+%\csvautobooktabular{resource/table1.csv}
+}
 \end{table}
 
 \begin{table}
 \caption{Results and parameters of different setups for 89.87 results.}
-{\small
-% \label{tab:ci}\begin{tabular}{l|lll}
-%  \hline
-% \texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
-%  \hline
-% \textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
-% \hline
-% \end{tabular}}
-\centering
-\csvautobooktabular{resource/table2}}
+
+{\footnotesize \centering
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Experiment                & Test 1  & Mini-Batch & Weight decay & Momentum & Drop out 50\% \\ \midrule
+Runtime(minutes)          & 2.3     & 0.5        & 8.6          & 0.8      & 7.6           \\
+Accurarcy                 & 89.9\%  & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\%        \\
+Initialisation            & Xavier  & Xavier     & Xavier       & Xavier   & Xavier        \\
+Batch size                & 1500    & 1500       & 1500         & 1500     & 60000         \\
+Hidden layer nodes        & 160     & 160        & 160          & 160      & 160           \\
+Activation function       & $\tanh$ & $\tanh$    & $\tanh$      & $\tanh$  & $\tanh$       \\
+Weight decay rate         & 0.0007  & 0.0007     & 0.0007       & 0        & 0.007         \\
+Momentum rate             & 0.9     & 0.9        & 0            & 0.9      & 0.9           \\
+Dropout rate              & 0.95    & 0.5        & 0.95         & 0.95     & 0.95          \\
+Learning rate             & 0.11    & 0.11       & 0.11         & 0.11     & 0.11          \\
+Early stopping iterations & 44      & 9          & 198          & 16       & 177           \\ \bottomrule
+\end{tabular}
+}
 \end{table}
 
 \begin{figure}

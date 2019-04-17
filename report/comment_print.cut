@@ -1,0 +1,14 @@
+\newcommand*{\XeTeXrevE}
+  {\hspace{-.1667em}\raisebox{-.5ex}{\reflectbox{E}}\hspace{-.125em}}
+\providecommand*{\XeTeX}{\mbox{X\XeTeXrevE\TeX}}
+\providecommand*{\XeLaTeX}{\mbox{X\XeTeXrevE\LaTeX}}
+\providecommand*{\AmS}{%
+\leavevmode\hbox{$\mathcal A\kern-.2em\lower.376ex%
+\hbox{$\mathcal M$}\kern-.2em\mathcal S$}}
+\newcommand*{\LyX}{\textsf{LyX}}
+\providecommand*{\LuaTeX}{\mbox{Lua\TeX}}
+\providecommand*{\LuaLaTeX}{\mbox{Lua\LaTeX}}
+\providecommand*{\BibTeX}{\mbox{B\textsc{ib}\TeX}}
+\providecommand*{\MakeIndex}{\mbox{\textit{MakeIndex}}}
+\providecommand*{\ConTeXt}{\mbox{Con\TeX{}t}}
+\providecommand*{\MiKTeX}{\mbox{MiK\TeX}}
