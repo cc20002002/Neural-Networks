@@ -1,11 +1,12 @@
-Parameter,Experiment 1,Experiment 2,Experiment 3,Experiment 4
-Runtime(mins),7.1,7.8,10.1,39.5
-Accurarcy,89.9\%,89.7\%,89.8\%,90.0\%
-Initialisation,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform
-Hidden layer nodes,160,150,150,900
-Activation function,tanh,tanh,tanh,tanh
-Weight decay rate,0.0007,0.0007,0.0007,0.007
-Momentum rate,0.9,0.9,0.92,0.9
-Dropout rate,0.95,1.0,1.0,0.5
-Learning rate,0.11,0.05,0.05,0.11
-Early stopping iterations,44,54,66,158
+Experiment/Parameters,Test 1,Test 2,Test 3,Test 4,Test 5
+Runtime(mins),2.3,2.7,3.6,17.2,10.8
+Accurarcy,89.9\%,89.7\%,89.8\%,90.0\%,89.3\%
+Initialisation,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform,Xavier Uniform
+Batch size,1500,1500,1500,1500,1500
+Hidden layer nodes,160,150,150,900,160
+Activation function,$\tanh$,$\tanh$,$\tanh$,$\tanh$,sigmoid
+Weight decay rate,0.0007,0.0007,0.0007,0.007,0.007
+Momentum rate,0.9,0.9,0.92,0.9,0.9
+Dropout rate,0.95,1.0,1.0,0.5,0.95
+Learning rate,0.11,0.05,0.05,0.11,0.11
+Early stopping iterations,44,54,66,158,282
