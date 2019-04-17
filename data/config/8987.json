@@ -3,6 +3,7 @@
   "max_iteration": 100,
   "dropout_rate": 0.95,
   "batch_size": 1500,
+  "batch_normalisation": true,
   "hidden_layer_dim": 160,
   "moment_coef": 0.9,
   "weight_decaying": 0.0007,
