@@ -1,1 +1,1 @@
-Id,Runtime,Accurarcy,Activation function type,Batch Normalisation,Weight decay rate,Momentum rate,Dropout rate,Learning rate,np.argmax
+Id,Name,Runtime,Accurarcy,Activation function type,Batch Normalisation,Weight decay rate,Momentum rate,Dropout rate,Learning rate,np.argmax
