@@ -4,3 +4,5 @@ comp5329-assignment1/
 __pycache__/
 data/train_128.h5
 output/runlogs.csv
+*.h5
+data/test_128.h5
