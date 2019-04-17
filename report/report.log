@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.21)  17 APR 2019 18:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6745 64-bit) (preloaded format=pdflatex 2018.8.21)  17 APR 2019 19:02
 entering extended mode
 **./report.tex
 (report.tex
@@ -1908,12 +1908,12 @@ Package microtype Info: Character `textemdash ' is missing
 Package natbib Warning: Citation `belhumeur1997eigenfaces' on page 8 undefined on input line 7.
 
 [8]
-Overfull \hbox (26.9407pt too wide) in paragraph at lines 66--82
+Overfull \hbox (26.9407pt too wide) in paragraph at lines 65--81
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 66--82
+Underfull \hbox (badness 10000) in paragraph at lines 65--81
 
  []
 
@@ -1924,31 +1924,31 @@ Package epstopdf Info: Source file: <resource/acc.eps>
 (epstopdf)                    date: 2019-04-17 18:15:23
 (epstopdf)                    size: 20446 bytes
 (epstopdf)             Command: <epstopdf --outfile=resource/acc-eps-converted-to.pdf resource/acc.eps>
-(epstopdf)             \includegraphics on input line 86.
+(epstopdf)             \includegraphics on input line 85.
 Package epstopdf Info: Output file is already uptodate.
 <resource/acc-eps-converted-to.pdf, id=299, 388.45125pt x 265.99374pt>
 File: resource/acc-eps-converted-to.pdf Graphic file (type pdf)
 <use resource/acc-eps-converted-to.pdf>
-Package pdftex.def Info: resource/acc-eps-converted-to.pdf  used on input line 86.
+Package pdftex.def Info: resource/acc-eps-converted-to.pdf  used on input line 85.
 (pdftex.def)             Requested size: 388.45029pt x 265.99309pt.
 [9] [10pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.90 \subsection{Experiments Results}
+l.89 \subsection{Experiments Results}
                                      pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has bee
 n already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.90 \subsection{Experiments Results}
+l.89 \subsection{Experiments Results}
                                      pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has bee
 n already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.90 \subsection{Experiments Results}
+l.89 \subsection{Experiments Results}
                                      ]) (discussion.tex [11pdfTeX warning (ext4): destination with the same identifier (
 name{figure.2}) has been already used, duplicate ignored
 
