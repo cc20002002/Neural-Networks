@@ -547,3 +547,6 @@ job_status = {
     'np.argmax': npargmax
 }
 export_runlogs(output_filepath, job_status)
+
+acc_output_filepath = output_folder / input_filepath / '.csv'
+np.savetxt(acc_output_filepath, Acc, delimiter=",")
