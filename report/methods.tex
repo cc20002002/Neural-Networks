@@ -63,7 +63,7 @@ where matrix~$W_1$ is a $160\times128$ weighting matrix and vector~$\vec b$ is a
 Here, the division~$/$ is an elementwise operator.
 This layer provides non-linearity to our neural network.
 \subsubsection{ReLU activation function}
-The second densely connected layer is ReLU
+The second densely connected layer is the piece-wise linear function named as ReLU
 \begin{equation*}
    \vec z_2(\tilde{\vec  t}_2)=\max(0,W_2\tilde{\vec  t}_2+\vec b_2).
 \end{equation*} 
@@ -91,4 +91,4 @@ We use~$\eta$ to denote the learning rate, $\alpha$ to denote the momentum coeff
 \end{equation*}
 To initialise this update, we set $\Delta W_i^{(0)}:=0$. This autoregressive update proposal smooths the wiggliness caused by stochastic gradient descent \citep{rumelhart1986learning}, and hence significantly accelerates the rate of convergence.
 
-\subsubsection{todo: adam}
+%\subsubsection{todo: adam}
