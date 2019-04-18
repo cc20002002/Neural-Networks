@@ -17,7 +17,7 @@ we use early stopping, drop out and weight decay to prevent over-fitting.
 We use combinations of all the above setups to tune the hyperparameters for our neural network model,
 in the end we successfully find the benchmark model to use for prediction with best accuracy and reasonable runtime.
 
-\subsubsection{multiprocessing speed up hyperparameters tuning}
+\subsubsection{Multiprocessing speed up hyperparameters tuning}
 We write a shell script to run all our tests in parallel in the virtual machines on the cloud,
 this helps us fully utilise our computing resources to run multiple experiments with combinations of hyperparameters to tune our model.
 
@@ -52,7 +52,7 @@ we observed that the benchmark model has an early-stopping at \texttt{n\_iter}=$
 \subsection{Experiments Results}
 \subsubsection{Optimal hyperparameters}
 
-Table~\ref{table:best-four-steps} shows results and hyperparameters with optimal and sub-optimal coefficients.
+Table~\ref{table:best-four-steps} shows results and hyperparameters with optimal and sub-optimal coefficients. The benchmark model achieved the accuracy of $89.9\%$.
 
 \begin{table}
 \caption{Results and parameters of the best four setups.}
@@ -90,7 +90,7 @@ Early stopping iterations & 44      & 54               & 66               & 158 
 {\footnotesize \centering
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Experiment                & Test 1  & Mini-Batch & Weight decay & Momentum & Drop out 50\% \\ \midrule
+Experiment                & Test 1  & Drop out 50\% & Weight decay & Momentum & Mini-Batch \\ \midrule
 Runtime(minutes)          & 2.3     & 0.5        & 8.6          & 0.8      & 7.6           \\
 Accurarcy                 & 89.9\%  & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\%        \\
 Initialisation            & Xavier  & Xavier     & Xavier       & Xavier   & Xavier        \\
@@ -120,7 +120,15 @@ Early stopping iterations & 44      & 9          & 198          & 16       & 177
 
 
 \subsection{Experiments Results}
+
 \subsubsection{Vectorisation dramatically improves the speed of training}
+We used vectorisation from numpy to perform fast computation and transformation of the data rather than using the traditional for-loop,
+these operations includes matrix concatenation, multiplication, divide using Numpy libraries.
+
 \subsubsection{Batch normalisation significantly improves the accuracy}
+
+
 \subsubsection{Weight decaying prevents over-fitting}
+
+
 \subsubsection{dropout does not help here}
