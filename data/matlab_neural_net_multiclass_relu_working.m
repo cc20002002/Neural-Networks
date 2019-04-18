@@ -6,14 +6,14 @@
 
 clear, close all
 
-
+tic
 %
-load inputdata
-%test_128=hdf5info('test_128.h5');
+%load inputdata
+test_128=hdf5info('test_128.h5');
 test= hdf5read(test_128.GroupHierarchy.Datasets)';
-%train_128=hdf5info('train_128.h5');
+train_128=hdf5info('train_128.h5');
 x= hdf5read(train_128.GroupHierarchy.Datasets)';
-%train_label=hdf5info('train_label.h5');
+train_label=hdf5info('train_label.h5');
 y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 
 
@@ -23,7 +23,7 @@ y= double(hdf5read(train_label.GroupHierarchy.Datasets));
 % x = rand(60000, 128);
 % y = randi([0, 9], 60000, 1);
 
-trainsize=50176;
+trainsize=51000;
 
 xtest=x((trainsize+1):60000,:);
 ytest=y((trainsize+1):60000,:);
@@ -51,8 +51,8 @@ x_max = max(max(x));
 
 % learning
 lr = 0.11;   % learning rate
-max_iteration = 15;    
-numHid = 32; % hidden(midle) layer's unit size
+max_iteration = 100;    
+numHid = 160; % hidden(midle) layer's unit size
 
 % init
 loss = 1 : max_iteration;
@@ -72,7 +72,7 @@ momentum1=0;
 momentum2=0;
 momentum3=0;
 % 
-size_batch=1024;
+size_batch=1500;
 js=trainsize/size_batch;
 p = reshape(1:trainsize,[size_batch js]);
 gamma1=1;
@@ -87,7 +87,7 @@ for iteration = 1 : max_iteration
         %batch normalisation
         xbar = mean(xtemp,2);        
         xvar = var(xtemp')';
-        xtemp = (xtemp - xbar)./sqrt(xvar+1e-8);
+        xtemp = (xtemp - 0);
         xtemp1 = [ones(size_batch,1) gamma1.*xtemp+beta1];
         
         
@@ -124,23 +124,12 @@ for iteration = 1 : max_iteration
         change2 = delta2' * [ones(size_batch,1), z1]/size_batch;
         change1 = delta1' * xtemp1/size_batch;
         % sum of training pattern
-        w3_new = lr * (change3 - 0.001*w3)+0.9*momentum3;
-        w2_new = lr * (change2 - 0.001*w2)+0.9*momentum2;
-        w1_new = lr * (change1 - 0.001*w1)+0.9*momentum1;
+        w3_new = lr * (change3 - 0.007*w3)+0.9*momentum3;
+        w2_new = lr * (change2 - 0.007*w2)+0.9*momentum2;
+        w1_new = lr * (change1 - 0.007*w1)+0.9*momentum1;
         momentum3 = w3_new;
         momentum2 = w2_new;
-        momentum1 = w1_new;
-        dbeta = delta1 * w1(:,2:end);
-        dgamma = sum(dbeta.*xtemp)/size_batch;
-        dbeta = sum(dbeta)/size_batch;
-        gamma1 = gamma1 + 0.0005*dgamma;
-        beta1 = beta1 + 0.0005*dbeta;
-        
-        dbeta = delta2 * w2(:,2:end);
-        dgamma = sum(dbeta.*z1)/size_batch;
-        dbeta = sum(dbeta)/size_batch;
-        gamma2 = gamma2 + 0.0005*dgamma;
-        beta2 = beta2 + 0.0005*dbeta;
+        momentum1 = w1_new;  
         % update w2
         w3 = w3 + w3_new;
         w2 = w2 + w2_new;
@@ -159,7 +148,7 @@ for iteration = 1 : max_iteration
     
     xbar = mean(xtest,2);        
     xvar = var(xtest')';
-    xtest1 = (xtest - xbar)./sqrt(xvar+1e-8);
+    xtest1 = (xtest - 0);
     xtest2 = [ones(size(xtest,1),1) gamma1.*xtest1+beta1];
     z1 = 1 ./ (1 + exp(-w1 * xtest2'))';
     
@@ -186,7 +175,7 @@ for iteration = 1 : max_iteration
     loss(iteration) = accuracy;
     
 end
-
+toc
 % visualize learning
 figure(2)
 subplot(4,1,1)
