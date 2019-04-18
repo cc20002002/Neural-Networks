@@ -1,45 +1,67 @@
 \section{Experiments and results}\label{chapter4}
 
 \subsection{Dataset}
-We illustrate our neural network model on given datasets: training dataset, training labels and testing dataset.
-Both training and testing datasets contain multiple samples with fixed-length of features.
-We also observed that the original training dataset might be applied with PCA and reduced the dimension to $60000 \times 128$ matrix.
-The training label is a $60000 \times 1$ matrix.
-Similarly, the testing dataset is $10000 \times 128$ matrix.
-Initially we split our dataset into $50,000$ training samples and $10,000$ test samples to find the number of iteration~\texttt{n\_iter} corresponding to the maximum cross-validation accuracy as our early stopping point.
-Then we use all the $60,000$ samples to build our final neural network model.
 
-\subsection{Experiment Setup}
-We apply three layers neural network model with three different activation functions such as tanh, sigmoid and ReLu for the hidden layers as well as a Softmax activation function for the output layer.
-We apply batch normalisation to the input for each layer to reduce the training time and make our model more resilient to parameter scale.
-As for the regularisation techniques,
-we use early stopping, drop out and weight decay to prevent over-fitting.
-We use combinations of all the above setups to tune the hyperparameters for our neural network model,
-in the end we successfully find the benchmark model to use for prediction with best accuracy and reasonable runtime.
+%Just say how many samples and how many features, why 'multiple'?
+%We also observed that the original training dataset might be applied with PCA and reduced the dimension to $60000 \times 128$ matrix.
+%The training label is a $60000 \times 1$ matrix.
+%Similarly, the testing dataset is $10000 \times 128$ matrix.
+This is a result section, just states your result. Describe the dataset.
 
-\subsubsection{Multiprocessing speed up hyperparameters tuning}
-We write a shell script to run all our tests in parallel in the virtual machines on the cloud,
-this helps us fully utilise our computing resources to run multiple experiments with combinations of hyperparameters to tune our model.
+Our neural network is designed to classify $10,000$ unlabelled samples with $128$ features and $10$ different classes, using $60,000$ similar labelled samples. As described in Section~\ref{sec:early}, we split the labelled dataset into $50,000$ training samples and $10,000$ cross validation samples. The features in the dataset ranges from $-2045.92$ to $2803.84$, as illustrate in Figure~\ref{put a frequency plot here.}.
 
-\subsubsection{Hardware and software}
-Figure~\ref{fig:hardware} shows the specification of the hardware we use for our experiments.
-For the software, we are using python 3.6 to run the neural network model with a list of library dependencies specified in the requirements.txt file in our sample codes.
+
+
+%Then we use all the $60,000$ samples to build our final neural network model.
+
+
+\subsection{Multiprocessing speed up hyperparameters tuning}
+%We apply three layers neural network model with three different activation functions such as tanh, sigmoid and ReLu for the hidden layers as well as a Softmax activation function for the output layer.
+%We apply batch normalisation to the input for each layer to reduce the training time and make our model more resilient to parameter scale.
+%As for the regularisation techniques,
+%we use early stopping, drop out and weight decay to prevent over-fitting.
+%We use combinations of all the above setups to tune the hyperparameters for our neural network model,
+%in the end we successfully find the benchmark model to use for prediction with best accuracy and reasonable runtime.
+We use \texttt{python} 3.6 to code the neural network model with a list of library dependencies specified in the file named \texttt{requirements.txt} file in our git repository. In particular, \texttt{scipy} 1.21 ....
+
+We write a shell script to run all our tests in parallel in a high performance computer, whose hardware specification is shown in Figure~\ref{fig:hardware}. The shell script trains our model with various hyperparameters from different 
+\texttt{json} files in parallel. 
+Running multiple experiments in parallel allows us to fully utilise our computing resources, and tune hyperparameters efficiently. Although the speed for each task has been dropped by $30\%$, this parallel setting dramatically reduces the total running time required to finish the nine experiments detailed in Tables~\ref{table:best-four-steps} and~\ref{tb:comp}. For example, fitting our neural networks with these nine different sets of hyperparameters in parallel takes $17.2$ minutes, which is the time required by run~3 (Table~\ref{table:best-four-steps}). However, fitting the nine neural networks in sequence takes a total of $38$ minutes, which doubles the total time required in the parallel setting. 
+
+%\begin{lstlisting}[language=bash,caption={bash version}]
+%#!/bin/bash
+
+%python3 Neural_Network.py --config=./config/8987.json &
+%python3 Neural_Network.py --config=./config/batch_size_60000.json &
+%python3 Neural_Network.py --config=./config/no_weigh_decay.json &
+%python3 Neural_Network.py --config=./config/no_momentum.json &
+%python3 Neural_Network.py --config=./config/dropout_05.json &
+
+%python3 Neural_Network.py --config=./config/8987.json &
+%python3 Neural_Network.py --config=./config/8995.json &
+%python3 Neural_Network.py --config=./config/8972.json &
+%python3 Neural_Network.py --config=./config/8975.json &
+%python3 Neural_Network.py --config=./config/8932.json &
+%\end{lstlisting}
 
 \begin{figure}
     \center{
-        \includegraphics{resource/hardware.png}
+        \includegraphics[scale=0.8]{resource/hardware.png}
     }
     \caption{Hardware to run the tests.}
     \label{fig:hardware}
 \end{figure}
 
 
-\subsubsection{Early stopping decides maximum number of iterations}
-Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
-it guides us on how many iterations can be run before the model begins to over-fit.
 
-In our experiment,
-we observed that the benchmark model has an early-stopping at \texttt{n\_iter}=$44$.
+
+\subsection{Experiments Results}
+\subsubsection{Early stopping decides maximum number of iterations}
+%Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
+%it guides us on how many iterations can be run before the model begins to over-fit.
+As discussed in Section~\ref{sec:early}, we split given labelled dataset into $50,000$ training samples and $10,000$ cross validation samples. Cross validation finds $44$ iterations gives the best cross validation accuracy, which is 89.6\% (Figure~\ref{fig:acc-iter}). As a result, we choose $44$ iterations as our early stopping point for the benchmark model. 
+
+% shows that the cross validation accuracy of our benchmark model reaches a maximum (89.6\%) has at the $44$th iteration. After then, ...
 
 \begin{figure}
 	\centering{
@@ -50,29 +72,26 @@ we observed that the benchmark model has an early-stopping at \texttt{n\_iter}=$
     \label{fig:acc-iter}
 \end{figure}
 
-\subsection{Experiments Results}
 \subsubsection{Optimal hyperparameters}
-
-Table~\ref{table:best-four-steps} shows results and hyperparameters with optimal and sub-optimal coefficients. The benchmark model achieved the accuracy of $89.9\%$.
+Table~\ref{table:best-four-steps} shows cross validation accuracy and hyperparameters with optimal and sub-optimal coefficients. The benchmark model achieved the accuracy of $89.9\%$.
+% After 44 iter, the cross validation is almost same, but training acc still going up - overfit
+% No weight decay - going down
+% no momentum - slow
+% Dropout rate 
+% without mini batch - slow
 
 \begin{table}
-\caption{Results and parameters of the best four setups.}
-\label{table:best-four-steps}
-{\footnotesize
-% \label{tab:ci}\begin{tabular}{l|lll}
-%  \hline
-% \texttt{ORL} dataset & \textsc{rre} & \textsc{acc} & \textsc{nmi}\tabularnewline
-%  \hline
-% \textsc{nmf} no noise & 0.1583 (0.1581, 0.1584) & 0.7364 (0.731, 0.742) & 0.8536 (0.8506, 0.8567)\tabularnewline
-% \hline
-% \end{tabular}}
+\caption{Hyperparameters for models with outstanding cv accuracy.\label{table:best-four-steps}}
 \centering
-\begin{tabular}{@{}llllll@{}}
+{\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Experiment                & Test 1  & Test 2           & Test 3           & Test 4  & Test 5  \\ \midrule
-Runtime(mins)             & 2.3     & 2.7              & 3.6              & 17.2    & 10.8    \\
-Accurarcy                 & 89.9\%  & 89.7\%           & 89.8\%           & 90.0\%  & 89.3\%  \\
-Initialisation            & Xavier  & Uniform$(-1,1)$ & Uniform$(-1,1)$ & Xavier  & Xavier  \\
+Experiment                & Benchmark  & Test 2           & Test 3           & Test 4  & Test 5  \\ \midrule
+Run time (minutes)             & 2.3     & 2.7              & 3.6              & 17.2    & 10.8    \\
+CV Accurarcy                 & 89.9\%  & 89.7\%           & 89.8\%           & 90.0\%  & 89.3\%  \\
+Initialisation            & Xavier  & \parbox[T]{1cm}{Uniform$(-1,1)$} 
+& \parbox[T]{1cm}{Uniform$(-1,1)$} 
+                                                                            & Xavier  & Xavier  \\
 Batch size                & 1500    & 1500             & 1500             & 1500    & 1500    \\
 Hidden layer nodes        & 160     & 150              & 150              & 900     & 160     \\
 Activation function       & $\tanh$ & $\tanh$          & $\tanh$          & $\tanh$ & sigmoid \\
@@ -80,29 +99,31 @@ Weight decay rate         & 0.0007  & 0.0007           & 0.0007           & 0.00
 Momentum rate             & 0.9     & 0.9              & 0.92             & 0.9     & 0.9     \\
 Dropout rate              & 0.95    & 1.0              & 1.0              & 0.5     & 0.95    \\
 Learning rate             & 0.11    & 0.05             & 0.05             & 0.11    & 0.11    \\
-Early stopping iterations & 44      & 54               & 66               & 158     & 282     \\ \bottomrule
+Optimal iteration & 44      & 54               & 66               & 158     & 282     \\ 
+BN & True      & True          & True          & True       & True          \\\bottomrule
 \end{tabular}
-%\csvautobooktabular{resource/table1.csv}
 }
 \end{table}
 
+
 \begin{table}
-\caption{Results and parameters of different setups for 89.87 results.}
+\caption{Accuracies and parameters of different setups for 89.87 results. Rows are columns are.\label{tb:comp}}
 {\footnotesize \centering
-\begin{tabular}{@{}lrrrrr@{}}
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Experiment                & Test 1  & Drop out 50\% & Weight decay & Momentum & Mini-Batch \\ \midrule
-Runtime(minutes)          & 2.3     & 0.5        & 8.6          & 0.8      & 7.6           \\
-Accurarcy                 & 89.9\%  & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\%        \\
-Initialisation            & Xavier  & Xavier     & Xavier       & Xavier   & Xavier        \\
-Batch size                & 1500    & 1500       & 1500         & 1500     & 60000         \\
-Hidden layer nodes        & 160     & 160        & 160          & 160      & 160           \\
-Activation function       & $\tanh$ & $\tanh$    & $\tanh$      & $\tanh$  & $\tanh$       \\
-Weight decay rate         & 0.0007  & 0.0007     & 0.0007       & 0        & 0.007         \\
-Momentum rate             & 0.9     & 0.9        & 0            & 0.9      & 0.9           \\
-Dropout rate              & 0.95    & 0.5        & 0.95         & 0.95     & 0.95          \\
-Learning rate             & 0.11    & 0.11       & 0.11         & 0.11     & 0.11          \\
-Early stopping iterations & 44      & 9          & 198          & 16       & 177           \\ \bottomrule
+Experiment                  & Drop out 50\% & Momentum & Weight decay & Mini-Batch & BN \\ \midrule
+Run time (minutes)             & 0.5        & 8.6          & 0.8      & 7.6 & 4.5          \\
+CV Accurarcy                   & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\% &82.8\%       \\
+Initialisation              & Xavier     & Xavier       & Xavier   & Xavier & Xavier        \\
+Batch size                   & 1500       & 1500         & 1500     & 60000    & 1500        \\
+Hidden layer nodes        & 160        & 160          & 160      & 160    & 160         \\
+Activation function        & $\tanh$    & $\tanh$      & $\tanh$  & $\tanh$  & $\tanh$       \\
+Weight decay rate          & 0.0007     & 0.0007       & 0        & 0.007  & 0.007        \\
+Momentum rate                & 0.9        & 0            & 0.9      & 0.9    & 0.9         \\
+Dropout rate                & 0.5        & 0.95         & 0.95     & 0.95    & 0.95        \\
+Learning rate                & 0.11       & 0.11         & 0.11     & 0.11    & 0.11       \\
+Optimal iteration       & 9          & 198          & 16       & 177     & 80       \\ 
+BN       & True          & True          & True       & True     & False       \\ \bottomrule
 \end{tabular}
 }
 \end{table}
@@ -116,20 +137,24 @@ Early stopping iterations & 44      & 9          & 198          & 16       & 177
 \begin{figure}
     \center{\includegraphics
     {resource/figure2.eps}}
-    \caption{\label{fig:my-label3}Weight Matrix on multiple layers.}
+    \caption{\label{fig:my-label3}Weight Matrices for our benchmark model.}
 \end{figure}
 
 
 \subsection{Experiments Results}
 
 \subsubsection{Vectorisation dramatically improves the speed of training}
-We used vectorisation from numpy to perform fast computation and transformation of the data rather than using the traditional for-loop,
-these operations includes matrix concatenation, multiplication, divide using Numpy libraries.
+%We used vectorisation from numpy to perform fast computation and transformation of the data rather than using the traditional for-loop,
+%these operations includes matrix concatenation, multiplication, divide using Numpy libraries.
+This is a result section, you only need to state result, i.e. run the model with batch size =1 and compare the speed etc and ONLY state your results. If you want to say something about the method please put it into the method section.
 
-\subsubsection{Batch normalisation significantly improves the accuracy}
+\subsubsection{BN significantly improves the accuracy}
 
 
 \subsubsection{Weight decaying prevents over-fitting}
 
 
-\subsubsection{dropout does not help here}
+\subsubsection{dropout helps for large neural networks}
+
+You need to report the parameter for bench mark models.
+How other models compare with bench mark models.
