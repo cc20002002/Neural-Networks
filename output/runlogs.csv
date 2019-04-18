@@ -15,3 +15,5 @@ Id,Name,Runtime,Accurarcy,Activation function type,Batch Normalisation,Weight de
 14,./config/no_weigh_decay.json,0.9,88.63,tanh,True,0,0.9,0.95,0.11,16
 15,./config/dropout_05.json,0.4,85.49,tanh,True,0.0007,0.9,0.5,0.11,9
 16,./config/no_momentum.json,8.7,89.38000000000001,tanh,True,0.0007,0,0.95,0.11,198
+17,,1.0,94.07166666666666,tanh,True,0.0007,0.9,0.95,0.11,42
+18,,4.2,96.73166666666667,tanh,True,0.0007,0.9,0.95,0.11,197
