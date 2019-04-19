@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9) (preloaded format=pdflatex 2015.3.22)  19 APR 2019 13:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9) (preloaded format=pdflatex 2015.3.22)  19 APR 2019 14:08
 entering extended mode
 **D:/Users/Chen-New/Documents/GitHub/Neural-Networks/plots/New.tex.preview.tex
 (D:/Users/Chen-New/Documents/GitHub/Neural-Networks/plots/New.tex.preview.tex
@@ -684,16 +684,16 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 46.
+(Font)              <17.28> on input line 43.
 \metadatafile=\write4
  [1
 
 {d:/CTEX/UserData/pdftex/config/pdftex.map}] (New.tex.preview.aux) ) 
 Here is how much of TeX's memory you used:
- 14281 strings out of 493698
- 306858 string characters out of 3149752
- 374719 words of memory out of 3000000
- 17341 multiletter control sequences out of 15000+200000
+ 14271 strings out of 493698
+ 306742 string characters out of 3149752
+ 372435 words of memory out of 3000000
+ 17331 multiletter control sequences out of 15000+200000
  7290 words of font info for 26 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  55i,7n,67p,519b,647s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -701,7 +701,7 @@ Here is how much of TeX's memory you used:
 KTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/CTEX/MiKTeX/fonts/type1/publi
 c/amsfonts/cm/cmr17.pfb><d:/CTEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb>
-Output written on New.tex.preview.pdf (1 page, 35287 bytes).
+Output written on New.tex.preview.pdf (1 page, 35167 bytes).
 PDF statistics:
  21 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
