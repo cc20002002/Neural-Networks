@@ -1,9 +1,50 @@
-@misc{DeepAI,
-  title = {Build with AI},
-  howpublished = {\url{https://deepai.org/machine-learning-glossary-and-terms/neural-network}},
-  note = {Retrieved: 2019-04-14},
-	year = {1999}	
+% never refer to an URL
+@book{Bishop:2006:PRM:1162264,
+ author = {Bishop, Christopher M.},
+ title = {Pattern Recognition and Machine Learning (Information Science and Statistics)},
+ year = {2006},
+ isbn = {0387310738},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+} 
+@book{hastie01statisticallearning,
+  added-at = {2008-05-16T16:17:42.000+0200},
+  address = {New York, NY, USA},
+  author = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
+  biburl = {https://www.bibsonomy.org/bibtex/2f58afc5c9793fcc8ad8389824e57984c/sb3000},
+  interhash = {d585aea274f2b9b228fc1629bc273644},
+  intrahash = {f58afc5c9793fcc8ad8389824e57984c},
+  keywords = {ml statistics},
+  publisher = {Springer New York Inc.},
+  series = {Springer Series in Statistics},
+  timestamp = {2008-05-16T16:17:43.000+0200},
+  title = {The Elements of Statistical Learning},
+  year = 2001
 }
+@article{goh2017why,
+  author = {Goh, Gabriel},
+  title = {Why Momentum Really Works},
+  journal = {Distill},
+  year = {2017},
+  url = {http://distill.pub/2017/momentum},
+  doi = {10.23915/distill.00006}
+}
+
+@book{james2013introduction,
+  added-at = {2019-02-26T15:41:56.000+0100},
+  author = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+  biburl = {https://www.bibsonomy.org/bibtex/272b058c2415cf824f7e3d94e6ba5ed5b/slicside},
+  interhash = {682b0a04fdee4a28f9d6d1f216fe53c9},
+  intrahash = {72b058c2415cf824f7e3d94e6ba5ed5b},
+  keywords = {ba-2018-hahnrico},
+  publisher = {Springer},
+  timestamp = {2019-02-26T15:41:56.000+0100},
+  title = {An introduction to statistical learning},
+  volume = 112,
+  year = 2013
+}
+
+
 
 @incollection{NIPS20145267,
 title = {On the Computational Efficiency of Training Neural Networks},
@@ -147,4 +188,43 @@ eprint = {
   pdf = 	 {http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf},
   url = 	 {http://proceedings.mlr.press/v9/glorot10a.html},
   abstract = 	 {Whereas before 2006 it appears that deep multi-layer neural networks were not successfully trained, since then several algorithms have been shown to successfully train them, with experimental results showing the superiority of deeper vs less deep architectures. All these experimental results were obtained with new initialization or training mechanisms. Our objective here is to understand better why standard gradient descent from random initialization is doing so poorly with deep neural networks, to better understand these recent relative successes and help design better algorithms in the future.  We first observe the influence of the non-linear activations functions. We find that the logistic sigmoid activation is unsuited for deep networks with random initialization because of its mean value, which can drive especially the top hidden layer into saturation. Surprisingly, we find that saturated units can move out of saturation by themselves, albeit slowly, and explaining the plateaus sometimes seen when training neural networks. We find that a new non-linearity that saturates less can often be beneficial. Finally, we study how activations and gradients vary across layers and during training, with the idea that training may be more difficult when the singular values of the Jacobian associated with each layer are far from 1.  Based on these considerations, we propose a new initialization scheme that brings substantially faster convergence.}
+}
+
+@article{OU20074,
+title = "Multi-class pattern classification using neural networks",
+journal = "Pattern Recognition",
+volume = "40",
+number = "1",
+pages = "4 - 18",
+year = "2007",
+issn = "0031-3203",
+doi = "https://doi.org/10.1016/j.patcog.2006.04.041",
+url = "http://www.sciencedirect.com/science/article/pii/S0031320306002081",
+author = "Guobin Ou and Yi Lu Murphey",
+keywords = "Machine learning, Pattern recognition, Multi-class classification, Neural networks",
+abstract = "Multi-class pattern classification has many applications including text document classification, speech recognition, object recognition, etc. Multi-class pattern classification using neural networks is not a trivial extension from two-class neural networks. This paper presents a comprehensive and competitive study in multi-class neural learning with focuses on issues including neural network architecture, encoding schemes, training methodology and training time complexity. Our study includes multi-class pattern classification using either a system of multiple neural networks or a single neural network, and modeling pattern classes using one-against-all, one-against-one, one-against-higher-order, and P-against-Q. We also discuss implementations of these approaches and analyze training time complexity associated with each approach. We evaluate six different neural network system architectures for multi-class pattern classification along the dimensions of imbalanced data, large number of pattern classes, large vs. small training data through experiments conducted on well-known benchmark data."
+}
+
+@misc{ruder2016overview,
+  abstract = {Gradient descent optimization algorithms, while increasingly popular, are
+often used as black-box optimizers, as practical explanations of their
+strengths and weaknesses are hard to come by. This article aims to provide the
+reader with intuitions with regard to the behaviour of different algorithms
+that will allow her to put them to use. In the course of this overview, we look
+at different variants of gradient descent, summarize challenges, introduce the
+most common optimization algorithms, review architectures in a parallel and
+distributed setting, and investigate additional strategies for optimizing
+gradient descent.},
+  added-at = {2018-12-07T10:36:09.000+0100},
+  author = {Ruder, Sebastian},
+  biburl = {https://www.bibsonomy.org/bibtex/2705d468fad6e6f3609810917b5bb8a93/jpvaldes},
+  description = {An overview of gradient descent optimization algorithms},
+  interhash = {6e9f951ec79eba6cb7eb27db1e6d4ad6},
+  intrahash = {705d468fad6e6f3609810917b5bb8a93},
+  keywords = {gradient_descent optimization review},
+  note = {cite arxiv:1609.04747Comment: Added derivations of AdaMax and Nadam},
+  timestamp = {2018-12-07T10:36:09.000+0100},
+  title = {An overview of gradient descent optimization algorithms.},
+  url = {http://arxiv.org/abs/1609.04747},
+  year = 2016
 }

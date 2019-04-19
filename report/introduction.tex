@@ -3,48 +3,44 @@
 
 %- What’s the aim of the study? 
 % Draft Completed - Pending Review
-The aim of this study is to build a multi-layer neural network application to perform a multi-class classification and use various optimisation approaches to improve the prediction accuracy on the given dataset.
-The task provides a training dataset and a testing dataset,
-the training dataset given for this task consists of 128 features for 60,000 samples,
-the test dataset contains 10,000 samples with same amount of features as training dataset,
-Given the naive multi-layer neural network implementation in the early stage of our research,
-we also tried various optimisation methodologies to further improve the prediction accuracy,
-these methods include different activation functions, weight decay, stochastic gradient descent methods, mini-batch training, batch normalisation and dropout.
+The aim of this study is to build a multi-layer neural network application to perform a ten-class classification and use various state-of-the-art modules to improve the prediction accuracy on the given dataset.
+The task provides a labelled training dataset and an unlabelled testing dataset.
+The training dataset given for this task consists of $128$ features for $60,000$ samples,
+the test dataset contains $10,000$ samples with same amount of features as training dataset,
+Given the naive multi-layer neural network implementation in the early stage of our research, %I don't understand this sentence
+our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. These methods include advanced activation functions, 
+weight decay, 
+momentum method,
+%stochastic gradient descent methods, 
+mini-batch training, batch normalisation and dropout. 
+Our model successfully classifies the cross validation (CV) data set with an accuracy of $89.9\%$ in $2.3$ minutes. 
+To illustrate the effects of each module, we turn the module off one by one in our benchmark model and then explore the numerical consequences. 
 
 % - Why is the study important? 
-As we all know a Neural Network is a computational learning system that uses a network of functions in multiple layers to understand and translate a data input of one form into a desired output,
-usually in another form (\citet{DeepAI}).
-It learns from processing many labelled examples that are supplied during training and using this answer key to learn what non-linear and complex characteristics of the input are needed to construct the correct output.
-In this supervised training,
-a network processes the inputs and compares its actual outputs against the expected outputs.
-For each iteration the cost will be propagated back through the network,
-to adjust the weights in each layer.
-This process is repeated until the best accuracy is achieved;
-This supervised learning algorithm is often referred to as a back-propagation algorithm,
-which is useful for training multi-layer Neural Networks.
-Since Neural Networks have shown a performance breakthrough in the area of object detection and scene classification,
-so this study will focus on identifying the best network and optimisation methodologies for this purpose (\citet{lecun1998Gradient}).
+% again these are about how neural network and hence moved to methods
+% end to end structure
+% find latent feature
+% ??
+% ?? refer to the mid test
+There are four main reasons that we think this study is important.
+Firstly, neural network has the ability to generalise and classify the data that it has never seen before, hence it can help us predict the labels for testing dataset.
+Secondly, we are given a training dataset and its labels with complex and non-linear patterns, neural network helps us find latent features in this large amounts of data,
+in our experiment we use non-linear activation functions to help neurons to map these complex input features to find hidden patterns. 
+Thirdly, neural network can utilise a parallel processing structure with large numbers of neurons, we can save massive time performing training models and predicting the testing dataset using vectorised matrix algebra operations, we also use stochastic gradient descent to find the optimal weights in this parallel processing structure.
+Lastly, neural network is fault tolerant and self-repair since it ensures reliability when some portions of the network are not working, hence we use dropout in our experiment to make the neural network more resilient.
+As we identify the importance of the study so we will focus on identifying the best neural network and optimisation methodologies for this purpose.
+
+%Literature review find a review paper read and rewrite
+The multi-class neural network classification is not a trivial extension from two-class neural networks,
+it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
+the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
+these classifiers does not require high memory and computation complexity but they require long training time,
+they include multi-layer neurons trained with back-propagation \citet{OU20074}.
+Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
+We also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
+these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citet{ruder2016overview}.
 
 % Draft Completed - Pending Review
-In this report, we will first introduce all these optimisation methodologies and their common usages,
-followed by the experiment setup and results for the research as well as a detailed comparison of results by applying various methodologies.
-In the end we will also discuss importance of all these methodologies and how our neural network model benefits from them.
-
-%Non-negative matrix factorisation (\textsc{nmf}) is a matrix decomposition technique that approximates a data matrix with non-negative entries with the multiplication of two non-negative matrices
-%\begin{equation*}
-%  V \approx WH.
-%\end{equation*}
-%In this approximation, matrix~$W$ is the basis, and matrix~$H$ is the weight matrix corresponding to the %new dictionary~$W$. \textsc{nmf}
-%is applicable to an extensive range of domain. For example, \citet{lee1999learning} suggest that \textsc{nmf} is useful for image processing problems including facial recognition.
-
-%Matrices~$W$ and~$H$ are often referred as the basis images and weights, 
-%because the observed image $V$ is approximated by a linear combination of~$W$ with positive %coefficients~$H$.
-%Due to the additive nature of the algorithm, the dictionary~$W$ are often parts of images that are easily interpretable.
-%This property also distinguishes \textsc{nmf} from other traditional image processing methods such as principal components analysis (\textsc{pca}).
-%\citet{guillamet2002non} demonstrate that \textsc{nmf} performs better in image classification problems in comparison with \textsc{pca}.
-%Moreover, \textsc{nmf} is also applicable to text mining such as semantic analysis.
-%Generally, \textsc{nmf} is useful to discover semantic features of an article by counting the frequency of each word, and then approximating the document from a subset of a large array of features \citep{lee1999learning}.
-
-%In practice, face images could be easily corrupted during data collection by noise with large magnitude. Corruption may result from lighting environment, facial expression or facial details. An \textsc{nmf} algorithm that is robust to large noise is desired for the real-world applications. Therefore, the objective of this project is to analyse the robustness of \textsc{nmf} algorithms on corrupted datasets. We implement two \textsc{nmf} algorithms proposed by \citet{lee2001algorithms} on real face image datasets, \texttt{ORL} dataset and the \texttt{CroppedYale} dataset. We add artificial noises to the face images are contaminated. We then apply nonparametric statistical methods to analyse the robustness of these two algorithms from simulation results.
-
-%The rest of the report is organized as follows. We describe noisy design and two \textsc{NMF} algorithms including Euclidean Distance and Kullback-Leibler Divergence (\textsc{KLD}) in Section 2. Section 3 shows experiment setup and empirical results which demonstrate the robustness of the two NMF algorithms. The conclusions and future work are discussed in Section 5.
+This report firstly introduce the theoretical supports for loss functions, various layers and optimisation techniques. 
+This is followed by the experiment setup. We then compare the simulation results in a great detail.
+Finally, we discuss importance of all these module and how our neural network model benefits from them.
