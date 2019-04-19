@@ -1,15 +1,15 @@
 %!TEX root = report.tex
 \section{Methods \label{chapter2}}
-We build a fully connect feed-forward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements a Xavier initialisation and three activation layers layers (Figure~\ref{fig:nn}). 
+We build a fully connect feed-forward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements the Xavier uniform initialisation and three activation layers layers (Figure~\ref{fig:nn}). 
 \begin{figure}
     \centering
     \includegraphics[scale=0.7]{NN.pdf}
     \caption{A diagram illustrates the architecture of our benchmark neural network model. The weights of the densely connected layers are initialised by a uniform distribution proposed by \citet{pmlr-v9-glorot10a}.}
     \label{fig:nn}
 \end{figure}
-
-
-For each of the three activation layers~$i=1,2,3$, this report uses $\vec t_i=(t_{i1},t_{i2},\ldots)$ to denote the the inputs of the $i$th activation layer\footnote{We use $(\ )$ to denote column vectors, and $[\ ]$ to denote row vectors.}, and uses $\vec z_i=(z_{i1},z_{i2},\ldots)$ to denote the outputs of those. 
+For each of the three activation layers~$i=1,2,3$, this report uses $\vec t_i=(t_{i1},t_{i2},\ldots)$ to denote the the inputs of the $i$th densely connected layer
+\footnote{We use $(\ )$ to denote column vectors, and $[\ ]$ to denote row vectors.}
+, and uses $\vec z_i=(z_{i1},z_{i2},\ldots)$ to denote the outputs of the $i$th activation layer. 
 We apply batch normalisation (BN) to normalise the input data~from $\vec t_1$ to~$\tilde{\vec t}_1$. This is followed by a nonlinear activation function. After the first hidden layer, our neural network applies a dropout layer, followed by an additional BN to the normalised outputs. 
 We then apply an densely connected layer with a ReLU activation function, an additional dropout layer. The neural network finishes with a Softmax activation layer. 
 
