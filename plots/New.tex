@@ -30,7 +30,7 @@
 
 \node (dense) [conv, below of=drop2,node distance=2cm] {Dense layer  ($160\times 10$)};
 \node (softmax) [conv, below of=dense,fill=gray!90] {Softmax layer ($10$)};
-\node (loss) [startstop, below of=softmax,node distance=2cm] {Softmax layer ($10$)};
+\node (loss) [startstop, below of=softmax,node distance=2cm] {Cross-entropy loss with a weight decay coefficient of 0.0007};
 
 \node (momentum) [pool, minimum width=4cm, right of=conv1,node distance=5.5cm] {momentum=0.9};
 \node (weight) [pool, minimum width=4cm, right of=RELU2,node distance=5.5cm] {weight decay=0.007};
