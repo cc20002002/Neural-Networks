@@ -62,7 +62,7 @@ When predicting test labels, we use the training means~$\frac{1}{\left|B\right|}
 Our neural network applies this BN layer to prevents internal covariance shift \citep{pmlr-v37-ioffe15}. Later on, \citet{NIPS20187515} find that BN makes the optimisation landscape considerably smoother.
 
 \subsection{Dropout performs model averaging}
-We apply dropout to the inputs of the 2nd and 3rd densely connected layers~$\vec t_2$ and $\vec t_3$. 
+We apply dropout to the inputs of the 2nd and 3rd densely connected layers~$\vec t_2$ and $\vec t_3$, as proposed by \citet{dropout}. 
 When training our neural network, the dropout layer randomly ignores neurons in vectors~$\vec t_2$ and $\vec t_3$ with a given probability hyperparameter~$p$. 
 When predicting labels for CV samples and testing samples, we multiply weights~$W_i$ where layer index~$i=2,3$ by hyperparameter~$p$. This dropout layer is equivalent to model averaging, and forces our neural network to learn a more robust set of parameters that are useful in conjunction with many distinct random subsets of the neurons \citep{DBLP:journals/corr/abs-1207-0580}.
 

@@ -6,15 +6,26 @@
 The aim of this study is to build a multi-layer neural network application to perform a ten-class classification and use various state-of-the-art modules to improve the prediction accuracy on the given dataset.
 The task provides a labelled training dataset and an unlabelled testing dataset.
 The training dataset given for this task consists of $128$ features for $60,000$ samples,
-the test dataset contains $10,000$ samples with same amount of features as training dataset,
-Given the naive multi-layer neural network implementation in the early stage of our research, %I don't understand this sentence
+the test dataset contains $10,000$ samples with same amount of features as training dataset.
+Compare to a simple multi-layer neural network implementation,% @Chen review: I don't understand this sentence
 our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. These methods include advanced activation functions, 
 weight decay, 
 momentum method,
 %stochastic gradient descent methods, 
 mini-batch training, batch normalisation and dropout. 
 Our model successfully classifies the cross validation (CV) data set with an accuracy of $89.9\%$ in $2.3$ minutes. 
-To illustrate the effects of each module, we turn the module off one by one in our benchmark model and then explore the numerical consequences. 
+To illustrate the effects of each module, we turn the module off one by one in our benchmark model and then explore the numerical consequences.
+
+%Literature review find a review paper read and rewrite
+The multi-class neural network classification is not a trivial extension from two-class neural networks,
+it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
+the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
+these classifiers does not require high memory and computation complexity but they require long training time,
+they include multi-layer neurons trained with back-propagation \citet{werbos1990backpropagation}.
+Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
+We also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
+these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citet{ruder2016overview}.
+To prevent over-fitting of the model, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout}.
 
 % - Why is the study important? 
 % again these are about how neural network and hence moved to methods
@@ -22,25 +33,22 @@ To illustrate the effects of each module, we turn the module off one by one in o
 % find latent feature
 % ??
 % ?? refer to the mid test
-There are four main reasons that we think this study is important.
-Firstly, neural network has the ability to generalise and classify the data that it has never seen before, hence it can help us predict the labels for testing dataset.
-Secondly, we are given a training dataset and its labels with complex and non-linear patterns, neural network helps us find latent features in this large amounts of data,
-in our experiment we use non-linear activation functions to help neurons to map these complex input features to find hidden patterns. 
-Thirdly, neural network can utilise a parallel processing structure with large numbers of neurons, we can save massive time performing training models and predicting the testing dataset using vectorised matrix algebra operations, we also use stochastic gradient descent to find the optimal weights in this parallel processing structure.
-Lastly, neural network is fault tolerant and self-repair since it ensures reliability when some portions of the network are not working, hence we use dropout in our experiment to make the neural network more resilient.
-As we identify the importance of the study so we will focus on identifying the best neural network and optimisation methodologies for this purpose.
+Our study is important because it not only helps us to understand the recent advance of neural network,  but also validate the usefulness of these modules numerically. Neural network is widely applicable in Artificial Intelligence and it is irreplaceable by any other machine learning model for *** reasons.   
+%Firstly, neural network has the ability to classify the data that it has never seen before. hence it can help us predict the labels for testing dataset. %who said this? I don't really understand.
 
-%Literature review find a review paper read and rewrite
-The multi-class neural network classification is not a trivial extension from two-class neural networks,
-it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
-the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
-these classifiers does not require high memory and computation complexity but they require long training time,
-they include multi-layer neurons trained with back-propagation \citet{OU20074}.
-Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
-We also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
-these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citet{ruder2016overview}.
+Secondly, neural network can accurately classify complex and highly non-linear dataset. The mathematical structure behind Artificial Intelligence problems is usually difficult to formulated. As a result, a successful model for these complex datasets has to have a complex hypothesis class \citep{Bishop:2006:PRM:1162264}. 
+With neural network, we can conveniently increase the complexity of the hypothesis class by raising either the number of layers or the number of hidden neurons per layer. 
+With a suitable hypothesis class (e.g. several layers of non-linear activation functions), the neural network model is capable to extract latent features from this large amounts of data.
+
+Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code (reference), with either CPU or GPU .
+
+%Lastly, neural network is fault tolerant and self-repair since it ensures reliability when some portions of the network are not working, hence we use dropout in our experiment to make the neural network more resilient. %Again, who said it, only refer to best conferences and journal papers.
+
+%As we identify the importance of the study so we will focus on identifying the best neural network and optimisation methodologies for this purpose.
+
+
 
 % Draft Completed - Pending Review
-This report firstly introduce the theoretical supports for loss functions, various layers and optimisation techniques. 
+This report firstly introduces the theoretical supports for loss functions, various layers and optimisation techniques. 
 This is followed by the experiment setup. We then compare the simulation results in a great detail.
 Finally, we discuss importance of all these module and how our neural network model benefits from them.
