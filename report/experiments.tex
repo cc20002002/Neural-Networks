@@ -30,7 +30,7 @@ Our neural network is designed to classify $10,000$ unlabelled samples with $128
 %We use combinations of all the above setups to tune the hyperparameters for our neural network model,
 %in the end we successfully find the benchmark model to use for prediction with best accuracy and reasonable runtime.
 We use \texttt{python} 3.6 to code the neural network model with a list of library dependencies specified in the file named \texttt{requirements.txt} file in our git repository. 
-In particular, we use \texttt{numpy} 1.16.2 to do vectorised computation, \texttt{scipy} 1.21 is used to for softmax calculation.
+In particular, we use \texttt{numpy 1.16.2}  to perform vectorised matrix algebra multiplication, and use the scientific computing library \texttt{scipy 1.21}.
 
 We write a shell script to run all our tests in parallel in a high performance computer, whose hardware specification is shown in Figure~\ref{fig:hardware}. The shell script trains our model with various hyperparameters from different 
 \texttt{json} files in parallel. 
@@ -70,9 +70,9 @@ Running multiple experiments in parallel allows us to fully utilise our computin
 %it guides us on how many iterations can be run before the model begins to over-fit.
 As discussed in Section~\ref{sec:early}, we split given labelled dataset into $50,000$ training samples and $10,000$ CV samples. For example, we find $44$ iterations give the best CV accuracy, which is $89.6\%$ (Figure~\ref{fig:acc-iter}), for the benchmark model described in Table~\ref{table:best-four-steps}. As a result, we choose $44$ iterations as our early stopping point for the benchmark model. By back propagation, we iteratively find the weight matrices~$w_1,w_2,w_3$ as shown in Figure~\ref{fig:weight}.
 \begin{table}
-\caption{Hyperparameters for models with outstanding CV accuracy.\label{table:best-four-steps}}
+\caption{Hyperparameters for models which output outstanding CV accuracy. The benchmark model is our best model in terms of accuracy as well as speed. Hyperparameter sets~$2$--$5$ are either slightly less accurate or slower than our benchmark model. The row of running time is the time taken to train our neural network in the computer shown in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal iteration' states the number of iteration corresponding to the highest CV accuracy when training our model (Section~\ref{sec:early}). \label{table:best-four-steps}}
 \centering
-{\footnotesize
+{
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Hyperparameters                & Benchmark  & Run 2           & Run 3           & Run 4  & Run 5  \\ \midrule
@@ -103,8 +103,7 @@ BN & True      & True          & True          & True       & True          \\\b
 \begin{figure}
 	\centering{
 	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
-	\includegraphics
-    {resource/acc2.eps}}
+	\includegraphics{data/cost-graph/acc}}
     \caption{Results and parameters of different setups for 89.87}
     \label{fig:acc-iter}
 \end{figure}
@@ -138,13 +137,14 @@ We attempt to use the sigmoid activation function to replace the $\tanh$ functio
 
 
 
-
 \begin{table}
-\caption{Accuracies and parameters of different setups for 89.87 results. Rows are columns are.\label{tb:comp}}
-{\footnotesize \centering
+\caption{The accuracy of our benchmark model with one selected module either turned off or modified. The row of running time is the time taken to train our neural network in the computer shown in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal iteration' states the number of iteration corresponding to the highest CV accuracy when training our model (Section~\ref{sec:early}).
+\label{tb:comp}}
+\centering
+{\centering
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Hyperparameters             & {\parbox[t]{1.3cm}{\raggedleft Drop \\out 50\%}  } 
+Hyperparameters             & {\parbox[t]{1.5cm}{\raggedleft Drop \\out 50\%}  } 
 & Momentum & {\parbox[t]{1.3cm}{\raggedleft Weight \\decay}} & Mini-batch & BN \\ \midrule
 Run time (minutes)             & 0.5        & 8.6          & 0.8      & 7.6 & 4.5          \\
 CV Accurarcy                   & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\% &82.8\%       \\

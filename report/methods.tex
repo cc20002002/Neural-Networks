@@ -35,7 +35,7 @@ The reason to choose cross-entropy loss lies in its derivative. Taking the deriv
 \end{equation*}
 This derivative function has a key property that many other loss functions like mean square loss do not have---the larger the errors~$\sum_k p_{jk}-y_{jk}$ is, the faster all the neurons will learn.
 
-\subsection{Xavier initialisation speeds up convergence}
+\subsection{Xavier initialisation speeds up convergence\label{sec:xav}}
 We initialise the weight matrix~$W_i$ for $i=1,2,3$ using Monte Carlo method from a uniform distribution bounded by $\pm \sqrt{6/\left[\dim(z_i)+\dim(t_i)\right]}$ as suggest by \citet{pmlr-v9-glorot10a}. We use $0$s as the initial condition for bias vector~$\vec b$. As a result, the weight decay term helps to prevent the neural network from overfitting.
 
 We also have experimented to use the normal distribution initialisation suggested by \citet{pmlr-v9-glorot10a}, but it is outperformed in accuracy and speed. So, it is not discussed here.
