@@ -25,6 +25,11 @@ x = f.readlines()
 f.close()
 acc_dropout_05 = list(map(float, x))[:75]
 
+f = open('bn.csv', 'r')
+x = f.readlines()
+f.close()
+acc_bn = list(map(float, x))[:75]
+
 figure = plt.figure()
 x = np.arange(200)
 plt.plot(acc_8987)

@@ -35,9 +35,12 @@ model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.11,momentum=0.9),
 
 model.fit(train_128Train, train_labelTrain, epochs=44, batch_size=1500, callbacks=[tbCallBack])
 model.evaluate(train_128Test, train_labelTest)
+import os
+os.environ["PATH"] += os.pathsep + 'C:\\Program Files (x86)\\Graphviz2.38\\bin'
 from keras.utils import plot_model
 plot_model(model, to_file='model.eps')
-
+from ann_visualizer.visualize import ann_viz;
+ann_viz(model, title="My first neural network")
 
 from keras.models import Sequential
 from keras.layers import Dense
