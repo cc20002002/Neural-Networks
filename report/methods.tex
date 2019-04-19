@@ -1,5 +1,16 @@
 %!TEX root = report.tex
 \section{Methods \label{chapter2}}
+A neural network is a machine learning model that uses a network of functions in multiple layers to understand and translate a data input of one form into a desired output,
+usually in another form \citep{Bishop:2006:PRM:1162264}.
+It learns from processing many labelled samples that are supplied during training, uses this answer key to learn what non-linear and complex characteristics of the input are needed to construct the correct output.
+In this supervised tasks,
+a network processes the inputs and compares its predicted outputs against the expected outputs.
+For each iteration the cost will be propagated back through the network,
+to adjust the weights in each layer.
+This process is repeated until the best accuracy is achieved.
+The training algorithm is often referred to as a back-propagation algorithm,
+which is useful for training multi-layer feed forward neural networks.
+
 We build a fully connect feed-forward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements the Xavier uniform initialisation and three activation layers layers (Figure~\ref{fig:nn}). 
 \begin{figure}
     \centering
@@ -14,7 +25,7 @@ We apply batch normalisation (BN) to normalise the input data~from $\vec t_1$ to
 We then apply an densely connected layer with a ReLU activation function, an additional dropout layer. The neural network finishes with a Softmax activation layer. 
 
 \subsection{Cross validation score and early stopping prevents overfit\label{sec:early}}
-We partition our dataset into $50,000$ training samples and $10,000$ test samples. For each epoch, we first train our model using the training samples and then compute the cross validation (CV) accuracy using the test samples. After $200$ epoch, we find the number of iteration~\texttt{n\_iter} corresponding to the maximum CV accuracy as our early stopping point. Using all the $60,000$ samples, we then train our model again  \texttt{n\_iter} epoches to obtain our final neural network model.
+We partition our dataset into $50,000$ training samples and $10,000$ test samples. For each epoch, we first train our model using the training samples and then compute the cross validation (CV) accuracy using the test samples. After $200$ epoch, we find the number of epoch~\texttt{n\_iter} corresponding to the maximum CV accuracy as our early stopping point. Using all the $60,000$ samples, we then train our model again  \texttt{n\_iter} epoches to obtain our final neural network model.
 
 \subsection{Cross-entropy with weight decay improves the model robustness}
 Define~$\vec y_k:=(y_{1k},y_{2k},\ldots,y_{10k})$ as the one hot encoding of the training label for the $k$th sample and $\vec p_k:=(p_{1k},p_{2k},\ldots,p_{10k})$ as the corresponding predicted probabilities. To train the neural network, we apply the cross-entropy loss 
