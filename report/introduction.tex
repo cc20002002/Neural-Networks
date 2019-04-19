@@ -25,7 +25,7 @@ they include multi-layer neurons trained with back-propagation \citet{werbos1990
 Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
 We also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
 these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citet{ruder2016overview}.
-To prevent over-fitting of the model, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout}.
+To prevent over-fitting of the model, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout} and weight decay can suppress some noise on the targets to improve generalisation \citet{NIPS1991_563}.
 
 % - Why is the study important? 
 % again these are about how neural network and hence moved to methods
@@ -33,14 +33,14 @@ To prevent over-fitting of the model, dropout is a technique to randomly drop ne
 % find latent feature
 % ??
 % ?? refer to the mid test
-Our study is important because it not only helps us to understand the recent advance of neural network,  but also validate the usefulness of these modules numerically. Neural network is widely applicable in Artificial Intelligence and it is irreplaceable by any other machine learning model for *** reasons.   
+Our study is important because it not only helps us to understand the recent advance of neural network,  but also validate the usefulness of these modules numerically. Neural network is widely applicable in Artificial Intelligence. It is irreplaceable by any other machine learning model because it has (num) outstanding properties.   
 %Firstly, neural network has the ability to classify the data that it has never seen before. hence it can help us predict the labels for testing dataset. %who said this? I don't really understand.
 
 Secondly, neural network can accurately classify complex and highly non-linear dataset. The mathematical structure behind Artificial Intelligence problems is usually difficult to formulated. As a result, a successful model for these complex datasets has to have a complex hypothesis class \citep{Bishop:2006:PRM:1162264}. 
 With neural network, we can conveniently increase the complexity of the hypothesis class by raising either the number of layers or the number of hidden neurons per layer. 
 With a suitable hypothesis class (e.g. several layers of non-linear activation functions), the neural network model is capable to extract latent features from this large amounts of data.
 
-Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code (reference), with either CPU or GPU .
+Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code \citet{5452452}, with either CPU or GPU.
 
 %Lastly, neural network is fault tolerant and self-repair since it ensures reliability when some portions of the network are not working, hence we use dropout in our experiment to make the neural network more resilient. %Again, who said it, only refer to best conferences and journal papers.
 
