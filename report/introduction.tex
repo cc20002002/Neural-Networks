@@ -33,20 +33,24 @@ To illustrate the effects of each module, we turn the module off one by one in o
 %these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citep{ruder2016overview}.
 %Two common techniques are used to prevent over-fitting of the model during the experiments, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout} and weight decay can suppress some noise on the targets to improve generalisation \citep{NIPS1991563}.
 
-Neural network is inspired by the biological neural networks which constitute human brains \citep{10.2307/4299364}. First perceptron (please ref Rosenblatt, 1958).
-Backpropagation allows perceptron to be extended to multi-layer neural networks. (plz ref http://www.cs.cmu.edu/~bhiksha/courses/deeplearning/Fall.2016/pdfs/Werbos.backprop.pdf). As the first significant application, \citet{NIPS1989293} applies backpropagation to train computers to read human handwriting. The recent advances in computer hardware makes the backpropagation algorithm feasible for training large and deep neural networks. Consequently, the algorithm become more prevalent. Recently, researchers in this field invented many empirical and heuristic techniques to improve the performance of neural networks in performance and convergence rate, 
-\chenc{please reorder as per our table. Start with Xavier and RelU perhaps}
-including Xavier initialisation (ref), ReLU activation functions (ref Hahnloser et al. in 2000), 
-weight decay (ref), 
-momentum method (ref from method),
-mini-batch training (ref from method), batch normalisation (refs) and dropout (refs).
+Neural network is inspired by the biological neural networks which constitute human brains \citep{10.2307/4299364}.
+The concept perception is first introduced as a probablistic model for information storage and organisation \citep{rosenblatt}.
+However, \citet{minsky69perceptrons} acknowledged the perception's major limitations due to some mathematical predicates in 1969 and lead pessimism on the machine learning effectiveness.
+The rediscovery of back-propagation caused a rebirth in machine learning research, it allows perceptron to be extended to multi-layer neural network \citep{58337}. As the first significant application, \citet{NIPS1989293} applies back-propagation to train computers to read human handwriting. The recent advances in computer hardware makes the back-propagation algorithm feasible for training large and deep neural networks. Consequently, the algorithm become more prevalent. Recently, researchers in this field invented many empirical and heuristic techniques to improve the performance of neural networks in performance and convergence rate such as weight decay \citet{NIPS1991563}, it is a technique to suppress the noise and improve generalisation for neural network model;
+Xavier initialisation \citet{pmlr-v9-glorot10a} is introduced to help avoid slow convergence, and batch normalisation \citep{pmlr-v37-ioffe15} is widely used to accelerate the training process and reduce the training iterations;
+Dropout \citep{DBLP:journals/corr/abs-1207-0580} is invented to prevent over-fitting and ReLU activation functions \citet{relu-hahnloser} is designed to help on the sparsity of the output data;
+Last but not least, Mini-batch training \citep{DBLP:journals/corr/GoyalDGNWKTJH17} and momentum method  \citet{rumelhart1986learning} both improves the speed of convergence and computation.
+
 % - Why is the study important? 
 % again these are about how neural network and hence moved to methods
 % end to end structure
 % find latent feature
 % ??
 % ?? refer to the mid test
-Neural network is widely applicable in Artificial Intelligence problems, such as Natural language processing (2 good refs that cited a lot), application 2 (2 refs), and application 3(2 refs).  It is irreplaceable by any other machine learning model because it has many outstanding properties. 
+Neural network is widely applicable in Artificial Intelligence problems, such as Face Recognition, \citet{655647} demonstrated a significant performance improvement in face detection using neural network compared to the traditional state-of-the-art face detection systems, and \citet{554195} presented a multi-layer convolutional neural-network approach which is widely applied in the face recognition nowadays.
+Moreover, neural network plays an important role in natural language processing, \citet{Collobert:2011:NLP:1953048.2078186} proposed a unified neural network that can be applied to various natural language processing tasks, and \citet{Collobert:2008:UAN:1390156.1390177} illustrated using convolutional neural network architecture as an instance of multitask learning on language processing predictions.
+Lastly, neural network is widely used in forecasting financial and economic time series \citep{KAASTRA1996215} and \citep{Azoff:1994:NNT:561452}.
+It is irreplaceable by any other machine learning model because it has many outstanding properties. 
 
 %This paper is talking about using ensemble of neural network. We definitely have not apply ensemble of neural networks.
 %Firstly, neural network is using an iterative learning process to adjust the weights to predict the correct class label of input samples.
