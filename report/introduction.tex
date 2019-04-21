@@ -8,41 +8,55 @@ The task provides a labelled training dataset and an unlabelled testing dataset.
 The training dataset given for this task consists of $128$ features for $60,000$ samples,
 the test dataset contains $10,000$ samples with same amount of features as training dataset.
 Compare to a simple multi-layer neural network implementation,% @Chen review: I don't understand this sentence
-our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. These methods include advanced activation functions, 
+our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. These methods include Xavier initialisation, rectified linear unit (ReLU) activation functions, 
 weight decay, 
 momentum method,
 %stochastic gradient descent methods, 
-mini-batch training, batch normalisation and dropout. 
-Our model successfully classifies the cross validation (CV) data set with an accuracy of $89.9\%$ in $2.3$ minutes. 
+mini-batch training, batch normalisation and dropout.
+We numerically validates the performance of these modules by a 10-class classification problem. 
+With these modules, our model accurately classifies the cross validation (CV) dataset with an accuracy of $89.9\%$ in $2.3$ minutes. 
 To illustrate the effects of each module, we turn the module off one by one in our benchmark model and then explore the numerical consequences.
 
 %Literature review find a review paper read and rewrite
-The multi-class neural network classification is not a trivial extension from two-class neural network,
-it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
-the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
-these classifiers does not require high memory and computation complexity but they require long training time,
-they include multi-layer neurons trained with back-propagation \citep{werbos1990backpropagation}.
-Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
-we also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
-these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citep{ruder2016overview}.
-Two common techniques are used to prevent over-fitting of the model during the experiments, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout} and weight decay can suppress some noise on the targets to improve generalisation \citep{NIPS1991_563}.
+\chenc{the extension is trivial}
+%The multi-class neural network classification is not a trivial extension from two-class neural network, 
+%it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
+\chenc{only svm type of classifier uses hyper planes, not relevant}
+%the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
+%these classifiers does not require high memory and computation complexity but they require long training time,
+%they include multi-layer neurons trained with back-propagation \citep{werbos1990backpropagation}.
+%Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
+\chenc{you serious? we found it? why dont we become millionaries if we found these?}
+%we also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
 
+\chenc{somehow cohesively include the following or just delete}
+%these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citep{ruder2016overview}.
+%Two common techniques are used to prevent over-fitting of the model during the experiments, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout} and weight decay can suppress some noise on the targets to improve generalisation \citep{NIPS1991563}.
+
+Neural network is inspired by the biological neural networks which constitute human brains \citep{10.2307/4299364}. First perceptron (please ref Rosenblatt, 1958).
+Backpropagation allows perceptron to be extended to multi-layer neural networks. (plz ref http://www.cs.cmu.edu/~bhiksha/courses/deeplearning/Fall.2016/pdfs/Werbos.backprop.pdf). As the first significant application, \citet{NIPS1989293} applies backpropagation to train computers to read human handwriting. The recent advances in computer hardware makes the backpropagation algorithm feasible for training large and deep neural networks. Consequently, the algorithm become more prevalent. Recently, researchers in this field invented many empirical and heuristic techniques to improve the performance of neural networks in performance and convergence rate, 
+\chenc{please reorder as per our table. Start with Xavier and RelU perhaps}
+including Xavier initialisation (ref), ReLU activation functions (ref Hahnloser et al. in 2000), 
+weight decay (ref), 
+momentum method (ref from method),
+mini-batch training (ref from method), batch normalisation (refs) and dropout (refs).
 % - Why is the study important? 
 % again these are about how neural network and hence moved to methods
 % end to end structure
 % find latent feature
 % ??
 % ?? refer to the mid test
-Our study is important because it not only helps us to understand the recent advance of neural network,  but also validate the usefulness of these modules numerically. Neural network is widely applicable in Artificial Intelligence. It is irreplaceable by any other machine learning model because it has three outstanding properties.   
+Neural network is widely applicable in Artificial Intelligence problems, such as Natural language processing (2 good refs that cited a lot), application 2 (2 refs), and application 3(2 refs).  It is irreplaceable by any other machine learning model because it has many outstanding properties. 
 
-Firstly, a key feature of neural network is using an iterative learning process to adjust the weights to predict the correct class label of input samples.
-Neural network can be high tolerant to noisy data and be able to classify patterns on which they have not been trained \citep{58871}.
+%This paper is talking about using ensemble of neural network. We definitely have not apply ensemble of neural networks.
+%Firstly, neural network is using an iterative learning process to adjust the weights to predict the correct class label of input samples.
+%Neural network can be high tolerant to noisy data and be able to classify patterns on which they have not been trained \citep{58871}.
 
 Secondly, neural network can accurately classify complex and highly non-linear dataset. The mathematical structure behind Artificial Intelligence problems is usually difficult to formulated. As a result, a successful model for these complex datasets has to have a complex hypothesis class \citep{Bishop:2006:PRM:1162264}. 
 With neural network, we can conveniently increase the complexity of the hypothesis class by raising either the number of layers or the number of hidden neurons per layer. 
 With a suitable hypothesis class (e.g. several layers of non-linear activation functions), the neural network model is capable to extract latent features from this large amounts of data.
 
-Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code \citet{5452452}, with either CPU or GPU.
+Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code \citep{5725236}, with either CPU or GPU.
 
 % Draft Completed - Pending Review
 This report firstly introduces the theoretical supports for loss functions, various layers and optimisation techniques. 

@@ -33,7 +33,7 @@ Define~$\vec y_k:=(y_{1k},y_{2k},\ldots,y_{10k})$ as the one hot encoding of the
   {L(\vec p|\vec y)=-\sum_{k}\sum _{j=1}^{10} y_{jk}\log p_{jk}}.  \label{eq:loss}
 \end{equation}
 
-Although the structure of our neural network is relative simple, it still has too many parameters. For example, if we set the number of hidden nodes in each hidden layer to be 160, then the number of parameters to estimate in the weights~$W_1,W_2$ and $W_3$ is $128*160+160*160+160*10=47,680$. The total number of parameters including biases~$b_i$ and BN parameters~$\gamma_i$ and~$\beta_i$ is more than $47,680$. As we only have $50,000$ training samples, allowing entries of the weights~$W_i$ to be arbitrary real number overfits the dataset. To encounter this ill-proposed problem, we penalise the complexity of our model by a $L2$ regularisation term as proposed by \citet{doi:10.1080/00401706.1970.10488634}
+Although the structure of our neural network is relative simple, it still has too many parameters. For example, if we set the number of hidden nodes in each hidden layer to be 160, then the number of parameters to estimate in the weights~$W_1,W_2$ and $W_3$ is $128*160+160*160+160*10=47,680$. The total number of parameters including biases~$b_i$ and BN parameters~$\gamma_i$ and~$\beta_i$ is more than $47,680$. As we only have $50,000$ training samples, allowing entries of the weights~$W_i$ to be arbitrary real number overfits the dataset. To encounter this ill-proposed problem, we penalise the complexity of our model by a $L2$ regularisation term as proposed by \citet{NIPS1991563} and \citet{doi:10.1080/00401706.1970.10488634}
 \begin{equation}
   {L=-\sum_k\sum _{j=1}^{10} y_{jk}\log p_{jk}}+\lambda\sum _{i=1}^3\left|W_i\right|^2,  \label{eq:loss_reg}
 \end{equation}
