@@ -1,45 +1,49 @@
+%check dropout, not drop out
 \section{Introduction\label{chapter1}}
 %Briefly introduce \textsc{nmf}, applications
 
 %- What’s the aim of the study? 
 % Draft Completed - Pending Review
-The aim of this study is to build a multi-layer neural network application to perform a ten-class classification and use various state-of-the-art modules to improve the prediction accuracy on the given dataset.
-The task provides a labelled training dataset and an unlabelled testing dataset.
-The training dataset given for this task consists of $128$ features for $60,000$ samples,
-the test dataset contains $10,000$ samples with same amount of features as training dataset.
-Compare to a simple multi-layer neural network implementation,% @Chen review: I don't understand this sentence
-our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. These methods include Xavier initialisation, rectified linear unit (ReLU) activation functions, 
-weight decay, 
-momentum method,
-%stochastic gradient descent methods, 
-mini-batch training, batch normalisation and dropout.
-We numerically validates the performance of these modules by a 10-class classification problem. 
+This study builds a multi-layer neural network with cross-entropy loss to perform a ten-class classification task. We implement various state-of-the-art neural network modules to improve the prediction accuracy  and convergence rate classifying the given dataset.
+%The task provides a labelled training dataset and an unlabelled testing dataset.
+%The training dataset given for this task consists of $128$ features for $60,000$ samples,
+%the test dataset contains $10,000$ samples with same amount of features as training dataset.
+%Compare to a simple multi-layer neural network implementation,% @Chen review: I don't understand this sentence
+%our neural network includes various state-of-the-art modules to further improve the prediction accuracy and convergence rate. 
+The applied modules consist of Xavier initialisation \citep{pmlr-v9-glorot10a}, 
+rectified linear unit (ReLU) \citep{relu-hahnloser}, 
+dropout \citep{DBLP:journals/corr/abs-1207-0580},
+momentum method \citep{rumelhart1986learning},
+weight decay \citep{NIPS1991563}, 
+mini-batch training \citep{DBLP:journals/corr/GoyalDGNWKTJH17}, 
+and batch normalisation \citep{pmlr-v37-ioffe15}.
+We numerically validates the performance of these modules by the 10-class classification problem. 
 With these modules, our model accurately classifies the cross validation (CV) dataset with an accuracy of $89.9\%$ in $2.3$ minutes. 
-To illustrate the effects of each module, we turn the module off one by one in our benchmark model and then explore the numerical consequences.
+To illustrate the effects of each module, our numerical experiment gradually turns the modules off one by one and then explore the numerical consequences by comparing them with the original benchmark model.
 
-%Literature review find a review paper read and rewrite
-\chenc{the extension is trivial}
-%The multi-class neural network classification is not a trivial extension from two-class neural network, 
-%it requires robust, adaptive, non-parametric classifiers that can be implemented on high-speed parallel computers,
-\chenc{only svm type of classifier uses hyper planes, not relevant}
-%the most commonly used classifier is the hyper-plane classifiers that form complex output regions such as sigmoid or tanh,
-%these classifiers does not require high memory and computation complexity but they require long training time,
-%they include multi-layer neurons trained with back-propagation \citep{werbos1990backpropagation}.
-%Gradient-based back propagation is introduced to minimise the loss between actual outputs and the predicted output in the supervised learning \citet{lecun1998Gradient},
-\chenc{you serious? we found it? why dont we become millionaries if we found these?}
-%we also found multiple strategies to optimise the mini-batch gradient descent using momentum, batch normalisation and early stopping,
+Neural network were inspired by the biological neural networks which constitute human brains \citep{10.2307/4299364}.
+The concept of perception was originally introduced as a probabilistic model for image recongition \citep{rosenblatt}.
+%However, \citet{minsky69perceptrons} acknowledges the perception's major limitations due to some mathematical predicates in 1969 and lead pessimism on the machine learning effectiveness. This is a book, not a paper. A book does not present new research outcomes.
+%The rediscovery of back-propagation caused a rebirth in machine learning research, it allows perceptron to be extended to multi-layer neural network \citep{58337}. 
+The invention of backpropagation allowed perceptron to be extended to multi-layer neural networks \citep{58337}.
+As the first significant application, \citet{NIPS1989293} applied back-propagation to train computers to read human handwriting. 
+The recent advances in computer hardware made the back-propagation algorithm feasible for training large and deep neural networks. 
+Consequently, neural networks became more prevalent. 
+Recently, researchers in this field discovered many empirical and heuristic techniques to improve the performance of neural networks in accuracy and convergence rate. These techniques include the modules applied in our benchmark model introduced in the first paragraph.
+%Xavier initialisation \citep{pmlr-v9-glorot10a}, 
+%ReLU activation functions \citep{relu-hahnloser}, 
+%dropout \citep{DBLP:journals/corr/abs-1207-0580}, 
+%momentum method \citep{rumelhart1986learning}, 
+%weight decay \citep{NIPS1991563}, 
+%mini-batch training \citep{DBLP:journals/corr/GoyalDGNWKTJH17},
+%and batch normalisation \citep{pmlr-v37-ioffe15}.
 
-\chenc{somehow cohesively include the following or just delete}
-%these strategies further improves the training accuracy and achieve fast convergence for training the neural network model \citep{ruder2016overview}.
-%Two common techniques are used to prevent over-fitting of the model during the experiments, dropout is a technique to randomly drop neurons from the neural network during training \citet{dropout} and weight decay can suppress some noise on the targets to improve generalisation \citep{NIPS1991563}.
+%is designed to help on the sparsity of the output data;
+%Last but not least,and  both improves the speed of convergence and computation.
 
-Neural network is inspired by the biological neural networks which constitute human brains \citep{10.2307/4299364}.
-The concept perception is first introduced as a probablistic model for information storage and organisation \citep{rosenblatt}.
-However, \citet{minsky69perceptrons} acknowledged the perception's major limitations due to some mathematical predicates in 1969 and lead pessimism on the machine learning effectiveness.
-The rediscovery of back-propagation caused a rebirth in machine learning research, it allows perceptron to be extended to multi-layer neural network \citep{58337}. As the first significant application, \citet{NIPS1989293} applies back-propagation to train computers to read human handwriting. The recent advances in computer hardware makes the back-propagation algorithm feasible for training large and deep neural networks. Consequently, the algorithm become more prevalent. Recently, researchers in this field invented many empirical and heuristic techniques to improve the performance of neural networks in performance and convergence rate such as weight decay \citet{NIPS1991563}, it is a technique to suppress the noise and improve generalisation for neural network model;
-Xavier initialisation \citet{pmlr-v9-glorot10a} and batch normalisation \citet{pmlr-v37-ioffe15} is widely used to accelerate the training process and avoid slow convergence;
-In addition, dropout \citet{DBLP:journals/corr/abs-1207-0580} is invented to prevent over-fitting and ReLU activation functions \citet{relu-hahnloser} is designed to help on the sparsity of the output data;
-Last but not least, Mini-batch training \citet{DBLP:journals/corr/GoyalDGNWKTJH17} and momentum method \citet{rumelhart1986learning} both improves the speed of convergence and computation.
+%is invented to prevent over-fitting
+%it is a technique to suppress the noise and improve generalisation for neural network model;
+%is widely used to accelerate the training process and avoid slow convergence
 
 % - Why is the study important? 
 % again these are about how neural network and hence moved to methods
@@ -47,22 +51,18 @@ Last but not least, Mini-batch training \citet{DBLP:journals/corr/GoyalDGNWKTJH1
 % find latent feature
 % ??
 % ?? refer to the mid test
-Neural network is widely applicable in Artificial Intelligence problems, such as Face Recognition, \citet{655647} demonstrated a significant performance improvement in face detection using neural network compared to the traditional state-of-the-art face detection systems, and \citet{554195} presented a multi-layer convolutional neural-network approach which is widely applied in the face recognition nowadays.
-Moreover, neural network plays an important role in natural language processing, \citet{Collobert:2011:NLP:1953048.2078186} proposed a unified neural network that can be applied to various natural language processing tasks, and \citet{Collobert:2008:UAN:1390156.1390177} illustrated using convolutional neural network architecture as an instance of multitask learning on language processing predictions.
-Lastly, neural network is widely used in forecasting financial and economic time series \citep{KAASTRA1996215} and \citep{Azoff:1994:NNT:561452}.
-It is irreplaceable by any other machine learning model because it has many outstanding properties. 
+Neural networks are now widely applicable in many fields such as finance \citep{Azoff:1994:NNT:561452,KAASTRA1996215}, Facial Recognition \citep{554195,655647}, and more recently Natural language processing \citep{Collobert:2008:UAN:1390156.1390177,Collobert:2011:NLP:1953048.2078186}.  It is irreplaceable by other machine learning models because of its distinguishing features. 
 
 %This paper is talking about using ensemble of neural network. We definitely have not apply ensemble of neural networks.
 %Firstly, neural network is using an iterative learning process to adjust the weights to predict the correct class label of input samples.
 %Neural network can be high tolerant to noisy data and be able to classify patterns on which they have not been trained \citep{58871}.
 
-Secondly, neural network can accurately classify complex and highly non-linear dataset. The mathematical structure behind Artificial Intelligence problems is usually difficult to formulated. As a result, a successful model for these complex datasets has to have a complex hypothesis class \citep{Bishop:2006:PRM:1162264}. 
-With neural network, we can conveniently increase the complexity of the hypothesis class by raising either the number of layers or the number of hidden neurons per layer. 
-With a suitable hypothesis class (e.g. several layers of non-linear activation functions), the neural network model is capable to extract latent features from this large amounts of data.
+For example, neural network can accurately classify complex and highly non-linear dataset. The structure of nonlinearity behind artificial intelligence problems is usually difficult to formulate. Unlike classic statistical models, neural networks are able to autonomously learn the nonlinearity from complex data and extract latent features \citep{Bishop:2006:PRM:1162264}. To increase the complexity of the hypothesis class (i.e. the number of latent features), we can conveniently raise either the number of layers or the number of hidden neurons per layer.  
+With a suitable hypothesis class, either simple or complex, the neural network model is capable to extract latent features from datasets.
 
-Thirdly, the training process of neural network can utilise modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix product and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code \citep{5725236}, with either CPU or GPU.
+Moreover, the training process of neural network can efficiently utilise the computational power from modern multi-core CPUs and GPUs. The most computationally intensive part of training a neural network is to computing matrix multiplications and Hadamard product for large matrices. Modern languages like \texttt{Python} perform these matrix operations very effectively with highly vectorised code \citep{5725236}, through either CPU or GPU. Apart from vectorised calculations, packages like \texttt{Numpy} is also optimised to avoid copying data in memory, and to minimise the operation counts while performing matrices operations \citep{5725236}. These features of modern language allow the training Neural network becomes more efficient.
 
 % Draft Completed - Pending Review
-This report firstly introduces the theoretical supports for loss functions, various layers and optimisation techniques. 
-This is followed by the experiment setup. We then compare the simulation results in a great detail.
-Finally, we discuss importance of all these module and how our neural network model benefits from them.
+The rest of this report firstly introduces the loss function, the modules applied and optimisation techniques. 
+This is followed by the experiment setup and detailed simulation results.
+Finally, we discuss importance of all the modules applied and how our neural network model benefits from them.
