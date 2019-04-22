@@ -1,5 +1,5 @@
 \documentclass[a4paper,UKenglish,12pt]{article}
-\usepackage[lwarpmk]{lwarp}
+%\usepackage[lwarpmk]{lwarp}
 %\usepackage{titlesec}
 \usepackage{ajr}
 \usepackage{amsmath}
@@ -155,7 +155,11 @@ commentstyle=\color{green!50!black}}
 \usepackage[UKenglish]{babel}
 %\includeonly{chapter3/chapter3}
 \title{Multi-class classification using multi-layer feed forward neural network}
-\author{Chen Chen, Mingxuan Li}
+\author{
+    \begin{tabular}{rl}
+      Chen Chen & Mingxuan Li \tabularnewline 480458339 & *****
+    \end{tabular}
+}
 \date{\today}
 %\makeatother
 \usepackage{numprint}
@@ -178,7 +182,7 @@ commentstyle=\color{green!50!black}}
     minimum size=1cm
   },
   neuron missing/.style={
-    draw=none, 
+    draw=none,
     scale=4,
     text height=0.333cm,
     execute at begin node=\color{black}$\vdots$
@@ -192,7 +196,7 @@ commentstyle=\color{green!50!black}}
 
 % \foreach \m [count=\y] in {1,missing,2}
 %   \node [every neuron/.try, neuron \m/.try ] (hidden-\m) at (2,2-\y*1.25) {};
-  
+
 %   \foreach \m [count=\y] in {1,missing,2}
 %   \node [every neuron/.try, neuron \m/.try ] (hidden2-\m) at (2,2-\y*1.25) {};
 

@@ -3,8 +3,8 @@
 \BOOKMARK [2][]{subsection.2.1}{Cross validation score and early stopping prevents overfit}{section.2}% 3
 \BOOKMARK [2][]{subsection.2.2}{Cross-entropy with weight decay improves the model robustness}{section.2}% 4
 \BOOKMARK [2][]{subsection.2.3}{Xavier initialisation speeds up convergence}{section.2}% 5
-\BOOKMARK [2][]{subsection.2.4}{Batch normalisation prevents internal covariance shift}{section.2}% 6
-\BOOKMARK [2][]{subsection.2.5}{Drop out performs model averaging}{section.2}% 7
+\BOOKMARK [2][]{subsection.2.4}{BN prevents internal covariance shift}{section.2}% 6
+\BOOKMARK [2][]{subsection.2.5}{Dropout performs model averaging}{section.2}% 7
 \BOOKMARK [2][]{subsection.2.6}{Activation functions map input to desired output range}{section.2}% 8
 \BOOKMARK [3][]{subsubsection.2.6.1}{Nonlinear activation}{subsection.2.6}% 9
 \BOOKMARK [3][]{subsubsection.2.6.2}{ReLU activation function}{subsection.2.6}% 10
@@ -12,25 +12,3 @@
 \BOOKMARK [2][]{subsection.2.7}{Stochastic gradient descent finds the optimal weights}{section.2}% 12
 \BOOKMARK [3][]{subsubsection.2.7.1}{Mini-batch improves the speed of computation }{subsection.2.7}% 13
 \BOOKMARK [3][]{subsubsection.2.7.2}{Momentum accelerates rate of convergence}{subsection.2.7}% 14
-\BOOKMARK [3][]{subsubsection.2.7.3}{todo: adam}{subsection.2.7}% 15
-\BOOKMARK [1][]{section.3}{Experiments and results}{}% 16
-\BOOKMARK [2][]{subsection.3.1}{Dataset}{section.3}% 17
-\BOOKMARK [2][]{subsection.3.2}{Experiment Setup}{section.3}% 18
-\BOOKMARK [3][]{subsubsection.3.2.1}{multiprocessing speed up hyperparameter tuning}{subsection.3.2}% 19
-\BOOKMARK [3][]{subsubsection.3.2.2}{Hardware and software}{subsection.3.2}% 20
-\BOOKMARK [3][]{subsubsection.3.2.3}{Early stopping decides maximum number of iterations}{subsection.3.2}% 21
-\BOOKMARK [2][]{subsection.3.3}{Experiments Results}{section.3}% 22
-\BOOKMARK [3][]{subsubsection.3.3.1}{Optimal hyperparameters}{subsection.3.3}% 23
-\BOOKMARK [2][]{subsection.3.4}{Experiments Results}{section.3}% 24
-\BOOKMARK [3][]{subsubsection.3.4.1}{Vectorisation dramatically improves the speed of training}{subsection.3.4}% 25
-\BOOKMARK [3][]{subsubsection.3.4.2}{Batch normalisation significantly improves the accuracy}{subsection.3.4}% 26
-\BOOKMARK [3][]{subsubsection.3.4.3}{Weight decaying prevents overfitting}{subsection.3.4}% 27
-\BOOKMARK [3][]{subsubsection.3.4.4}{dropout does not help here}{subsection.3.4}% 28
-\BOOKMARK [1][]{section.4}{Discussion}{}% 29
-\BOOKMARK [2][]{subsection.4.1}{Why relu helpful}{section.4}% 30
-\BOOKMARK [2][]{subsection.4.2}{Why batch normalisation helpful}{section.4}% 31
-\BOOKMARK [2][]{subsection.4.3}{Weight decaying}{section.4}% 32
-\BOOKMARK [2][]{subsection.4.4}{Why drop out is not helpful}{section.4}% 33
-\BOOKMARK [2][]{subsection.4.5}{Why early stopping}{section.4}% 34
-\BOOKMARK [2][]{subsection.4.6}{Why momentum}{section.4}% 35
-\BOOKMARK [1][]{section.5}{Conclusion}{}% 36

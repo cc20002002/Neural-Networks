@@ -4,12 +4,12 @@
 \newif\ifajr@pdf
 \ifx\pdfoutput\undefined\ajr@pdffalse\else\ajr@pdftrue\fi
 \newif\ifajr@newcent \ajr@newcentfalse
-\newif\ifajr@colour 
+\newif\ifajr@colour
 \ifajr@pdf\ajr@colourtrue\else\ajr@colourfalse\fi
-\newif\ifajr@hyperref 
+\newif\ifajr@hyperref
 \ifajr@pdf\ajr@hyperreftrue\else\ajr@hyperreffalse\fi
 \newif\ifajr@screen \ajr@screenfalse
-\newif\ifajr@afive 
+\newif\ifajr@afive
 \ifdim\paperwidth=148mm \ajr@afivetrue\else\ajr@afivefalse\fi
 % process options
 \DeclareOption{newcent}{\ajr@newcenttrue}
@@ -30,9 +30,9 @@
 
 % newcent option uses the postscript fonts (except for maths)
 \ifajr@newcent
-\usepackage{newcent} 
+\usepackage{newcent}
 \renewcommand{\sfdefault}{phv}
-\DeclareFontShape{OT1}{cmr}{m}{n}{ <-> pncr }{} 
+\DeclareFontShape{OT1}{cmr}{m}{n}{ <-> pncr }{}
 \DeclareFontShape{OT1}{cmr}{bx}{n}{ <-> pncb }{}
 \usepackage[mathbf,mathcal]{eulervm}
 \addtolength{\textwidth}{1em}
@@ -62,9 +62,9 @@
 \renewcommand{\figurename}{\color{Brown}Figure}
 \renewcommand{\tablename}{\color{Brown}Table}
 \def\abstractname{\ajr@sectioncolour Abstract}
-\let\L@TeX@startsection\@startsection 
+\let\L@TeX@startsection\@startsection
 \renewcommand{\@startsection}[6]{\L@TeX@startsection{#1}{#2}{#3}{#4}{#5}%
-{\ajr@sectioncolour\raggedright #6}} 
+{\ajr@sectioncolour\raggedright #6}}
 \let\L@TeXmaketitle\@maketitle
 \def\@maketitle{{\color{Brown}\sf\L@TeXmaketitle}}
 % \let\L@TeXequation\equation
@@ -77,10 +77,10 @@
 \let\L@TeXverbatim@font\verbatim@font
 \def\verbatim@font{\color{Brown}\L@TeXverbatim@font}
 \newcommand{\ajr@footercolour}{\color{cyan}}
-\newcommand{\ajr@headercolour}{\color{teal}} 
+\newcommand{\ajr@headercolour}{\color{teal}}
 \def\theoremcolour{\color{violet}}
 % change lists to colour
-\newcommand{\ajr@itemcolour}{\ajr@sectioncolour} 
+\newcommand{\ajr@itemcolour}{\ajr@sectioncolour}
 % from latex.ltx
 \def\list#1#2{\ifnum \@listdepth >5\relax \@toodeep
      \else \global\advance\@listdepth\@ne \fi
@@ -139,7 +139,7 @@
     }
 	
 % change \paper width and height here??
-\ifajr@screen % make the page shorter & margin wider 
+\ifajr@screen % make the page shorter & margin wider
     \setlength{\textheight}{130mm}
     \setlength{\marginparwidth}{30mm}
     % reduce gap at top & increase page sizes correspondingly
@@ -175,7 +175,7 @@
 \def\sectionautorefname{Section}
 \def\subsectionautorefname{Subsection}
 \def\subsubsectionautorefname{Subsubsection}
-% redefine some indexing to get the hyperlinks---should use 
+% redefine some indexing to get the hyperlinks---should use
 % hyperindex????
 % \newcommand{\emphhyperpage}[1]{\emph{\hyperpage{#1}}}
 % \newcommand{\bfhyperpage}[1]{\textbf{\hyperpage{#1}}}
@@ -184,7 +184,7 @@
 \ifajr@pdf
 \AtBeginDocument{{\def\and{, }%
   \hypersetup{
-    pdfauthor={\@author},
+    pdfauthor={Chen Chen},
     pdftitle={\@title}}}}
 \fi
 \else\usepackage{url}
@@ -225,7 +225,7 @@ statusdict begin true setduplexmode end
 
 
 % if using ProTeX package for computer code
-\ifx\AlProTex\@undefined\else 
+\ifx\AlProTex\@undefined\else
 \typeout{**** Changing appearance of ProTeX ****}
 \let\CodeFont\verbatim@font
 \def\ModifyFrontTitle#1{
