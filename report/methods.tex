@@ -14,7 +14,7 @@ which is useful for training multi-layer feed forward neural networks.
 We build a fully connect feed-forward neural network for the classification task with a cross-entropy loss and $L2$ weight decay regularisation. Our neural networks implements the Xavier uniform initialisation and three activation layers layers (Figure~\ref{fig:nn}). 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.7]{NN.pdf}
+    \includegraphics[scale=0.77]{NN.pdf}
     \caption{A diagram illustrates the architecture of our benchmark neural network model. The weights of the densely connected layers are initialised by a uniform distribution proposed by \citet{pmlr-v9-glorot10a}.}
     \label{fig:nn}
 \end{figure}
@@ -53,7 +53,7 @@ We also have experimented to use the normal distribution initialisation suggeste
 
 Xavier initialisation makes sure the initialised weights and biases are not too far away from the optimal weights and biases \citep{pmlr-v9-glorot10a}. This is essential because a poorly initialised optimisation problem usually either ends up with a solution that is far away from global optimum, or even diverges.
 
-\subsection{BN prevents internal covariance shift}
+\subsection{BN prevents internal covariance shift and smooths optimisation}
 We normalise the inputs~$t_{ij}$ for layers~$i=1,2$. When training using mini-batch~$B$ as defined in Section~\ref{sec:minibatch}, we use $\mu_B^{(j)}$ and $\sigma_B^{(j)^2}$ to denote the sample mean and sample variance for the mini-batch~$B$. Here, index~$j$ denotes one dimension of the input data. Moreover, we define $\gamma_{ij}$ and $\beta_{ij}$ ($i=1,2$) as real parameters to be learnt by backward proporgation. The BN layer iteratively normalise each dimensions~$j$ of the input batch as
 \begin{equation}
      {\tilde {t}}_{ij}=\gamma_{ij}\frac {{t}_{ij}-\mu _{B}^{(j)}}{\sqrt {\sigma _{B}^{(j)^{2}}+10^{-8} }}+\beta_{ij} \text{ where } i=1,2.

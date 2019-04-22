@@ -66,7 +66,7 @@
 \renewcommand{\@startsection}[6]{\L@TeX@startsection{#1}{#2}{#3}{#4}{#5}%
 {\ajr@sectioncolour\raggedright #6}}
 \let\L@TeXmaketitle\@maketitle
-\def\@maketitle{{\color{Brown}\sf\L@TeXmaketitle}}
+\def\@maketitle{{\ajr@sectioncolour\L@TeXmaketitle}}
 % \let\L@TeXequation\equation
 % \renewcommand{\equation}{\color{Sepia}\L@TeXequation}
 % \let\L@TeXeqnarray\eqnarray
