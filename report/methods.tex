@@ -99,7 +99,7 @@ We use gradient descent with mini-batch and momentum to iteratively find optimis
 \subsubsection{Mini-batch improves the speed of computation \label{sec:minibatch}}
 Traditional batch gradient descent uses all samples to estimate the gradient of the loss function. Estimating such a gradient using this way may be a very computationally expensive procedure. Alternatively, stochastic gradient descent uses only one sample to estimate the gradient. Although it economises the computational cost, the non-smooth nature makes the convergent much slower. 
 We applied mini-batch as a compromise between the true gradient descent and the stochastic gradient descent methods. 
-Instead of using either all samples or only using one sample to estimate the gradient, we use $1,000$ training samples (i.e. a ``mini-batch''~$B$) at each step. 
+Instead of using either all samples or only using one sample to estimate the gradient, we use $1,500$ training samples (i.e. a ``mini-batch''~$B$) at each step. 
 In comparison with stochastic gradient descent, mini-batch naturally takes advantage of the vectorisation nature of the \texttt{numpy} library and converges much faster \citep{DBLP:journals/corr/GoyalDGNWKTJH17}.
 
 \subsubsection{Momentum accelerates rate of convergence}
