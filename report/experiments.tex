@@ -86,21 +86,6 @@ Running multiple experiments in parallel allows us to fully utilise our computin
     \caption{The hardware specification of our high performance computer.}
     \label{fig:hardware}
 \end{figure}
-%\begin{lstlisting}[language=bash,caption={bash version}]
-%#!/bin/bash
-
-%python3 Neural_Network.py --config=./config/8987.json &
-%python3 Neural_Network.py --config=./config/batch_size_60000.json &
-%python3 Neural_Network.py --config=./config/no_weigh_decay.json &
-%python3 Neural_Network.py --config=./config/no_momentum.json &
-%python3 Neural_Network.py --config=./config/dropout_05.json &
-
-%python3 Neural_Network.py --config=./config/8987.json &
-%python3 Neural_Network.py --config=./config/8995.json &
-%python3 Neural_Network.py --config=./config/8972.json &
-%python3 Neural_Network.py --config=./config/8975.json &
-%python3 Neural_Network.py --config=./config/8932.json &
-%\end{lstlisting}
 \subsection{Experiments Results}
 \subsubsection{Early stopping decides optimal number of epochs}
 %Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
@@ -132,7 +117,7 @@ When turning off the momentum, column~2 in Table~\ref{tb:comp} shows that the ti
 In comparison with Mini-batch training, batch training has a much longer training time  (Column~4 in Table~\ref{tb:comp}). The longer training time is caused by the slowness of large matrix multiplication in gradient descent. The model fails to converge with stochastic gradient descent, where we estimate gradients using only one sample as discussed in Section~\ref{sec:minibatch}.
 
 \subsubsection{Weight decay prevents over-fitting}
-Column~3 in Table~\ref{tb:comp} demonstrates that weight decay improves our model performance. As shown in Figure~\ref{fig:acc-iter}, training neural network without weight decay regularisation drives the green dashed line to decreases after epoch~$16$, indicating a likely overfit. In comparison, the blue solid line, which is the CV accuracy of our benchmark model with weight decay, oscillates after epoch~$44$, without a trend of decline.
+Column~3 in Table~\ref{tb:comp} demonstrates that weight decay improves our model performance. As shown in Figure~\ref{fig:acc-iter}, training neural network without weight decay regularisation drives the purple dashed line to decreases after epoch~$14$, indicating a likely overfit. In comparison, the orange solid line, which is the CV accuracy of our benchmark model with weight decay, oscillates after epoch~$44$, without a trend of decline.
 
 
 \subsubsection{BN significantly improves the accuracy}
