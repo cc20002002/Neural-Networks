@@ -2,7 +2,7 @@
 
 \subsection{Dataset}
 
-Our neural network is designed to classify $10,000$ unlabelled samples with $128$ features and $10$ different classes, using $60,000$ similar labelled samples. As described in Section~\ref{sec:early}, we split the labelled dataset into $50,000$ training samples and $10,000$ CV samples. The features in the dataset ranges from $-2045.92$ to $2803.84$ (Figure~\ref{fig:freq-hist}).
+Our neural network is designed to classify $10,000$ unlabelled samples with $128$ features and $10$ different classes, using $60,000$ similar labelled samples. As described in Section~\ref{sec:early}, we split the labelled dataset into $50,000$ training samples and $10,000$ CV samples. The features in the dataset range from $-2045.92$ to $2803.84$ (Figure~\ref{fig:freq-hist}).
 \begin{figure}
 	\centering{
 	%\includegraphics[scale=.9]{Result_Multiplication_KL_Divergence_No_Noise_Comparison}
@@ -105,7 +105,7 @@ Running multiple experiments in parallel allows us to fully utilise our computin
 \subsubsection{Early stopping decides optimal number of epochs}
 %Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
 %it guides us on how many iterations can be run before the model begins to over-fit.
-As discussed in Section~\ref{sec:early}, we split given labelled dataset into $50,000$ training samples and $10,000$ CV samples. For example, we find $44$ epochs give the best CV accuracy, which is $89.6\%$ (Figure~\ref{fig:acc-iter}), for the benchmark model described in Table~\ref{table:best-four-steps}. As a result, we choose $44$ epochs as our early stopping point for the benchmark model. By back propagation, we iteratively find the weight matrices~$w_1,w_2,w_3$ as shown in Figure~\ref{fig:weight}.
+As discussed in Section~\ref{sec:early}, we split given labelled dataset into $50,000$ training samples and $10,000$ CV samples. For example, we find $44$ epochs give the best CV accuracy, which is $89.9\%$ (Figure~\ref{fig:acc-iter}), for the benchmark model described in Table~\ref{table:best-four-steps}. As a result, we choose $44$ epochs as our early stopping point for the benchmark model. By back propagation, we iteratively find the weight matrices~$w_1,w_2,w_3$ as shown in Figure~\ref{fig:weight}.
 
 \begin{figure}
     \center{\includegraphics
