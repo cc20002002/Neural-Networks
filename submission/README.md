@@ -1,9 +1,9 @@
 # Neural-Networks
+A multi-layer neural networks for multi-class classification
 progagation & backpropagation
 
-## TODO - Need to revisit to draft the first version for submission !!!!!!!!!
-
 ## Running the Program
+We suggest you use **python 3.6+** as the runtime
 
 ### Use virtualenv
 We use python virtualenv to separate the dependencies with other projects, to run and activate it please run the following
@@ -19,19 +19,23 @@ To activate it
 source comp5329-assignment1/bin/activate
 ```
 
-### Install dependencies
+### Install dependencies for the program
 ```
 pip install -r requirements.txt
 ```
 
-
-### Run the main program
+### Run the main program to generate predicted labels
 ```
-cd ./code
-python algorithm/Main.py
+cd ./code/algorithm
+python multilayer_neutral_network.py --config=8987.json
+```
+or
+```
+cd ./code/algorithm
+python multilayer_neutral_network.py --config=8987.json --cv_data=cv_128.h5 --cv_labels=cv_label.h5
 ```
 
-### Zip for submission
+## Zip for submission
 ```
 zip -r 480458339_470325230.zip submission/ -x submission/code/input/*
 ```
