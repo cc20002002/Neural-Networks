@@ -1,0 +1,51 @@
+\documentclass[border=7pt,12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains,calc,fit}
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered,thick, draw=none, fill=gray!30]
+\tikzstyle{conv} = [rectangle, rounded corners, minimum width=5.5cm, minimum height=1cm, text centered,thick, draw=none, fill=yellow!30]
+\tikzstyle{relu} = [conv,fill=red!30]
+\tikzstyle{bn} = [conv,fill=cyan!30]
+\tikzstyle{drop} = [conv,fill=green!30]
+\tikzstyle{pool} = [conv,fill=brown!30]
+
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{document}
+
+\begin{tikzpicture}[node distance=1cm]
+
+\node (start) [startstop,fill=gray!20] {Input in mini-batch of size $1500$ and of dimension $128$};
+
+\node (bn1) [bn, below of=start,node distance=2cm] {BN};
+\node (conv1) [conv , below of=bn1] {Dense layer  ($128\times 160$)};
+\node (tanh) [relu, below of=conv1] {$\tanh$ function};
+\node (drop1) [drop, below of=tanh] {Dropout layer (rate=0.05)};
+
+\node (bn2) [bn, below of=drop1,node distance=2cm] {BN};
+\node (conv3) [conv , below of=bn2] {Dense layer  ($160\times 160$)};
+\node (RELU2) [relu, below of=conv3] {ReLU function};
+\node (drop2) [drop, below of=RELU2] {Dropout layer (rate=0.05)};
+
+\node (dense) [conv, below of=drop2,node distance=2cm] {Dense layer  ($160\times 10$)};
+\node (softmax) [conv, below of=dense,fill=gray!90] {Softmax layer ($10$)};
+\node (loss) [startstop, below of=softmax,node distance=2cm] {Cross-entropy loss with a weight decay coefficient of 0.0007};
+
+\node (momentum) [pool, minimum width=4cm, right of=RELU2,node distance=6.5cm] {momentum=0.9};
+
+%arrows
+\draw [arrow] (start) -- (bn1);
+\draw [arrow] (drop1) -- (bn2);
+
+\draw [arrow] (drop2) -- (dense);
+\draw [arrow] (softmax) --(loss) ;
+\node[gray,fill=white, text=black,right =6.3cm of bn2,thick] (a44){\Large $\times 44$};
+\node[fit =(loss) (momentum)  (bn1) (conv1) (tanh) (drop1) (bn2)(conv3)(softmax) , draw, dashed, ultra thick, gray, ,rounded corners=10,inner sep=1em,]{};
+
+\draw [arrow] (loss) -|(momentum) ;
+\draw [arrow] (momentum) |- ($(bn1)!0.35!(start)$);
+
+\end{tikzpicture}
+
+\end{document}

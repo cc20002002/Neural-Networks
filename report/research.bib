@@ -1,9 +1,50 @@
-@misc{DeepAI,
-  title = {Build with AI},
-  howpublished = {\url{https://deepai.org/machine-learning-glossary-and-terms/neural-network}},
-  note = {Retrieved: 2019-04-14},
-	year = {1999}	
+% never refer to an URL
+@book{Bishop:2006:PRM:1162264,
+ author = {Bishop, Christopher M.},
+ title = {Pattern Recognition and Machine Learning (Information Science and Statistics)},
+ year = {2006},
+ isbn = {0387310738},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+} 
+@book{hastie01statisticallearning,
+  added-at = {2008-05-16T16:17:42.000+0200},
+  address = {New York, NY, USA},
+  author = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
+  biburl = {https://www.bibsonomy.org/bibtex/2f58afc5c9793fcc8ad8389824e57984c/sb3000},
+  interhash = {d585aea274f2b9b228fc1629bc273644},
+  intrahash = {f58afc5c9793fcc8ad8389824e57984c},
+  keywords = {ml statistics},
+  publisher = {Springer New York Inc.},
+  series = {Springer Series in Statistics},
+  timestamp = {2008-05-16T16:17:43.000+0200},
+  title = {The Elements of Statistical Learning},
+  year = 2001
 }
+@article{goh2017why,
+  author = {Goh, Gabriel},
+  title = {Why Momentum Really Works},
+  journal = {Distill},
+  year = {2017},
+  url = {http://distill.pub/2017/momentum},
+  doi = {10.23915/distill.00006}
+}
+
+@book{james2013introduction,
+  added-at = {2019-02-26T15:41:56.000+0100},
+  author = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+  biburl = {https://www.bibsonomy.org/bibtex/272b058c2415cf824f7e3d94e6ba5ed5b/slicside},
+  interhash = {682b0a04fdee4a28f9d6d1f216fe53c9},
+  intrahash = {72b058c2415cf824f7e3d94e6ba5ed5b},
+  keywords = {ba-2018-hahnrico},
+  publisher = {Springer},
+  timestamp = {2019-02-26T15:41:56.000+0100},
+  title = {An introduction to statistical learning},
+  volume = 112,
+  year = 2013
+}
+
+
 
 @incollection{NIPS20145267,
 title = {On the Computational Efficiency of Training Neural Networks},
@@ -103,6 +144,18 @@ eprint = {
   url = 	 {http://proceedings.mlr.press/v37/ioffe15.html},
   abstract = 	 {Training Deep Neural Networks is complicated by the fact that the distribution of each layer’s inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization, and in some cases eliminates the need for Dropout. Applied to a stateof-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.82% top-5 test error, exceeding the accuracy of human raters.}
 }
+@incollection{NIPS1989293,
+title = {Handwritten Digit Recognition with a Back-Propagation Network},
+author = {LeCun, Yann and Bernhard E. Boser and John S. Denker and Donnie Henderson and R. E. Howard and Wayne E. Hubbard and Lawrence D. Jackel},
+booktitle = {Advances in Neural Information Processing Systems 2},
+editor = {D. S. Touretzky},
+pages = {396--404},
+year = {1990},
+publisher = {Morgan-Kaufmann},
+url = {http://papers.nips.cc/paper/293-handwritten-digit-recognition-with-a-back-propagation-network.pdf}
+}
+
+
 @article{lecun1998Gradient,
   title={Gradient-based learning applied to document recognition},
   author={Lecun, Y. and Bottou, L. and  Bengio, Y. and Haffner, P. },
@@ -147,4 +200,295 @@ eprint = {
   pdf = 	 {http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf},
   url = 	 {http://proceedings.mlr.press/v9/glorot10a.html},
   abstract = 	 {Whereas before 2006 it appears that deep multi-layer neural networks were not successfully trained, since then several algorithms have been shown to successfully train them, with experimental results showing the superiority of deeper vs less deep architectures. All these experimental results were obtained with new initialization or training mechanisms. Our objective here is to understand better why standard gradient descent from random initialization is doing so poorly with deep neural networks, to better understand these recent relative successes and help design better algorithms in the future.  We first observe the influence of the non-linear activations functions. We find that the logistic sigmoid activation is unsuited for deep networks with random initialization because of its mean value, which can drive especially the top hidden layer into saturation. Surprisingly, we find that saturated units can move out of saturation by themselves, albeit slowly, and explaining the plateaus sometimes seen when training neural networks. We find that a new non-linearity that saturates less can often be beneficial. Finally, we study how activations and gradients vary across layers and during training, with the idea that training may be more difficult when the singular values of the Jacobian associated with each layer are far from 1.  Based on these considerations, we propose a new initialization scheme that brings substantially faster convergence.}
+}
+
+@article{OU20074,
+title = "Multi-class pattern classification using neural networks",
+journal = "Pattern Recognition",
+volume = "40",
+number = "1",
+pages = "4 - 18",
+year = "2007",
+issn = "0031-3203",
+doi = "https://doi.org/10.1016/j.patcog.2006.04.041",
+url = "http://www.sciencedirect.com/science/article/pii/S0031320306002081",
+author = "Guobin Ou and Yi Lu Murphey",
+keywords = "Machine learning, Pattern recognition, Multi-class classification, Neural networks",
+abstract = "Multi-class pattern classification has many applications including text document classification, speech recognition, object recognition, etc. Multi-class pattern classification using neural networks is not a trivial extension from two-class neural networks. This paper presents a comprehensive and competitive study in multi-class neural learning with focuses on issues including neural network architecture, encoding schemes, training methodology and training time complexity. Our study includes multi-class pattern classification using either a system of multiple neural networks or a single neural network, and modeling pattern classes using one-against-all, one-against-one, one-against-higher-order, and P-against-Q. We also discuss implementations of these approaches and analyze training time complexity associated with each approach. We evaluate six different neural network system architectures for multi-class pattern classification along the dimensions of imbalanced data, large number of pattern classes, large vs. small training data through experiments conducted on well-known benchmark data."
+}
+
+
+@article{10.2307/4299364,
+ ISSN = {07490208, 15515036},
+ URL = {http://www.jstor.org/stable/4299364},
+ abstract = {Wave propagation around and inside a harbor is conventionally studied by numerically solving a representative equation of short-wave progression or by taking actual measurements on a physical model. Although the numerical schemes yield workable solutions, underlying assumptions as well as noticeable difference between the resulting estimations and actual measurements leave scope to employ alternative approaches. The current study is an attempt in that direction and is based on the approach of neural networks. Modeled to imitate the biological neural network prevalent in human brains, an artificial neural network represents interconnection of computational elements called neurons or nodes, each of which basically carries out the task of combining inputs, determining their strength by comparing the combination with a bias (or alternatively passing it through a non-linear function) and firing out the result in proportion to such a strength. The network is first trained with examples, the strengths of interconnections (or weights) are accordingly fixed and then it is readied for application to unseen inputs. The applications of neural networks have now spread across all disciplines of ocean engineering, namely, harbor, coastal, offshore and deepocean engineering, and are directed towards function approximation, optimization, system modeling including parameter predictions. Advantages of the ANN schemes are improved accuracy, ease in application, reduced data requirement and so on. In the present work a feed forward modular neural network was developed in order to estimate attenuation of wave heights along the approach channel of a harbor starting from seaward boundary and ending at the harbor entrance. The trained network was found to satisfactorily follow the expected trend of wave height attenuation along the harbor channel. When tested for unseen input it yielded values of wave heights close to the numerical and physical models. The network also properly simulated the effect of variation of wave period as well as that of angle of wave attack on wave attenuation.},
+ author = {S. N. Londhe and M. C. Deo},
+ journal = {Journal of Coastal Research},
+ number = {4},
+ pages = {1061--1069},
+ publisher = {Coastal Education & Research Foundation, Inc.},
+ title = {Artificial Neural Networks for Wave Propagation},
+ volume = {20},
+ year = {2004}
+}
+
+
+@misc{ruder2016overview,
+  abstract = {Gradient descent optimization algorithms, while increasingly popular, are
+often used as black-box optimizers, as practical explanations of their
+strengths and weaknesses are hard to come by. This article aims to provide the
+reader with intuitions with regard to the behaviour of different algorithms
+that will allow her to put them to use. In the course of this overview, we look
+at different variants of gradient descent, summarize challenges, introduce the
+most common optimization algorithms, review architectures in a parallel and
+distributed setting, and investigate additional strategies for optimizing
+gradient descent.},
+  added-at = {2018-12-07T10:36:09.000+0100},
+  author = {Ruder, Sebastian},
+  biburl = {https://www.bibsonomy.org/bibtex/2705d468fad6e6f3609810917b5bb8a93/jpvaldes},
+  description = {An overview of gradient descent optimization algorithms},
+  interhash = {6e9f951ec79eba6cb7eb27db1e6d4ad6},
+  intrahash = {705d468fad6e6f3609810917b5bb8a93},
+  keywords = {gradient descent optimization review},
+  note = {cite arxiv:1609.04747Comment: Added derivations of AdaMax and Nadam},
+  timestamp = {2018-12-07T10:36:09.000+0100},
+  title = {An overview of gradient descent optimization algorithms.},
+  url = {http://arxiv.org/abs/1609.04747},
+  year = 2016
+}
+
+@article{werbos1990backpropagation,
+  added-at = {2017-05-09T18:24:53.000+0200},
+  author = {Werbos, Paul J},
+  biburl = {https://www.bibsonomy.org/bibtex/25ea3485ce75778e802cd8466cd7ffa69/joachimagne},
+  interhash = {8e889518083d0382e7d730349e6e27a6},
+  intrahash = {5ea3485ce75778e802cd8466cd7ffa69},
+  journal = {Proceedings of the IEEE},
+  keywords = {},
+  number = 10,
+  pages = {1550--1560},
+  publisher = {IEEE},
+  timestamp = {2017-05-09T18:24:53.000+0200},
+  title = {Backpropagation through time: what it does and how to do it},
+  volume = 78,
+  year = 1990
+}
+
+@article{dropout,
+  author    = {Nitish Srivastava and
+               Geoffrey E. Hinton and
+               Alex Krizhevsky and
+               Ilya Sutskever and
+               Ruslan Salakhutdinov},
+  title     = {Dropout: a simple way to prevent neural networks from overfitting},
+  journal   = {Journal of Machine Learning Research},
+  volume    = {15},
+  number    = {1},
+  pages     = {1929--1958},
+  year      = {2014},
+  url       = {http://dl.acm.org/citation.cfm?id=2670313},
+  timestamp = {Sun, 05 Oct 2014 01:00:00 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/jmlr/SrivastavaHKSS14},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@INPROCEEDINGS{5452452, 
+author={D. {Strigl} and K. {Kofler} and S. {Podlipnig}}, 
+booktitle={2010 18th Euromicro Conference on Parallel, Distributed and Network-based Processing}, 
+title={Performance and Scalability of GPU-Based Convolutional Neural Networks}, 
+year={2010}, 
+volume={}, 
+number={}, 
+pages={317-324}, 
+keywords={computer graphic equipment;coprocessors;learning (artificial intelligence);multilayer perceptrons;GPU-based convolutional neural networks;multilayer perceptron neural networks;two-dimensional pattern recognition problems;optical character recognition;face detection;network topology training;network topology classification;Scalability;Neural networks;Cellular neural networks;Optical character recognition software;Acceleration;Multilayer perceptrons;Multi-layer neural network;Pattern recognition;Optical computing;Optical fiber networks;machine learning;convolutional neural networks;GPGPU;CUDA;performance;scalability}, 
+doi={10.1109/PDP.2010.43}, 
+ISSN={1066-6192}, 
+month={Feb}
+}
+
+@incollection{NIPS1991563,
+title = {A Simple Weight Decay Can Improve Generalization},
+author = {Anders Krogh and John A. Hertz},
+booktitle = {Advances in Neural Information Processing Systems 4},
+editor = {J. E. Moody and S. J. Hanson and R. P. Lippmann},
+pages = {950--957},
+year = {1992},
+publisher = {Morgan-Kaufmann},
+url = {http://papers.nips.cc/paper/563-a-simple-weight-decay-can-improve-generalization.pdf}
+}
+
+@ARTICLE{58871, 
+author={L. K. {Hansen} and P. {Salamon}}, 
+journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+title={Neural network ensembles}, 
+year={1990}, 
+volume={12}, 
+number={10}, 
+pages={993-1001}, 
+keywords={learning systems;neural nets;pattern recognition;pattern recognition;crossvalidation;performance;training;neural networks;classification;residual generalization error;Neural networks;Databases;Fault tolerance;Supervised learning;Pattern recognition;Computer architecture;Neurons;Data mining;Feedforward systems;Performance analysis}, 
+doi={10.1109/34.58871}, 
+ISSN={0162-8828}, 
+month={Oct}}
+
+@ARTICLE{5725236, 
+author={S. {van der Walt} and S. C. {Colbert} and G. {Varoquaux}}, 
+journal={Computing in Science Engineering}, 
+title={The NumPy Array: A Structure for Efficient Numerical Computation}, 
+year={2011}, 
+volume={13}, 
+number={2}, 
+pages={22-30}, 
+keywords={data structures;high level languages;mathematics computing;numerical analysis;numerical computation;numpy array;numerical data;high level language;Python programming language;Arrays;Numerical analysis;Performance evaluation;Computational efficiency;Finite element methods;Vector quantization;Resource management;Python;NumPy;scientific programming;numerical computations;programming libraries}, 
+doi={10.1109/MCSE.2011.37}, 
+ISSN={1521-9615}, 
+month={March}}
+
+@ARTICLE{655647, 
+author={H. A. {Rowley} and S. {Baluja} and T. {Kanade}}, 
+journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+title={Neural network-based face detection}, 
+year={1998}, 
+volume={20}, 
+number={1}, 
+pages={23-38}, 
+keywords={face recognition;filtering theory;computer vision;neural nets;image processing equipment;neural network-based upright frontal face detection system;retinally connected neural network;bootstrap algorithm;false detections;accuracy;false-positive rates;detection rates;Neural networks;Face detection;Filters;Artificial neural networks;Machine learning algorithms;Pixel;Detectors;Pattern recognition;Computer vision;Machine learning}, 
+doi={10.1109/34.655647}, 
+ISSN={0162-8828}, 
+month={Jan}}
+
+@ARTICLE{554195, 
+author={S. {Lawrence} and C. L. {Giles} and and A. D. {Back}}, 
+journal={IEEE Transactions on Neural Networks}, 
+title={Face recognition: a convolutional neural-network approach}, 
+year={1997}, 
+volume={8}, 
+number={1}, 
+pages={98-113}, 
+keywords={face recognition;self-organising feature maps;topology;quantisation (signal);feature extraction;computational complexity;convolution;image matching;face recognition;convolutional neural-network;self-organizing map;local image sampling;quantization;topological space;dimensionality reduction;invariance;feature extraction;computational complexity;template matching;Face recognition;Neural networks;Humans;Image sampling;Quantization;Feature extraction;Karhunen-Loeve transforms;Multilayer perceptrons;Image databases;Spatial databases}, 
+doi={10.1109/72.554195}, 
+ISSN={1045-9227}, 
+month={Jan}}
+
+@article{Collobert:2011:NLP:1953048.2078186,
+ author = {Collobert, Ronan and Weston, Jason and Bottou, L{\'e}on and Karlen, Michael and Kavukcuoglu, Koray and Kuksa, Pavel},
+ title = {Natural Language Processing (Almost) from Scratch},
+ journal = {J. Mach. Learn. Res.},
+ issue_date = {2/1/2011},
+ volume = {12},
+ month = nov,
+ year = {2011},
+ issn = {1532-4435},
+ pages = {2493--2537},
+ numpages = {45},
+ url = {http://dl.acm.org/citation.cfm?id=1953048.2078186},
+ acmid = {2078186},
+ publisher = {JMLR.org},
+} 
+
+@inproceedings{Collobert:2008:UAN:1390156.1390177,
+ author = {Collobert, Ronan and Weston, Jason},
+ title = {A Unified Architecture for Natural Language Processing: Deep Neural Networks with Multitask Learning},
+ booktitle = {Proceedings of the 25th International Conference on Machine Learning},
+ series = {ICML '08},
+ year = {2008},
+ isbn = {978-1-60558-205-4},
+ location = {Helsinki, Finland},
+ pages = {160--167},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/1390156.1390177},
+ doi = {10.1145/1390156.1390177},
+ acmid = {1390177},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@article{GRAVES2005602,
+title = "Framewise phoneme classification with bidirectional LSTM and other neural network architectures",
+journal = "Neural Networks",
+volume = "18",
+number = "5",
+pages = "602 - 610",
+year = "2005",
+note = "IJCNN 2005",
+issn = "0893-6080",
+doi = "https://doi.org/10.1016/j.neunet.2005.06.042",
+url = "http://www.sciencedirect.com/science/article/pii/S0893608005001206",
+author = "Alex Graves and Jürgen Schmidhuber",
+abstract = "In this paper, we present bidirectional Long Short Term Memory (LSTM) networks, and a modified, full gradient version of the LSTM learning algorithm. We evaluate Bidirectional LSTM (BLSTM) and several other network architectures on the benchmark task of framewise phoneme classification, using the TIMIT database. Our main findings are that bidirectional networks outperform unidirectional ones, and Long Short Term Memory (LSTM) is much faster and also more accurate than both standard Recurrent Neural Nets (RNNs) and time-windowed Multilayer Perceptrons (MLPs). Our results support the view that contextual information is crucial to speech processing, and suggest that BLSTM is an effective architecture with which to exploit it.11An abbreviated version of some portions of this article appeared in (Graves and Schmidhuber, 2005), as part of the IJCNN 2005 conference proceedings, published under the IEEE copyright."
+}
+
+@article{KAASTRA1996215,
+title = "Designing a neural network for forecasting financial and economic time series",
+journal = "Neurocomputing",
+volume = "10",
+number = "3",
+pages = "215 - 236",
+year = "1996",
+note = "Financial Applications, Part II",
+issn = "0925-2312",
+doi = "https://doi.org/10.1016/0925-2312(95)00039-9",
+url = "http://www.sciencedirect.com/science/article/pii/0925231295000399",
+author = "Iebeling Kaastra and Milton Boyd",
+keywords = "Neural networks, Financial forecasting, Backpropagation, Data preprocessing, Training, Testing, Validation, Network paradigms, Learning rate, Momentum and forecast evaluation criteria",
+abstract = "Artificial neural networks are universal and highly flexible function approximators first used in the fields of cognitive science and engineering. In recent years, neural network applications in finance for such tasks as pattern recognition, classification, and time series forecasting have dramatically increased. However, the large number of parameters that must be selected to develop a neural network forecasting model have meant that the design process still involves much trial and error. The objective of this paper is to provide a practical introductory guide in the design of a neural network for forecasting economic time series data. An eight-step procedure to design a neural network forecasting model is explained including a discussion of tradeoffs in parameter selection, some common pitfalls, and points of disagreement among practitioners."
+}
+
+@book{Azoff:1994:NNT:561452,
+ author = {Azoff, E. Michael},
+ title = {Neural Network Time Series Forecasting of Financial Markets},
+ year = {1994},
+ isbn = {0471943568},
+ edition = {1st},
+ publisher = {John Wiley \& Sons, Inc.},
+ address = {New York, NY, USA},
+} 
+
+@article{rosenblatt,
+author = {Rosenblatt, Frank},
+year = {1958},
+month = {12},
+pages = {386 - 408},
+title = {The perceptron: A probabilistic model for information storage and organization in the brain [J]},
+volume = {65},
+journal = {Psychol. Review},
+doi = {10.1037/h0042519}
+}
+
+@book{minsky69perceptrons,
+  added-at = {2008-05-16T13:57:01.000+0200},
+  address = {Cambridge, MA, USA},
+  author = {Minsky, Marvin and Papert, Seymour},
+  biburl = {https://www.bibsonomy.org/bibtex/206a5a6751b3e61408455fca2ed8d87fc/sb3000},
+  description = {: mf : blob : » bibtex},
+  interhash = {d80d4948a422623047f1b800272c0389},
+  intrahash = {06a5a6751b3e61408455fca2ed8d87fc},
+  keywords = {linear-classification neural-networks seminal},
+  publisher = {MIT Press},
+  timestamp = {2008-05-16T13:57:02.000+0200},
+  title = {Perceptrons: An Introduction to Computational Geometry},
+  year = 1969
+}
+
+@ARTICLE{58337, 
+author={P. J. {Werbos}}, 
+journal={Proceedings of the IEEE}, 
+title={Backpropagation through time: what it does and how to do it}, 
+year={1990}, 
+volume={78}, 
+number={10}, 
+pages={1550-1560}, 
+keywords={identification;neural nets;pattern recognition;pseudocode;pattern recognition;fault diagnosis;backpropagation;systems identification;neural networks;Backpropagation;Artificial neural networks;Supervised learning;Pattern recognition;Neural networks;Power system modeling;Equations;Control systems;Fluid dynamics;Books}, 
+doi={10.1109/5.58337}, 
+ISSN={0018-9219}, 
+month={Oct}}
+
+@article{relu-hahnloser,
+author = {Hahnloser, Richard and Sarpeshkar, Rahul and A. Mahowald, Misha and Douglas, Rodney and Sebastian Seung, H},
+year = {2000},
+month = {07},
+pages = {947-51},
+title = {Digital selection and analogue amplification coexist in a cortex-inspired silicon circuit},
+volume = {405},
+journal = {Nature},
+doi = {10.1038/35016072}
 }

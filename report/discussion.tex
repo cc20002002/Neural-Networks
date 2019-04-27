@@ -1,7 +1,11 @@
 \section{Discussion}
-\subsection{Why relu helpful}
-\subsection{Why batch normalisation helpful}
-\subsection{Weight decaying}
-\subsection{Why drop out is not helpful}
-\subsection{Why early stopping}
-\subsection{Why momentum}
+
+Our simulation results (Table~\ref{table:best-four-steps}) illustrates that using $\tanh$ as the activation function in the first activation layer is a better choice than using sigmoid. This may be due to the fact that $\tanh$ is steeper in gradient in a large neighbourhood of zero. Perhaps by tuning the hyperparameter, we succeed to escape the `vanishing gradient region', and hence the gradient in the neighbourhood of zero is more important than the gradient when inputs approach infinity. In the second activation layer, we implement ReLU because it only saturates in one direction. With ReLU, our neural network suffers less from the vanishing gradient problem \citep{pmlr-v9-glorot10a}.
+
+Also, simulations results suggest that we need to be careful when tuning dropout and weight decay. In this simple classification problem, we have significantly more samples~($60,000$) compared with number of  features~$128$. As a result, the generalisation error must be small \citep{james2013introduction}, and a large dropout rate or a large $L2$ regularisation coefficient will over regularise our model \citep{hastie01statisticallearning}. Moreover, with the large sample size, we are confident that the CV accuracy of our benchmark model will be very close to our test accuracy that to be announced.
+
+Although Xavier initialisation only improves the accuracy by $0.1\%$ (Columns~1 and 3 in Table~\ref{table:best-four-steps}), we find it makes the tuning of parameter much easier. This result may be due to Xavier initialisation helps the training process to escape the vanishing gradient region. In the meanwhile, the improved accuracy might be explained by the hypothesis that Xavier initialisation moves our initial condition one step closer to the global optimum.
+
+The results of this study show that mini-batch and momentum method considerably improve the speed of convergence. When applying Mini-batch, we take advantage of the code vectorisation feature of \texttt{numpy}, and hence improves the speed of computation. More importantly, by better estimating the gradient in each step, it improves the stability of our optimisation algorithm. Momentum acts as a damping term in optimisation and it smooths the oscillation in gradient descent \citep{goh2017why}. Hence it accelerates the convergence of minimising the Cross-entropy loss.
+
+Finally, our simulation results also confirms the outstanding performance of BN. BN provides the most significant accuracy improvement amongst all the modules. Rather than preventing internal covariants shift~\citep{pmlr-v37-ioffe15}, it is now argued that BN plays an important role in smoothing the landscope of optimisation \citep{NIPS20187515}. However, our experiment cannot verify which argument is more appropriate. It is difficult to explain the true reason, but it might be related to both.
