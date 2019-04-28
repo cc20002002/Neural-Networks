@@ -24,15 +24,21 @@ source comp5329-assignment1/bin/activate
 pip install -r requirements.txt
 ```
 
-### Run the main program to generate predicted labels
+### Run the main program
+
+to fit the model and perform training only
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
-or
+or to perform cross validation for the model
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --cv_data=cv_128.h5 --cv_labels=cv_label.h5
+```
+or to generate predicted labels by providing test_data in args
+```
+python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
 ```
 
 ## Zip for submission
