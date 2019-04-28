@@ -15,7 +15,7 @@ Our neural network is designed to classify $10,000$ unlabelled samples with $128
 %Then we use all the $60,000$ samples to build our final neural network model.
 \subsection{Use Numpy and Scipy for code vectorisation}
 We use \texttt{python} 3.6 to code the neural network model with a list of library dependencies specified in the file named \texttt{requirements.txt} file in our git repository. 
-In particular, we use \texttt{numpy 1.16.2}  to perform vectorised matrix algebra multiplication, and use the scientific computing library \texttt{scipy 1.21}.
+In particular, our model requires the scientific computing library \texttt{scipy 1.21}, and uses \texttt{numpy} to perform vectorised matrix algebra operations.
 
 \subsection{Multiprocessing speeds up hyperparameters tuning}
 %We apply three layers neural network model with three different activation functions such as tanh, sigmoid and ReLu for the hidden layers as well as a Softmax activation function for the output layer.
@@ -29,14 +29,14 @@ Column~1 in Table~\ref{table:best-four-steps} illustrates the hyperparameters of
 To demonstrate the effect of each module in the benchmark model, we perform one way sensitivity analysis by varying one selected module in each experiment. 
 In the five experiments shown in Table~\ref{tb:comp}, we turn up the drop out rate from $0.05$ to $0.5$, turn the momentum coefficient from $0.9$ to $0$, turn weight decay coefficient from $0.0007$ to $0$, replace mini-batch training by batch training, and train the model without BN, respectively.
 \begin{table}
-\caption{Hyperparameters for models which output outstanding CV accuracy. The benchmark model is our best model in terms of accuracy as well as speed. Hyperparameter sets~$2$--$5$ are either slightly less accurate or slower than our benchmark model. The row of running time is the time taken to train our neural network in the computer shown in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal epoch' states the number of epoch corresponding to the highest CV accuracy when training our model (Section~\ref{sec:early}). \label{table:best-four-steps}}
+\caption{Hyperparameters for models which output outstanding CV accuracy. The benchmark model is our best model in terms of accuracy as well as speed. Hyperparameter sets~$2$--$5$ are either slightly less accurate or slower than our benchmark model. The row of running time is the time taken to train our neural network and make prediction with the computer detailed in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error and hence approximates the test accuracy. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal epoch' states the number of epoch corresponding to the highest CV accuracy when training our model (Section~\ref{sec:early}). \label{table:best-four-steps}}
 \centering
 {
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 Hyperparameters                & Benchmark  & Run 2           & Run 3           & Run 4  & Run 5  \\ \midrule
 Run time (minutes)             & 2.3     & 2.7              & 3.6              & 17.2    & 10.8    \\
-CV Accurarcy                 & 89.9\%  & 89.7\%           & 89.8\%           & 90.0\%  & 89.3\%  \\
+CV Accurarcy                 & 89.9\%  & 89.7\%           & 89.8\%           & 90.0\%  & 89.3\%  \\ \midrule
 Initialisation            & Xavier  & \parbox[t]{1.3cm}{\raggedleft Uniform\\$(-1,1)$} 
 & \parbox[t]{1.3cm}{\raggedleft Uniform\\$(-1,1)$} 
                                                                             & Xavier  & Xavier  \\
@@ -53,16 +53,16 @@ BN & True      & True          & True          & True       & True          \\\b
 }
 \end{table}
 \begin{table}
-\caption{The accuracy of our benchmark model with one selected module either turned off or modified. The row of running time is the time taken to train our neural network in the computer shown in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal epoch' states the number of epoch corresponding to the highest CV accuracy when training our model~(Section~\ref{sec:early}).
+\caption{The accuracy of our benchmark model with one selected module either turned off or modified. The row of running time is the time taken to train our neural network and make predictions with the computer detailed in Figure~\ref{fig:hardware}. The row of CV accuracy reports the classification accuracy of the CV samples, which includes the generalisation error and hence approximates the test accuracy. The row of initialisation states the supports of the uniform distribution in initialisation. The method of `Xavier' is introduced in Section~\ref{sec:xav}. The row `Optimal epoch' states the number of epoch corresponding to the highest CV accuracy when training our model~(Section~\ref{sec:early}).
 \label{tb:comp}}
 \centering
 {\centering
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Hyperparameters             & {\parbox[t]{1.5cm}{\raggedleft Drop \\out 50\%}  } 
-& Momentum & {\parbox[t]{1.3cm}{\raggedleft Weight \\decay}} & Mini-batch & BN \\ \midrule
-Run time (minutes)             & 0.5        & 8.6          & 0.8      & 7.6 & 4.5          \\
-CV Accurarcy                   & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\% &82.8\%       \\
+Hyperparameters             & {\parbox[t]{1.4cm}{\raggedleft Drop \\out 50\%}  } 
+& Momentum & {\parbox[t]{1.3cm}{\raggedleft Weight \\decay}} & {\parbox[t]{1.3cm}{\raggedleft Mini-\\batch}} & BN \\ \midrule
+Run time (mins)             & 0.5        & 8.6          & 0.8      & 7.6 & 4.5          \\
+CV Accurarcy                   & 85.5\%     & 89.4\%       & 88.6\%   & 87.5\% &82.8\%       \\ \midrule
 Initialisation              & Xavier     & Xavier       & Xavier   & Xavier & Xavier        \\
 Batch size                   & 1500       & 1500         & 1500     & 50000    & 1500        \\
 Nodes per layer        & 160        & 160          & 160      & 160    & 160         \\
@@ -79,7 +79,8 @@ BN       & True          & True          & True       & True     & False       \
 
 We implement a \texttt{shell} script to run all these tests in parallel in a high performance computer, whose hardware specification is shown in Figure~\ref{fig:hardware}. The \texttt{shell} script trains our model with various hyperparameters from different 
 \texttt{json} files in parallel. 
-Running multiple experiments in parallel allows us to fully utilise our computing resources, and tune hyperparameters efficiently. Although the speed for each task has been dropped by $30\%$, this parallel setting dramatically reduces the total running time required to finish the ten experiments detailed in Tables~\ref{table:best-four-steps} and~\ref{tb:comp}. For example, fitting our neural networks with these ten different sets of hyperparameters in parallel takes $17.2$ minutes, which is the time required by run~3 (Table~\ref{table:best-four-steps}). However, fitting the ten neural networks in sequence takes a total of $44$ minutes, which doubles the total time required in the parallel setting.\begin{figure}
+Running multiple experiments in parallel allows us to fully utilise our computing resources, and tune hyperparameters efficiently. Although the speed for each task has been dropped by $30\%$, this parallel setting dramatically reduces the total running time required to finish the ten experiments detailed in Tables~\ref{table:best-four-steps} and~\ref{tb:comp}. For example, fitting our neural networks with these ten different sets of hyperparameters in parallel takes $17.2$ minutes, which actually equals the time required by the largest model in  Table~\ref{table:best-four-steps}. However, fitting the ten neural networks in sequence takes a total of $44$ minutes, which doubles the total time required in the parallel setting.
+\begin{figure}
     \center{
         \includegraphics[scale=0.7]{resource/hardware.png}
     }
@@ -90,12 +91,11 @@ Running multiple experiments in parallel allows us to fully utilise our computin
 \subsubsection{Early stopping decides optimal number of epochs}
 %Early stopping is a form of regularisation technique we use to avoid over-fitting for our neutral network,
 %it guides us on how many iterations can be run before the model begins to over-fit.
-As discussed in Section~\ref{sec:early}, we split given labelled dataset into $50,000$ training samples and $10,000$ CV samples. For example, we find $44$ epochs give the best CV accuracy, which is $89.9\%$ (Figure~\ref{fig:acc-iter}), for the benchmark model described in Table~\ref{table:best-four-steps}. As a result, we choose $44$ epochs as our early stopping point for the benchmark model. By back propagation, we iteratively find the weight matrices~$w_1,w_2,w_3$ as shown in Figure~\ref{fig:weight}.
-
+For the benchmark model listed in Table~\ref{table:best-four-steps}, early stopping detailed in Section~\ref{sec:early} finds $44$ epochs give the best CV accuracy, which is $89.9\%$ (Figure~\ref{fig:acc-iter}). As a result, we choose $44$ epochs as our early stopping point for the benchmark model. By back propagation, we iteratively find the weight matrices~$w_1,w_2,w_3$ as shown in Figure~\ref{fig:weight}.
 \begin{figure}
     \center{\includegraphics
     {resource/figure2.eps}}
-    \caption{\label{fig:weight} Optimal weight matrices for our benchmark model.}
+    \caption{\label{fig:weight} A visualisation of the optimal weight matrices for our benchmark model.}
 \end{figure}
 % shows that the cross validation accuracy of our benchmark model reaches a maximum (89.6\%) has at the $44$th iteration. After then, ...
 \begin{figure}
@@ -109,19 +109,19 @@ As discussed in Section~\ref{sec:early}, we split given labelled dataset into $5
 In terms of accuracy and training speed, our best neural network model is the `benchmark' model detailed in Table~\ref{table:best-four-steps}. Although the CV accuracy of the benchmark model is $0.1\%$ lower than the $4th$ hyperparameter who has $900$ nodes in each hidden densely connected layers, it is $8$ times faster. As a result, it is selected as our benchmark model. Table~\ref{tb:comp} and Figure~\ref{fig:acc-iter} illustrate the impact of drop out, momentum, weight decay, mini-batch and BN, respectively, in the Benchmark model.
 
 \subsubsection{Dropout helps in large neural networks}
-In the benchmark model, turning up the drop out rate from $5\%$ to $50\%$ not only makes the model less accurate (Table~\ref{tb:comp}), but also makes it volatile (Figure~\ref{fig:acc-iter}). However, with the $50\%$ drop out rate, the largest neural network model with $900$ nodes per hidden layer turns out to be our most accurate model, which has a CV accuracy of $90\%$ (Table~\ref{table:best-four-steps}). 
+In the benchmark model, turning up the drop out rate from $5\%$ to $50\%$ not only makes the model less accurate (Table~\ref{tb:comp}), but also makes thw CV accuracy volatile (Figure~\ref{fig:acc-iter}). However, with the $50\%$ drop out rate, the largest neural network model with $900$ nodes per hidden layer turns out to be our most accurate model, which has a CV accuracy of $90\%$ (Table~\ref{table:best-four-steps}). 
 
 \subsubsection{Momentum and mini-batch speed up the convergence}
-When turning off the momentum, column~2 in Table~\ref{tb:comp} shows that the time required to train the neural network model suddenly increases from $2.3$ minutes (Benchmark model) to $8.6$ minutes. This is also demonstrated in Figure~\ref{fig:acc-iter}. However, comparing column~2 and~3 in Table~\ref{table:best-four-steps}, it seems that  training sometimes is slower if the momentum coefficient is set to be too high.
+When turning off the momentum, column~2 in Table~\ref{tb:comp} shows that the time required to train the neural network model suddenly increases from $2.3$ minutes (Benchmark model) to $8.6$ minutes. This is also demonstrated in Figure~\ref{fig:acc-iter}. Moreover, comparing column~2 and~3 in Table~\ref{table:best-four-steps}, it seems that  training sometimes is slower if the momentum coefficient is set to be too high.
 
-In comparison with Mini-batch training, batch training has a much longer training time  (Column~4 in Table~\ref{tb:comp}). The longer training time is caused by the slowness of large matrix multiplication in gradient descent. The model fails to converge with stochastic gradient descent, where we estimate gradients using only one sample as discussed in Section~\ref{sec:minibatch}.
+In comparison with mini-batch training, batch training has a much longer training time  (Column~4 in Table~\ref{tb:comp}). The longer training time is caused by the slowness of large matrix multiplication in gradient descent.
 
 \subsubsection{Weight decay prevents over-fitting}
-Column~3 in Table~\ref{tb:comp} demonstrates that weight decay improves our model performance. As shown in Figure~\ref{fig:acc-iter}, training neural network without weight decay regularisation drives the purple dashed line to decreases after epoch~$14$, indicating a likely overfit. In comparison, the orange solid line, which is the CV accuracy of our benchmark model with weight decay, oscillates after epoch~$44$, without a trend of decline.
+Column~3 in Table~\ref{tb:comp} demonstrates that weight decay improves our model performance. As shown in Figure~\ref{fig:acc-iter}, the overfit when training neural network without weight decay drives the purple dashed line to decreases after epoch~$14$. In comparison, the orange solid line, which is the CV accuracy of our benchmark model with weight decay, oscillates after epoch~$44$, without a trend of decline.
 
 
 \subsubsection{BN significantly improves the accuracy}
-In terms of accuracy, BN is the most important module in our neural network model. Turning off BN in our model decreases the CV accuracy from $89.9\%$ to $82.8\%$. Hence, we always include BN in our model for this classification task.
+In terms of accuracy, BN is the most important module in our neural network model. Turning off BN in our model decreases the CV accuracy from $89.9\%$ to $82.8\%$.
 
 
 \subsubsection{Sigmoid is slower than tanh}
