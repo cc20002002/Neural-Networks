@@ -209,6 +209,7 @@ def layers_backward(exp_labels, pred_labels, weights, parameters, caches, hyperp
     parameters['beta2'] = parameters['beta2'] + parameters['beta2_new']
     return change1, change2, change3
 
+
 def update_weights(weights, hyperparameters, caches, change1, change2, change3):
     weights['w3_new'] = hyperparameters['learning_rate'] * (change3 - hyperparameters['weight_decaying'] * weights['w3'] * caches['drop_A3']) + hyperparameters['moment_coef'] * weights['w3_new']
     weights['w2_new'] = hyperparameters['learning_rate'] * (change2 - hyperparameters['weight_decaying'] * weights['w2'] * caches['drop_A2']) + hyperparameters['moment_coef'] * weights['w2_new']
@@ -224,7 +225,7 @@ def model_fit(train_data, train_labels, cv_data, cv_labels, weights, parameters,
 
     print(f'Model Fit - Training iterations')
     # Start iterations for training
-    for iteration in np.arange(1, hyperparameters['max_iterations'] + 1):
+    for iteration in np.arange(0, hyperparameters['max_iterations'] + 1):
         # Permutations for Mini-Batch
         p = np.random.permutation(train_size).reshape((num_batches, hyperparameters['batch_size'])).T
 
