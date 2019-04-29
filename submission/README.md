@@ -1,6 +1,10 @@
 # Neural-Networks
 A multi-layer neural networks for ten-class classification - model fit using progagation & backpropagation
 
+## Predicted labels
+The **predicted_labels.h5** will be generated in the **code/output/** folder after running the main program to predict the labels
+* predicted_labels.h5
+
 ## Setup environment and prepare the input data
 We suggest you use **python 3.6+** as the runtime
 
@@ -48,10 +52,6 @@ or to perform model training only
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
-
-## Predicted labels
-The **predicted_labels.h5** will be generated in the **code/output/** folder after running the main program to predict the labels
-* predicted_labels.h5
 
 ## Zip for submission
 ```
