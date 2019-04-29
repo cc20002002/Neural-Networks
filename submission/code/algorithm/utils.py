@@ -22,22 +22,22 @@ def load_data():
 
     train_data_set_filepath = (input_folder_path / 'train_128.h5')
     train_labels_filepath = (input_folder_path / 'train_label.h5')
-    # test_data_set_filepath = (input_folder_path / 'test_128.h5')
+    test_data_set_filepath = (input_folder_path / 'test_128.h5')
     train_data_set = load_h5(train_data_set_filepath)
     train_labels_set = load_h5(train_labels_filepath, 'label')
-    # test_data_set = load_h5(test_data_set_filepath)
+    test_data_set = load_h5(test_data_set_filepath)
 
     # Reshape train_labels_set to be a "m x 1" matrix so easy for validation
     train_labels_set = train_labels_set.reshape(-1, 1)
     train_data_set_shape = train_data_set.shape
     train_labels_set_shape = train_labels_set.shape
-    # test_data_set_shape = test_data_set.shape
+    test_data_set_shape = test_data_set.shape
 
     # Output the shape of the training and testing data set and training labels
     print(f'Training data set shape: {train_data_set_shape}')
     print(f'Training label set shape: {train_labels_set_shape}')
-    # print(f'Testing data set shape: {test_data_set_shape}')
-    return train_data_set, train_labels_set
+    print(f'Testing data set shape: {test_data_set_shape}')
+    return train_data_set, train_labels_set, test_data_set
 
 
 def init_hyperparameters(config_path=None):
@@ -254,17 +254,17 @@ def model_fit(train_data, train_labels, test_data, test_labels, weights, paramet
             weights = update_weights(weights, hyperparameters, caches, change1, change2, change3)
 
         # Cross Validation if validation set provided, otherwise print training accuracy
-        if test_data is not None and test_labels is not None:
+        if test_labels is not None:
             acc = evaluate_acc(test_data, test_labels, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
-            print(f'Iteration: {iteration}, \t Current Test Accuracy: {round(acc,2)}%, \t Highest Test Accuracy {round(accuracy.max(),2)}%')
+            print(f'Epoch: {iteration}, \t Test Accuracy {round(accuracy.max(),2)}%')
         else:
             train_labels_orig = np.where(train_labels == True)[1].reshape(-1)
             acc = evaluate_acc(train_data, train_labels_orig, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
-            print(f'Iteration: {iteration}, \t Current Training Accuracy: {round(acc,2)}%')
+            print(f'Epoch: {iteration}, \t Training Accuracy {round(accuracy.max(),2)}%')
 
-    print(f'Model Fit - Finished')
+    print(f'Complete model fitting. The output file is saved at ... ')
     return weights, parameters
 
 
