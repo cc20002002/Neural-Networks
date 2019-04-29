@@ -254,17 +254,17 @@ def model_fit(train_data, train_labels, test_data, test_labels, weights, paramet
             weights = update_weights(weights, hyperparameters, caches, change1, change2, change3)
 
         # Cross Validation if validation set provided, otherwise print training accuracy
-        if test_data is not None and test_labels is not None:
+        if test_labels is not None:
             acc = evaluate_acc(test_data, test_labels, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
-            print(f'Iteration: {iteration}, \t Current Test Accuracy: {round(acc,2)}%, \t Highest Test Accuracy {round(accuracy.max(),2)}%')
+            print(f'Epoch: {iteration}, \t Test Accuracy {round(accuracy.max(),2)}%')
         else:
             train_labels_orig = np.where(train_labels == True)[1].reshape(-1)
             acc = evaluate_acc(train_data, train_labels_orig, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
-            print(f'Iteration: {iteration}, \t Current Training Accuracy: {round(acc,2)}%')
+            print(f'Epoch: {iteration}, \t Training Accuracy {round(accuracy.max(),2)}%')
 
-    print(f'Model Fit - Finished')
+    print(f'Complete model fitting. The output file is saved at ... ')
     return weights, parameters
 
 
