@@ -25,7 +25,7 @@ We then apply an densely connected layer with a ReLU activation function, an add
 We partition our dataset into $50,000$ training samples and $10,000$ test samples. For each epoch, we first train our model using the training samples and then compute the CV accuracy using the test samples. After $200$ epoch, we find the number of epoch~\texttt{n\_iter} corresponding to the maximum CV accuracy as our early stopping point. Using all the $60,000$ samples, we then train our model again  \texttt{n\_iter} epoches to obtain our final neural network model.
 
 \subsection{Cross-entropy with weight decay improves the model robustness}
-Define~$\vec y_k:=(y_{1k},y_{2k},\ldots,y_{10k})$ as the one hot encoding of the training label for the $k$th sample and $\vec p_k:=(p_{1k},p_{2k},\ldots,p_{10k})$ as the corresponding predicted probabilities. We apply the cross-entropy loss to train our neural network
+Define~$\vec y_k:=(y_{1k},y_{2k},\ldots,y_{10k})$ as the one hot encoding of the training label for the $k$th sample and $\vec p_k:=(p_{1k},p_{2k},\ldots,p_{10k})$ as the corresponding predicted probabilities, where $\sum_{j=1}^{10} p_{jk}=1$. We apply the cross-entropy loss to train our neural network
 \begin{equation}
   {L(\vec p|\vec y)=-\sum_{k}\sum _{j=1}^{10} y_{jk}\log p_{jk}}.  \label{eq:loss}
 \end{equation}
