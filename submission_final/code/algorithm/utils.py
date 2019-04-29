@@ -22,22 +22,22 @@ def load_data():
 
     train_data_set_filepath = (input_folder_path / 'train_128.h5')
     train_labels_filepath = (input_folder_path / 'train_label.h5')
-    # test_data_set_filepath = (input_folder_path / 'test_128.h5')
+    test_data_set_filepath = (input_folder_path / 'test_128.h5')
     train_data_set = load_h5(train_data_set_filepath)
     train_labels_set = load_h5(train_labels_filepath, 'label')
-    # test_data_set = load_h5(test_data_set_filepath)
+    test_data_set = load_h5(test_data_set_filepath)
 
     # Reshape train_labels_set to be a "m x 1" matrix so easy for validation
     train_labels_set = train_labels_set.reshape(-1, 1)
     train_data_set_shape = train_data_set.shape
     train_labels_set_shape = train_labels_set.shape
-    # test_data_set_shape = test_data_set.shape
+    test_data_set_shape = test_data_set.shape
 
     # Output the shape of the training and testing data set and training labels
     print(f'Training data set shape: {train_data_set_shape}')
     print(f'Training label set shape: {train_labels_set_shape}')
-    # print(f'Testing data set shape: {test_data_set_shape}')
-    return train_data_set, train_labels_set
+    print(f'Testing data set shape: {test_data_set_shape}')
+    return train_data_set, train_labels_set, test_data_set
 
 
 def init_hyperparameters(config_path=None):

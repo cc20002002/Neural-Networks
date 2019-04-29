@@ -16,8 +16,7 @@ config_folder_path = Path('./config')
 
 def main():
     # Import Data Sets
-    train_data_set, train_labels_set = utils.load_data()
-    test_data_set = None
+    train_data_set, train_labels_set, test_data_set = utils.load_data()
     test_labels = None
 
     # Load hyper parameters from config
@@ -34,6 +33,7 @@ def main():
     else:
         hyperparameters = utils.init_hyperparameters(config_path=None)
 
+    # if not using default test data, overwrite it
     if args.test_data is not None:
         test_data_set_filepath = input_folder_path / args.test_data
         test_data_set = utils.load_h5(test_data_set_filepath)
