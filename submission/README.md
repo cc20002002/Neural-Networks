@@ -41,7 +41,7 @@ cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
 ```
 
-or to predict labels as well as display the test accuracy comparing with the true test label file provided in args test_labels
+or to predict labels as well as display the test accuracy comparing with the true test label file provided in args test_labels, also please make sure **test_label.h5** placed inside *code/input/* folder
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5

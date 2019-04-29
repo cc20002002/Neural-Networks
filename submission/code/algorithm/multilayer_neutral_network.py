@@ -17,16 +17,14 @@ config_folder_path = Path('./config')
 def main():
     # Import Data Sets
     train_data_set, train_labels_set = utils.load_data()
-    cv_data_set = None
-    cv_labels_set = None
     test_data_set = None
+    test_labels = None
 
     # Load hyper parameters from config
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', help='hyperparameters config')
-    parser.add_argument('--cv_data', help='dataset for cross validation')
-    parser.add_argument('--cv_labels', help='labels for cross validation')
     parser.add_argument('--test_data', help='dataset for test, used for prediction')
+    parser.add_argument('--test_labels', help='labels for test, used for test accuracy')
 
     args = parser.parse_args()
 
@@ -34,17 +32,17 @@ def main():
         config_filename_path = config_folder_path / args.config
         hyperparameters = utils.init_hyperparameters(config_filename_path)
 
-    if args.cv_data is not None and args.cv_labels is not None:
-        cv_data_set_filepath = input_folder_path / args.cv_data
-        cv_labels_filepath = input_folder_path / args.cv_labels
-        cv_data_set = utils.load_h5(cv_data_set_filepath)
-        cv_labels_set = utils.load_h5(cv_labels_filepath, 'label')
-
     if args.test_data is not None:
         test_data_set_filepath = input_folder_path / args.test_data
         test_data_set = utils.load_h5(test_data_set_filepath)
         test_data_set_shape = test_data_set.shape
         print(f'Testing data set shape: {test_data_set_shape}')
+
+    if args.test_labels is not None:
+        test_labels_filepath = input_folder_path / args.test_labels
+        test_labels = utils.load_h5(test_labels_filepath, 'label')
+        test_data_set_shape = test_data_set.shape
+        print(f'Testing labels shape: {test_data_set_shape}')
 
     output_layer_dim = len(set(train_labels_set[:, 0]))
     train_size = train_data_set.shape[0]
@@ -68,7 +66,7 @@ def main():
     # Parameters for Batch normalisation, Gradient descent
     parameters = utils.initialise_parameters(layer_dims, num_batches)
 
-    weights, parameters = utils.model_fit(train_data=train_data, train_labels=train_labels, cv_data=cv_data_set, cv_labels=cv_labels_set, weights=weights, parameters=parameters, hyperparameters=hyperparameters, layer_dims=layer_dims, train_size=train_size, num_batches=num_batches)
+    weights, parameters = utils.model_fit(train_data=train_data, train_labels=train_labels, test_data=test_data_set, test_labels=test_labels, weights=weights, parameters=parameters, hyperparameters=hyperparameters, layer_dims=layer_dims, train_size=train_size, num_batches=num_batches)
 
     # Export the predicted labels to h5 file into the output folder
     if test_data_set is not None:

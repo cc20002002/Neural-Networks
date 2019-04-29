@@ -109,6 +109,7 @@ def initialise_weights(layer_dims):
     return weights
 
 
+# Initialise parameters
 def initialise_parameters(layer_dims, num_batches):
     parameters = {}
     parameters['gamma1'] = np.ones((1, layer_dims[0]));
@@ -126,6 +127,7 @@ def initialise_parameters(layer_dims, num_batches):
     return parameters
 
 
+# Batch Normalisation
 def batch_normalisation(data):
     means = np.mean(data, axis=0).reshape(1, -1)
     vars = np.var(data, axis=0, ddof=1).reshape(1, -1)
@@ -133,6 +135,7 @@ def batch_normalisation(data):
     return norm_data, means, vars
 
 
+# Linear Activation Forward
 def linear_activation_forward(W, A, activation='tanh'):
     if activation == 'tanh':
         return np.tanh(np.matmul(W, A))
@@ -143,6 +146,7 @@ def linear_activation_forward(W, A, activation='tanh'):
         return Z * (Z > 0)
     else:
         return np.matmul(W, A)
+
 
 # Three layers forward
 def layers_forward(weights, data, parameters, layer_dims, hyperparameters):
@@ -218,7 +222,8 @@ def update_weights(weights, hyperparameters, caches, change1, change2, change3):
     return weights
 
 
-def model_fit(train_data, train_labels, cv_data, cv_labels, weights, parameters, hyperparameters, layer_dims, train_size, num_batches):
+# Fit the model
+def model_fit(train_data, train_labels, test_data, test_labels, weights, parameters, hyperparameters, layer_dims, train_size, num_batches):
     accuracy = np.zeros((hyperparameters['max_iterations'], 1))
 
     print(f'Model Fit - Training iterations')
@@ -249,13 +254,13 @@ def model_fit(train_data, train_labels, cv_data, cv_labels, weights, parameters,
             weights = update_weights(weights, hyperparameters, caches, change1, change2, change3)
 
         # Cross Validation if validation set provided, otherwise print training accuracy
-        if cv_data is not None and cv_labels is not None:
-            acc = cross_validation(cv_data, cv_labels, weights, parameters, hyperparameters)
+        if test_data is not None and test_labels is not None:
+            acc = evaluate_acc(test_data, test_labels, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
             print(f'Iteration: {iteration}, \t Current CV Accuracy: {round(acc,2)}%, \t Highest CV Accuracy {round(accuracy.max(),2)}%')
         else:
             train_labels_orig = np.where(train_labels == True)[1].reshape(-1)
-            acc = cross_validation(train_data, train_labels_orig, weights, parameters, hyperparameters)
+            acc = evaluate_acc(train_data, train_labels_orig, weights, parameters, hyperparameters)
             accuracy[iteration-1] = acc
             print(f'Iteration: {iteration}, \t Current Training Accuracy: {round(acc,2)}%, \t Highest Training Accuracy {round(accuracy.max(),2)}%')
 
@@ -263,10 +268,9 @@ def model_fit(train_data, train_labels, cv_data, cv_labels, weights, parameters,
     return weights, parameters
 
 
-
-def cross_validation(validation_data, validation_labels, weights, parameters, hyperparameters):
-    predicted_labels = predict(validation_data, weights, parameters, hyperparameters)
-    acc = np.sum(predicted_labels == validation_labels) / predicted_labels.shape[0] * 100
+def evaluate_acc(test_data, test_labels, weights, parameters, hyperparameters):
+    predicted_labels = predict(test_data, weights, parameters, hyperparameters)
+    acc = np.sum(predicted_labels == test_labels) / predicted_labels.shape[0] * 100
     return acc
 
 
