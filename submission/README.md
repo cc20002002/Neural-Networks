@@ -26,22 +26,23 @@ pip install -r requirements.txt
 ```
 
 ### Run the main program
+to predict labels for test data provided in args test_data
+```
+python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
+```
 
-to perform training only
+or to predict labels as well as display the test accuracy comparing with the true test label file provided in args test_labels
+```
+cd ./code/algorithm
+python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
+
+or to perform model training only
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
 
-or to predict labels for test data provided in args test_data
-```
-python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
-```
 
-or to predict labels as well as output a test accuracy calculated from the true test label file
-```
-cd ./code/algorithm
-python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
 ```
 ## Zip for submission
 ```
