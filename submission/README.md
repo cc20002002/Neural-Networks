@@ -20,27 +20,29 @@ source comp5329-assignment1/bin/activate
 ```
 
 ### Install dependencies for the program
+### please note that scipy==1.2.1 is a must
 ```
 pip install -r requirements.txt
 ```
 
 ### Run the main program
 
-to fit the model and perform training only
+to perform training only
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
-or to perform cross validation for the model
-```
-cd ./code/algorithm
-python multilayer_neutral_network.py --config=8987.json --cv_data=cv_128.h5 --cv_labels=cv_label.h5
-```
+
 or to generate predicted labels by providing test_data in args
 ```
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
 ```
 
+or to generate predicted labels as well as output a test accuracy calculated from the true test label file
+```
+cd ./code/algorithm
+python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
+```
 ## Zip for submission
 ```
 zip -r 480458339_470325230.zip submission/ -x submission/code/input/*
