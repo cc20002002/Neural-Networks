@@ -33,12 +33,12 @@ cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
 
-or to generate predicted labels by providing test_data in args
+or to predict labels for test data provided in args test_data
 ```
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
 ```
 
-or to generate predicted labels as well as output a test accuracy calculated from the true test label file
+or to predict labels as well as output a test accuracy calculated from the true test label file
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
