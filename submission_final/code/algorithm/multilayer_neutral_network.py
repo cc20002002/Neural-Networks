@@ -31,6 +31,8 @@ def main():
     if args.config is not None:
         config_filename_path = config_folder_path / args.config
         hyperparameters = utils.init_hyperparameters(config_filename_path)
+    else:
+        hyperparameters = utils.init_hyperparameters(config_path=None)
 
     if args.test_data is not None:
         test_data_set_filepath = input_folder_path / args.test_data

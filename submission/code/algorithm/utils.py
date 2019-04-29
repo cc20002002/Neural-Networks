@@ -44,7 +44,7 @@ def init_hyperparameters(config_path=None):
     # Initialise hyper parameters - Default
     random_seed = 1
     learning_rate = 0.11
-    max_iterations = 45
+    max_iterations = 44
     dropout_rate = 0.95
     moment_coef = 0.9
     weight_decaying = 0.0007

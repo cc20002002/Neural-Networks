@@ -39,18 +39,21 @@ to predict labels for test data provided in args test_data
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
+python multilayer_neutral_network.py --test_data=test_128.h5
 ```
 
 or to predict labels as well as display the test accuracy comparing with the true test label file provided in args test_labels, also please make sure **test_label.h5** placed inside *code/input/* folder
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
+python multilayer_neutral_network.py --test_data=test_128.h5 --test_labels=test_label.h5
 ```
 
 or to perform model training only
 ```
 cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
+python multilayer_neutral_network.py
 ```
 
 ## Zip for submission
