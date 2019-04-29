@@ -33,6 +33,7 @@ Please copy the required input data into the *code/input* folder, make sure the 
 ## Running the main program
 to predict labels for test data provided in args test_data
 ```
+cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
 ```
 
