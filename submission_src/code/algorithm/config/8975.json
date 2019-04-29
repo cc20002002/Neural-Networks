@@ -1,6 +1,6 @@
 {
   "learning_rate": 0.05,
-  "max_iteration": 200,
+  "max_iteration": 66,
   "dropout_rate": 1,
   "batch_size": 1500,
   "batch_normalisation": true,
