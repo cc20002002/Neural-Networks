@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```
 
 ### Prepare input data
-Please copy the required input data into the *code/input* folder, make sure the following files are in place before running the programs
+Please copy the required input data into the *code/input/* folder, make sure the following files are in place before running the programs
 * train_128.h5
 * train_label.h5
 * test_128.h5
@@ -49,6 +49,9 @@ cd ./code/algorithm
 python multilayer_neutral_network.py --config=8987.json
 ```
 
+## Predicted labels
+The **predicted_labels.h5** will be generated in the **code/output/** folder after running the main program to predict the labels
+* predicted_labels.h5
 
 ## Zip for submission
 ```
