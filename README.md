@@ -1,7 +1,12 @@
 # Neural-Networks
-progagation & backpropagation
+A multi-layer neural networks for ten-class classification - model fit using progagation & backpropagation
 
-## Running the Program
+## Predicted labels
+The **predicted_labels.h5** will be generated in the **code/output/** folder after running the main program to predict the labels
+* predicted_labels.h5
+
+## Setup environment and prepare the input data
+We suggest you use **python 3.6+** as the runtime
 
 ### Use virtualenv
 We use python virtualenv to separate the dependencies with other projects, to run and activate it please run the following
@@ -17,13 +22,37 @@ To activate it
 source comp5329-assignment1/bin/activate
 ```
 
-### Install dependencies
+### Install dependencies for the program
+**please note that scipy==1.2.1 is a must**
 ```
 pip install -r requirements.txt
 ```
 
+### Prepare input data
+Please copy the required input data into the **code/input/** folder, make sure the following files are in place before running the programs
+* train_128.h5
+* train_label.h5
+* test_128.h5
 
-### Run the main program
+## Running the main program
+to predict labels for test data provided in folder 'input' named 'test_128.h5'
 ```
-python data/Main.py
+cd ./code/algorithm
+python multilayer_neural_network.py
+```
+
+or to predict labels and display the test accuracy comparing with the true test labels, place **test_label.h5** inside **code/input/** folder
+```
+cd ./code/algorithm
+python multilayer_neural_network.py --test_labels=test_label.h5
+```
+
+to supply self defined hyperparameters (not recommended)
+```
+cd ./code/algorithm
+python multilayer_neural_network.py --config=8987.json
+```
+## Zip for submission
+```
+zip -r 480458339_470325230.zip submission/ -x submission/code/input/* -x submission/code/algorithm/bak/*
 ```
