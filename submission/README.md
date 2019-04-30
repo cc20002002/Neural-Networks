@@ -35,27 +35,23 @@ Please copy the required input data into the *code/input/* folder, make sure the
 * test_128.h5
 
 ## Running the main program
-to predict labels for test data provided in args test_data
+to predict labels for test data provided in folder 'input' named 'test_128.h5'
 ```
 cd ./code/algorithm
-python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5
-python multilayer_neutral_network.py --test_data=test_128.h5
-```
-
-or to predict labels as well as display the test accuracy comparing with the true test label file provided in args test_labels, also please make sure **test_label.h5** placed inside *code/input/* folder
-```
-cd ./code/algorithm
-python multilayer_neutral_network.py --config=8987.json --test_data=test_128.h5 --test_labels=test_label.h5
-python multilayer_neutral_network.py --test_data=test_128.h5 --test_labels=test_label.h5
-```
-
-or to perform model training only
-```
-cd ./code/algorithm
-python multilayer_neutral_network.py --config=8987.json
 python multilayer_neutral_network.py
 ```
 
+or to predict labels and display the test accuracy comparing with the true test labels, place **test_label.h5** inside *code/input/* folder
+```
+cd ./code/algorithm
+python multilayer_neutral_network.py --test_labels=test_label.h5
+```
+
+to supply self defined hyperparameters (not recommended)
+```
+cd ./code/algorithm
+python multilayer_neutral_network.py --config=8987.json
+```
 ## Zip for submission
 ```
 zip -r 480458339_470325230.zip submission/ -x submission/code/input/* -x submission/code/algorithm/bak/*
