@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```
 
 ### Prepare input data
-Please copy the required input data into the *code/input/* folder, make sure the following files are in place before running the programs
+Please copy the required input data into the **code/input/** folder, make sure the following files are in place before running the programs
 * train_128.h5
 * train_label.h5
 * test_128.h5
@@ -41,7 +41,7 @@ cd ./code/algorithm
 python multilayer_neural_network.py
 ```
 
-or to predict labels and display the test accuracy comparing with the true test labels, place **test_label.h5** inside *code/input/* folder
+or to predict labels and display the test accuracy comparing with the true test labels, place **test_label.h5** inside **code/input/** folder
 ```
 cd ./code/algorithm
 python multilayer_neural_network.py --test_labels=test_label.h5
