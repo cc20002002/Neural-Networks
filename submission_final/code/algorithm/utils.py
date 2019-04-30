@@ -89,7 +89,7 @@ def export_predicted_labels(labels):
     output_file_path = output_folder_path / 'predicted_labels.h5'
     hf = h5py.File(output_file_path, 'w')
     hf.create_dataset('label', data=labels)
-    print(f'Successfully exported the predicted_labels into {output_file_path}')
+    print(f'Successfully saved the predicted_labels into {output_file_path}')
 
 
 def one_hot_encoding(train_labels, dims):
@@ -264,7 +264,7 @@ def model_fit(train_data, train_labels, test_data, test_labels, weights, paramet
             accuracy[iteration-1] = acc
             print(f'Epoch: {iteration}, \t Training Accuracy {round(accuracy.max(),2)}%')
 
-    print(f'Complete model fitting. The output file is saved at ... ')
+    print(f'Model fitting completed.')
     return weights, parameters
 
 
